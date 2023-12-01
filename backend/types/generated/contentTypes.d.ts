@@ -697,7 +697,7 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    type: Attribute.String & Attribute.Required;
+    type: Attribute.String & Attribute.Required & Attribute.DefaultTo<'user'>;
     orders: Attribute.Relation<
       'api::buyer.buyer',
       'oneToMany',

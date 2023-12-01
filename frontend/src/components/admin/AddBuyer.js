@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const API_ADD_BUYERS = "http://localhost:1337/api/buyers";
-const initFields = { buyerName: "", email: "", password: "" };
+const initFields = { buyerID: 0, buyerName: "", email: "", password: "" };
 
 function AddBuyer() {
   const [newBuyer, setNewBuyer] = useState(initFields);
@@ -29,7 +29,7 @@ function AddBuyer() {
     try {
       await axios.get(API_ADD_BUYERS).then((response) => {
         setAllBuyers(response.data.data);
-        console.log(response.data);
+        console.log(response.data.data);
       });
     } catch (error) {
       console.log("Error fetching", error);
@@ -38,7 +38,19 @@ function AddBuyer() {
 
   const addBuyer = async () => {
     try {
-      await axios.post(API_ADD_BUYERS, { data: newBuyer }).then((response) => {
+      const newBuyerData = {
+        data: {
+          buyerID: newBuyer.buyerID,
+          buyerName: newBuyer.buyerName,
+          email: newBuyer.email,
+          type: "user",
+          password: newBuyer.password,
+        },
+      };
+
+      console.log(newBuyerData);
+
+      await axios.post(API_ADD_BUYERS, newBuyerData).then((response) => {
         console.log(response);
         fetchBuyer();
       });
