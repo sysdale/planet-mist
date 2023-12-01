@@ -362,28 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiTodoTodo extends Schema.CollectionType {
-  collectionName: 'todos';
-  info: {
-    singularName: 'todo';
-    pluralName: 'todos';
-    displayName: 'Todo';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    description: Attribute.Text;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::todo.todo', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::todo.todo', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -699,6 +677,367 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiBuyerBuyer extends Schema.CollectionType {
+  collectionName: 'buyers';
+  info: {
+    singularName: 'buyer';
+    pluralName: 'buyers';
+    displayName: 'Buyer';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    buyerID: Attribute.UID & Attribute.Required;
+    buyerName: Attribute.String & Attribute.Required;
+    email: Attribute.Email & Attribute.Required & Attribute.Unique;
+    password: Attribute.Password &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 6;
+      }>;
+    type: Attribute.String & Attribute.Required;
+    orders: Attribute.Relation<
+      'api::buyer.buyer',
+      'oneToMany',
+      'api::order.order'
+    >;
+    invoices: Attribute.Relation<
+      'api::buyer.buyer',
+      'oneToMany',
+      'api::invoice.invoice'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::buyer.buyer',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::buyer.buyer',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiInvoiceInvoice extends Schema.CollectionType {
+  collectionName: 'invoices';
+  info: {
+    singularName: 'invoice';
+    pluralName: 'invoices';
+    displayName: 'Invoice';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    invoiceID: Attribute.UID & Attribute.Required;
+    buyerID_fk: Attribute.Relation<
+      'api::invoice.invoice',
+      'manyToOne',
+      'api::buyer.buyer'
+    >;
+    orderID_fk: Attribute.Relation<
+      'api::invoice.invoice',
+      'manyToOne',
+      'api::order.order'
+    >;
+    date: Attribute.Date & Attribute.Required;
+    summary: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::invoice.invoice',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::invoice.invoice',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMasterTableMasterTable extends Schema.CollectionType {
+  collectionName: 'master_tables';
+  info: {
+    singularName: 'master-table';
+    pluralName: 'master-tables';
+    displayName: 'masterTable';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    purchasedML: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    costEveryVisit: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    literCost: Attribute.Decimal &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    zo50: Attribute.Decimal &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    yesfir50: Attribute.Decimal &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    tm30: Attribute.Decimal &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    test5: Attribute.Integer &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    masterID: Attribute.UID & Attribute.Required;
+    SKU_fk: Attribute.Relation<
+      'api::master-table.master-table',
+      'manyToOne',
+      'api::scent-list.scent-list'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::master-table.master-table',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::master-table.master-table',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'order';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    orderID: Attribute.UID & Attribute.Required;
+    date: Attribute.Date & Attribute.Required;
+    buyerID_fk: Attribute.Relation<
+      'api::order.order',
+      'manyToOne',
+      'api::buyer.buyer'
+    >;
+    order_details: Attribute.Relation<
+      'api::order.order',
+      'oneToMany',
+      'api::order-detail.order-detail'
+    >;
+    invoices: Attribute.Relation<
+      'api::order.order',
+      'oneToMany',
+      'api::invoice.invoice'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderDetailOrderDetail extends Schema.CollectionType {
+  collectionName: 'order_details';
+  info: {
+    singularName: 'order-detail';
+    pluralName: 'order-details';
+    displayName: 'orderDetail';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    detailID: Attribute.UID & Attribute.Required;
+    orderID_fk: Attribute.Relation<
+      'api::order-detail.order-detail',
+      'manyToOne',
+      'api::order.order'
+    >;
+    quantity: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    scentID_fk: Attribute.Relation<
+      'api::order-detail.order-detail',
+      'manyToOne',
+      'api::scent-data.scent-data'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order-detail.order-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order-detail.order-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiScentDataScentData extends Schema.CollectionType {
+  collectionName: 'scent_datas';
+  info: {
+    singularName: 'scent-data';
+    pluralName: 'scent-datas';
+    displayName: 'scentData';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    scentID: Attribute.UID & Attribute.Required;
+    milliLts: Attribute.Decimal & Attribute.Required;
+    price: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
+    SKU_fk: Attribute.Relation<
+      'api::scent-data.scent-data',
+      'manyToOne',
+      'api::scent-list.scent-list'
+    >;
+    order_details: Attribute.Relation<
+      'api::scent-data.scent-data',
+      'oneToMany',
+      'api::order-detail.order-detail'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::scent-data.scent-data',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::scent-data.scent-data',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiScentListScentList extends Schema.CollectionType {
+  collectionName: 'scent_lists';
+  info: {
+    singularName: 'scent-list';
+    pluralName: 'scent-lists';
+    displayName: 'ScentList';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    SKU: Attribute.UID & Attribute.Required;
+    scent_data: Attribute.Relation<
+      'api::scent-list.scent-list',
+      'oneToMany',
+      'api::scent-data.scent-data'
+    >;
+    master_tables: Attribute.Relation<
+      'api::scent-list.scent-list',
+      'oneToMany',
+      'api::master-table.master-table'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::scent-list.scent-list',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::scent-list.scent-list',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTodoTodo extends Schema.CollectionType {
+  collectionName: 'todos';
+  info: {
+    singularName: 'todo';
+    pluralName: 'todos';
+    displayName: 'Todo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    description: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::todo.todo', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::todo.todo', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -709,13 +1048,20 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::todo.todo': ApiTodoTodo;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::buyer.buyer': ApiBuyerBuyer;
+      'api::invoice.invoice': ApiInvoiceInvoice;
+      'api::master-table.master-table': ApiMasterTableMasterTable;
+      'api::order.order': ApiOrderOrder;
+      'api::order-detail.order-detail': ApiOrderDetailOrderDetail;
+      'api::scent-data.scent-data': ApiScentDataScentData;
+      'api::scent-list.scent-list': ApiScentListScentList;
+      'api::todo.todo': ApiTodoTodo;
     }
   }
 }

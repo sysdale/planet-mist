@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "scent_lists",
+  "info": {
+    "singularName": "scent-list",
+    "pluralName": "scent-lists",
+    "displayName": "ScentList",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "SKU": {
+      "type": "uid",
+      "required": true
+    },
+    "scent_data": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::scent-data.scent-data",
+      "mappedBy": "SKU_fk"
+    },
+    "master_tables": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::master-table.master-table",
+      "mappedBy": "SKU_fk"
+    }
+  }
+}

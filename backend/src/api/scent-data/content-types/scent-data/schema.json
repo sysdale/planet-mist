@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "scent_datas",
+  "info": {
+    "singularName": "scent-data",
+    "pluralName": "scent-datas",
+    "displayName": "scentData",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "scentID": {
+      "type": "uid",
+      "required": true
+    },
+    "milliLts": {
+      "type": "decimal",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "SKU_fk": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::scent-list.scent-list",
+      "inversedBy": "scent_data"
+    },
+    "order_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-detail.order-detail",
+      "mappedBy": "scentID_fk"
+    }
+  }
+}

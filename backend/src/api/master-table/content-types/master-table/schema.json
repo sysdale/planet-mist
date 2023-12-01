@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "master_tables",
+  "info": {
+    "singularName": "master-table",
+    "pluralName": "master-tables",
+    "displayName": "masterTable",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "purchasedML": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "costEveryVisit": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "literCost": {
+      "type": "decimal",
+      "required": false,
+      "min": 0
+    },
+    "zo50": {
+      "type": "decimal",
+      "required": false,
+      "min": 0
+    },
+    "yesfir50": {
+      "type": "decimal",
+      "required": false,
+      "min": 0
+    },
+    "tm30": {
+      "type": "decimal",
+      "min": 0
+    },
+    "test5": {
+      "type": "integer",
+      "min": 0
+    },
+    "masterID": {
+      "type": "uid",
+      "required": true
+    },
+    "SKU_fk": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::scent-list.scent-list",
+      "inversedBy": "master_tables"
+    }
+  }
+}
