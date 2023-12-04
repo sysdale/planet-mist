@@ -2,15 +2,14 @@ import React from "react";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
-import TestAPI from "./TestAPI";
+import API from "../../api/ScentsAPI";
 
-const API_ADD_BUYERS = "http://localhost:1337/api/buyers";
 const initFields = { buyerName: "", email: "", password: "" };
 
 function AddBuyer() {
   const [newBuyer, setNewBuyer] = useState(initFields);
-
   const [allBuyers, setAllBuyers] = useState([]);
+  const { API_ADD_BUYERS } = API;
 
   useEffect(() => {
     //TestAPI();

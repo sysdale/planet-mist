@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ScentsTable from "./ScentsTable";
-const API_GET_SCENTS = "http://localhost:1337/api/scent-lists";
+import API from "../../api/ScentsAPI";
 
 const initState = {
   name: "",
@@ -10,6 +10,9 @@ const initState = {
 const BuyerOrder = () => {
   const [scentInput, setScentInput] = useState(initState);
   const [scentsList, setScentsList] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
+
+  const { API_GET_SCENTS } = API;
 
   useEffect(() => {
     getAllScents();
@@ -19,6 +22,7 @@ const BuyerOrder = () => {
     try {
       await axios.get(API_GET_SCENTS).then((response) => {
         setScentsList(response.data.data);
+        setFilteredList(response.data.data);
       });
     } catch (error) {
       console.log(error);
@@ -36,7 +40,19 @@ const BuyerOrder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(scentsList);
+
+    const filtered = scentsList.filter((scent) =>
+      scent.attributes.name
+        .toLowerCase()
+        .toString()
+        .includes(scentInput.name.toString().toLowerCase())
+    );
+
+    setFilteredList(filtered);
     setScentInput(initState);
+
+    console.log(filteredList);
   };
 
   return (
@@ -54,8 +70,8 @@ const BuyerOrder = () => {
       </form>
 
       {/* Scents table here */}
-      <ScentsTable data={scentsList} />
-      {console.log(scentsList)}
+      <h1>Select List</h1>
+      <ScentsTable data={filteredList} />
     </>
   );
 };
