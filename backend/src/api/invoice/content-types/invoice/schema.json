@@ -4,17 +4,14 @@
   "info": {
     "singularName": "invoice",
     "pluralName": "invoices",
-    "displayName": "Invoice"
+    "displayName": "Invoice",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "invoiceID": {
-      "type": "uid",
-      "required": true
-    },
     "buyerID_fk": {
       "type": "relation",
       "relation": "manyToOne",

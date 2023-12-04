@@ -45,10 +45,6 @@
       "type": "integer",
       "min": 0
     },
-    "masterID": {
-      "type": "uid",
-      "required": true
-    },
     "SKU_fk": {
       "type": "relation",
       "relation": "manyToOne",

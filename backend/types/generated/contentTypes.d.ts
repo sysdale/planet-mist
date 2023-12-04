@@ -482,6 +482,50 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -633,50 +677,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiBuyerBuyer extends Schema.CollectionType {
   collectionName: 'buyers';
   info: {
@@ -689,7 +689,6 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    buyerID: Attribute.UID & Attribute.Required;
     buyerName: Attribute.String & Attribute.Required;
     email: Attribute.Email & Attribute.Required & Attribute.Unique;
     password: Attribute.Password &
@@ -732,12 +731,12 @@ export interface ApiInvoiceInvoice extends Schema.CollectionType {
     singularName: 'invoice';
     pluralName: 'invoices';
     displayName: 'Invoice';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    invoiceID: Attribute.UID & Attribute.Required;
     buyerID_fk: Attribute.Relation<
       'api::invoice.invoice',
       'manyToOne',
@@ -810,7 +809,6 @@ export interface ApiMasterTableMasterTable extends Schema.CollectionType {
       Attribute.SetMinMax<{
         min: 0;
       }>;
-    masterID: Attribute.UID & Attribute.Required;
     SKU_fk: Attribute.Relation<
       'api::master-table.master-table',
       'manyToOne',
@@ -846,22 +844,21 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    orderID: Attribute.UID & Attribute.Required;
     date: Attribute.Date & Attribute.Required;
     buyerID_fk: Attribute.Relation<
       'api::order.order',
       'manyToOne',
       'api::buyer.buyer'
     >;
-    order_details: Attribute.Relation<
-      'api::order.order',
-      'oneToMany',
-      'api::order-detail.order-detail'
-    >;
     invoices: Attribute.Relation<
       'api::order.order',
       'oneToMany',
       'api::invoice.invoice'
+    >;
+    order_details: Attribute.Relation<
+      'api::order.order',
+      'oneToMany',
+      'api::order-detail.order-detail'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -893,13 +890,7 @@ export interface ApiOrderDetailOrderDetail extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    detailID: Attribute.UID & Attribute.Required;
-    orderID_fk: Attribute.Relation<
-      'api::order-detail.order-detail',
-      'manyToOne',
-      'api::order.order'
-    >;
-    quantity: Attribute.Decimal &
+    quantity: Attribute.Integer &
       Attribute.Required &
       Attribute.SetMinMax<{
         min: 0;
@@ -908,6 +899,11 @@ export interface ApiOrderDetailOrderDetail extends Schema.CollectionType {
       'api::order-detail.order-detail',
       'manyToOne',
       'api::scent-data.scent-data'
+    >;
+    orderID_fk: Attribute.Relation<
+      'api::order-detail.order-detail',
+      'manyToOne',
+      'api::order.order'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -939,7 +935,6 @@ export interface ApiScentDataScentData extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    scentID: Attribute.UID & Attribute.Required;
     milliLts: Attribute.Decimal & Attribute.Required;
     price: Attribute.Decimal &
       Attribute.Required &
@@ -987,7 +982,6 @@ export interface ApiScentListScentList extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String & Attribute.Required;
-    SKU: Attribute.UID & Attribute.Required;
     scent_data: Attribute.Relation<
       'api::scent-list.scent-list',
       'oneToMany',
@@ -1050,10 +1044,10 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::buyer.buyer': ApiBuyerBuyer;
       'api::invoice.invoice': ApiInvoiceInvoice;
       'api::master-table.master-table': ApiMasterTableMasterTable;

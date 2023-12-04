@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "orderID": {
-      "type": "uid",
-      "required": true
-    },
     "date": {
       "type": "date",
       "required": true
@@ -26,16 +22,16 @@
       "target": "api::buyer.buyer",
       "inversedBy": "orders"
     },
-    "order_details": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::order-detail.order-detail",
-      "mappedBy": "orderID_fk"
-    },
     "invoices": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::invoice.invoice",
+      "mappedBy": "orderID_fk"
+    },
+    "order_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-detail.order-detail",
       "mappedBy": "orderID_fk"
     }
   }

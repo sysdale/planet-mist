@@ -16,10 +16,6 @@
       "type": "string",
       "required": true
     },
-    "SKU": {
-      "type": "uid",
-      "required": true
-    },
     "scent_data": {
       "type": "relation",
       "relation": "oneToMany",

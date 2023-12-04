@@ -12,18 +12,8 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "detailID": {
-      "type": "uid",
-      "required": true
-    },
-    "orderID_fk": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::order.order",
-      "inversedBy": "order_details"
-    },
     "quantity": {
-      "type": "decimal",
+      "type": "integer",
       "required": true,
       "min": 0
     },
@@ -31,6 +21,12 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::scent-data.scent-data",
+      "inversedBy": "order_details"
+    },
+    "orderID_fk": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::order.order",
       "inversedBy": "order_details"
     }
   }

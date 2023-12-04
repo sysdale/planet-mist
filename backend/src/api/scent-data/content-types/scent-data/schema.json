@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "scentID": {
-      "type": "uid",
-      "required": true
-    },
     "milliLts": {
       "type": "decimal",
       "required": true

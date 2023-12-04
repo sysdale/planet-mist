@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "buyerID": {
-      "type": "uid",
-      "required": true
-    },
     "buyerName": {
       "type": "string",
       "required": true,
