@@ -14,11 +14,26 @@ const HomePage = () => {
 
   return (
     <>
-      <div>
-        <button onClick={navAdmin}>Admin Dashboard</button>
-      </div>
-      <div>
-        <button onClick={navBuyer}>Buyer Dashboard</button>
+      <div className="flex flex-col">
+        <div className="flex justify-between">
+          <div className="m-5">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={navAdmin}
+            >
+              Admin Dashboard
+            </button>
+          </div>
+
+          <div className="m-5">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={navBuyer}
+            >
+              Buyer Dashboard
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -4,7 +4,10 @@ import { MainNavigation } from "../listing";
 function RootLayout() {
   return (
     <>
-      <MainNavigation />
+      <div className="mb-10">
+        <MainNavigation />
+      </div>
+
       <main>
         <Outlet />
       </main>

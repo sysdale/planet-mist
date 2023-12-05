@@ -17,12 +17,10 @@ const BuyerOrder = () => {
 
   const getAllScents = async () => {
     try {
-      await axios
-        .get(`${process.env.REACT_APP_API_SCENTS}`)
-        .then((response) => {
-          setScentsList(response.data.data);
-          setFilteredList(response.data.data);
-        });
+      await axios.get(process.env.REACT_APP_API_SCENTS).then((response) => {
+        setScentsList(response.data.data);
+        setFilteredList(response.data.data);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +37,6 @@ const BuyerOrder = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(scentsList);
 
     const filtered = scentsList.filter((scent) =>
       scent.attributes.name
@@ -50,27 +47,41 @@ const BuyerOrder = () => {
 
     setFilteredList(filtered);
     setScentInput(initState);
-
-    console.log(filteredList);
   };
 
   return (
     <>
-      <h1>Select Scents</h1>
+      <div className="text-xl font-bold">Select Scents</div>
       <form onSubmit={handleSubmit}>
         <input
+          className="bg-gray-100 py-2 px-4"
           name="name"
           type="text"
-          placeholder="Enter scent name"
+          placeholder="Enter scent name/SKU"
           value={scentInput.name}
           onChange={handleChange}
         />
-        <button type="submit">Search Scent</button>
+        <div className="space-x-2">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+            type="submit"
+          >
+            Search Scent
+          </button>
+
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+            type="submit"
+          >
+            Search Scent
+          </button>
+        </div>
       </form>
 
       {/* Scents table here */}
-      <h1>Select List</h1>
-      <ScentsTable data={filteredList} />
+      <div className="pt-10">
+        <ScentsTable data={filteredList} />
+      </div>
     </>
   );
 };

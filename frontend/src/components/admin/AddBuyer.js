@@ -26,7 +26,7 @@ function AddBuyer() {
 
   const fetchBuyer = async () => {
     try {
-      await axios.get(process.evn.REACT_APP_API_BUYERS).then((response) => {
+      await axios.get(process.env.REACT_APP_API_BUYERS).then((response) => {
         setAllBuyers(response.data.data);
       });
     } catch (error) {

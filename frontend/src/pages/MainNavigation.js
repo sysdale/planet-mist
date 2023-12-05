@@ -2,7 +2,7 @@ function MainNavigation() {
   return (
     <header>
       <nav>
-        <h1>Planet Mist</h1>
+        <div className="text-3xl font-bold">Planet Mist</div>
       </nav>
     </header>
   );
