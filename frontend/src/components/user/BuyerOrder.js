@@ -62,7 +62,7 @@ const BuyerOrder = () => {
 
   return (
     <>
-      <div className="text-xl font-bold">Select Scents</div>
+      <div className="text-xl font-bold pb-4">Select Scents</div>
 
       <input
         className="bg-gray-100 py-2 px-4"

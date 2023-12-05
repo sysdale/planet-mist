@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
+
+const initQty = {
+  fiveml: 0,
+  thirtyml: 0,
+  fiftyml: 0,
+};
 
 const ScentsTable = ({ data }) => {
+  const [qty, setQty] = useState(initQty);
+
+  const handleQuantity = (e) => {
+    const { name, value } = e.target;
+
+    setQty((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    console.log(qty);
+  };
+
   return (
     <>
       <div className="text-xl font-bold">Scents Details</div>
-
       <table className="border-separate border-spacing-5">
         <thead>
           <tr>
@@ -23,13 +41,34 @@ const ScentsTable = ({ data }) => {
                 <td>{scent.id}</td>
                 <td>{scent.attributes.name}</td>
                 <td>
-                  <input name="5ml" type="number" value={0} min="0" />
+                  <input
+                    name="fiveml"
+                    type="number"
+                    value={qty.fiveml}
+                    min="0"
+                    max="1000"
+                    onChange={handleQuantity}
+                  />
                 </td>
                 <td>
-                  <input name="30ml" type="number" value={0} min="0" />
+                  <input
+                    name="thirtyml"
+                    type="number"
+                    value={qty.thirtyml}
+                    min="0"
+                    max="1000"
+                    onChange={handleQuantity}
+                  />
                 </td>
                 <td>
-                  <input name="50ml" type="number" value={0} min="0" />
+                  <input
+                    name="fiftyml"
+                    type="number"
+                    value={qty.fiftyml}
+                    min="0"
+                    max="1000"
+                    onChange={handleQuantity}
+                  />
                 </td>
               </tr>
             );
