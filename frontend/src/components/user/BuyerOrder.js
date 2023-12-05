@@ -6,6 +6,11 @@ const initState = {
   name: "",
 };
 
+const typeMap = {
+  name: "string",
+  sku: "number",
+};
+
 const BuyerOrder = () => {
   const [scentInput, setScentInput] = useState(initState);
   const [scentsList, setScentsList] = useState([]);
@@ -35,15 +40,21 @@ const BuyerOrder = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSearch = (event) => {
+    let filtered = [];
 
-    const filtered = scentsList.filter((scent) =>
-      scent.attributes.name
-        .toLowerCase()
-        .toString()
-        .includes(scentInput.name.toString().toLowerCase())
-    );
+    if (typeMap[event] === "string") {
+      filtered = scentsList.filter((scent) =>
+        scent.attributes.name
+          .toLowerCase()
+          .toString()
+          .includes(scentInput.name.toString().toLowerCase())
+      );
+    } else if (typeMap[event] === "number") {
+      filtered = scentsList.filter(
+        (scent) => scent.id === parseInt(scentInput.name)
+      );
+    }
 
     setFilteredList(filtered);
     setScentInput(initState);
@@ -52,31 +63,32 @@ const BuyerOrder = () => {
   return (
     <>
       <div className="text-xl font-bold">Select Scents</div>
-      <form onSubmit={handleSubmit}>
-        <input
-          className="bg-gray-100 py-2 px-4"
-          name="name"
-          type="text"
-          placeholder="Enter scent name/SKU"
-          value={scentInput.name}
-          onChange={handleChange}
-        />
-        <div className="space-x-2">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-            type="submit"
-          >
-            Search Scent
-          </button>
 
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-            type="submit"
-          >
-            Search Scent
-          </button>
-        </div>
-      </form>
+      <input
+        className="bg-gray-100 py-2 px-4"
+        name="name"
+        type="text"
+        placeholder="Enter scent name/SKU"
+        value={scentInput.name}
+        onChange={handleChange}
+      />
+
+      {/* Search functionality */}
+      <div className="space-x-2">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+          onClick={() => handleSearch("name")}
+        >
+          Search by Name
+        </button>
+
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+          onClick={() => handleSearch("sku")}
+        >
+          Search by SKU
+        </button>
+      </div>
 
       {/* Scents table here */}
       <div className="pt-10">

@@ -22,6 +22,15 @@ const ScentsTable = ({ data }) => {
               <tr key={scent.id}>
                 <td>{scent.id}</td>
                 <td>{scent.attributes.name}</td>
+                <td>
+                  <input name="5ml" type="number" value={0} min="0" />
+                </td>
+                <td>
+                  <input name="30ml" type="number" value={0} min="0" />
+                </td>
+                <td>
+                  <input name="50ml" type="number" value={0} min="0" />
+                </td>
               </tr>
             );
           })}
