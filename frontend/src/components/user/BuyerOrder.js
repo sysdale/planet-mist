@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ScentsTable from "./ScentsTable";
-import API from "../../api/ScentsAPI";
+import axios from "axios";
 
 const initState = {
   name: "",
@@ -12,18 +11,18 @@ const BuyerOrder = () => {
   const [scentsList, setScentsList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
 
-  const { API_GET_SCENTS } = API;
-
   useEffect(() => {
     getAllScents();
   }, []);
 
   const getAllScents = async () => {
     try {
-      await axios.get(API_GET_SCENTS).then((response) => {
-        setScentsList(response.data.data);
-        setFilteredList(response.data.data);
-      });
+      await axios
+        .get(`${process.env.REACT_APP_API_SCENTS}`)
+        .then((response) => {
+          setScentsList(response.data.data);
+          setFilteredList(response.data.data);
+        });
     } catch (error) {
       console.log(error);
     }

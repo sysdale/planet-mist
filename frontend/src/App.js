@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AddBuyer, ErrorPage, BuyerOrder, RootLayout, Login } from "./listing";
+import HomePage from "./pages/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -7,8 +8,9 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
+      { index: true, element: <HomePage /> },
       { path: "/admin", element: <AddBuyer /> },
-      { path: "/buyerorder", element: <BuyerOrder /> },
+      { path: "/buyer", element: <BuyerOrder /> },
       { path: "/login", element: <Login /> },
     ],
   },

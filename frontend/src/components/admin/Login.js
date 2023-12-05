@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/buyerorder");
+    navigate("/buyer");
   };
 
   const handleChange = (e) => {

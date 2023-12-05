@@ -2,17 +2,14 @@ import React from "react";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
-import API from "../../api/ScentsAPI";
 
 const initFields = { buyerName: "", email: "", password: "" };
 
 function AddBuyer() {
   const [newBuyer, setNewBuyer] = useState(initFields);
   const [allBuyers, setAllBuyers] = useState([]);
-  const { API_ADD_BUYERS } = API;
 
   useEffect(() => {
-    //TestAPI();
     fetchBuyer();
   }, []);
 
@@ -29,7 +26,7 @@ function AddBuyer() {
 
   const fetchBuyer = async () => {
     try {
-      await axios.get(API_ADD_BUYERS).then((response) => {
+      await axios.get(process.evn.REACT_APP_API_BUYERS).then((response) => {
         setAllBuyers(response.data.data);
       });
     } catch (error) {
@@ -48,7 +45,7 @@ function AddBuyer() {
       };
 
       await axios
-        .post("http://localhost:1337/api/buyers", payload)
+        .post(process.env.REACT_APP_API_BUYERS, payload)
         .then((response) => {
           console.log(response);
           fetchBuyer();
