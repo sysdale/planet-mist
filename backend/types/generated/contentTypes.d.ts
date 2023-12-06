@@ -894,7 +894,8 @@ export interface ApiOrderDetailOrderDetail extends Schema.CollectionType {
       Attribute.Required &
       Attribute.SetMinMax<{
         min: 0;
-      }>;
+      }> &
+      Attribute.DefaultTo<0>;
     scentID_fk: Attribute.Relation<
       'api::order-detail.order-detail',
       'manyToOne',

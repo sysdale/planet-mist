@@ -15,7 +15,8 @@
     "quantity": {
       "type": "integer",
       "required": true,
-      "min": 0
+      "min": 0,
+      "default": 0
     },
     "scentID_fk": {
       "type": "relation",
