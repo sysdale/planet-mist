@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const BuyerHomePage = () => {
   const navigate = useNavigate();
