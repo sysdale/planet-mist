@@ -8,7 +8,11 @@ const TestAPI = async () => {
         orders: {
           populate: {
             order_details: {
-              populate: ["scentID_fk"],
+              populate: {
+                scentID_fk: {
+                  populate: ["SKU_fk"],
+                },
+              },
             },
           },
         },
