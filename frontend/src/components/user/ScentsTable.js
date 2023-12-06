@@ -23,7 +23,7 @@ const ScentsTable = ({ data }) => {
   return (
     <>
       <div className="text-xl font-bold">Scents Details</div>
-      <table className="border-separate border-spacing-5">
+      <table className="table-auto border-separate">
         <thead>
           <tr>
             <th>SKU</th>

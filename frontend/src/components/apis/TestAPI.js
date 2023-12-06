@@ -22,3 +22,15 @@ const TestAPI = async () => {
 };
 
 export default TestAPI;
+
+// to get SKU of scent
+// // {console.log(
+// //   pastOrders.attributes.orders.data[0].attributes.order_details
+// //     .data[0].attributes.scentID_fk.data.attributes.SKU_fk.data.id
+// // )}
+
+// to get name of scent
+// // {console.log(
+// //   pastOrders.attributes.orders.data[0].attributes.order_details
+// //     .data[0].attributes.scentID_fk.data.attributes.SKU_fk.data.attributes.name
+// // )}
