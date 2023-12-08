@@ -1,17 +1,32 @@
 import React, { useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 
+const mlMapping = {
+  fiveml: 5,
+  thirtyml: 30,
+  fiftyml: 50,
+};
+
 const ScentsTable = ({ data }) => {
   const [quantities, setQuantities] = useState({});
 
-  const handleQuantity = (scentId, field, value) => {
+  const handleQuantity = (sku, milliLts, value) => {
+    //getting the scentID
+    const scentID = data.find(
+      (scent) =>
+        scent.attributes.SKU_fk.data.id === sku &&
+        scent.attributes.milliLts === mlMapping[milliLts]
+    ).id;
+
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [scentId]: {
-        ...prevQuantities[scentId],
-        [field]: Number(value),
+      [sku]: {
+        ...prevQuantities[sku],
+        [milliLts]: Number(value),
       },
     }));
+
+    console.log(scentID);
   };
 
   const handleAddToCart = () => {
@@ -48,25 +63,25 @@ const ScentsTable = ({ data }) => {
                 <td>{scent.attributes.SKU_fk.data.attributes.name}</td>
                 <td>
                   <input
-                    name={`fiveml-${scent.id}`}
+                    name={`fiveml-${sku}`}
                     type="number"
                     min="0"
                     max="1000"
-                    value={quantities[scent.id]?.fiveml || 0}
+                    value={quantities[sku]?.fiveml || 0}
                     onChange={(e) =>
-                      handleQuantity(scent.id, "fiveml", e.target.value)
+                      handleQuantity(sku, "fiveml", e.target.value)
                     }
                   />
                 </td>
                 <td>
                   <input
-                    name={`thirtyml-${scent.id}`}
+                    name={`thirtyml-${sku}`}
                     type="number"
                     min="0"
                     max="1000"
-                    value={quantities[scent.id]?.thirtyml || 0}
+                    value={quantities[sku]?.thirtyml || 0}
                     onChange={(e) =>
-                      handleQuantity(scent.id, "thirtyml", e.target.value)
+                      handleQuantity(sku, "thirtyml", e.target.value)
                     }
                   />
                 </td>
@@ -76,9 +91,9 @@ const ScentsTable = ({ data }) => {
                     type="number"
                     min="0"
                     max="1000"
-                    value={quantities[scent.id]?.fiftyml || 0}
+                    value={quantities[sku]?.fiftyml || 0}
                     onChange={(e) =>
-                      handleQuantity(scent.id, "fiftyml", e.target.value)
+                      handleQuantity(sku, "fiftyml", e.target.value)
                     }
                   />
                 </td>
