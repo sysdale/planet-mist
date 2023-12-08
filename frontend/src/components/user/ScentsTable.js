@@ -18,6 +18,11 @@ const ScentsTable = ({ data }) => {
     console.log("Quantities:", quantities);
   };
 
+  // Extract unique SKUs
+  const uniqueSKUs = Array.from(
+    new Set(data.map((scent) => scent.attributes.SKU_fk.data.id))
+  );
+
   return (
     <>
       <div className="text-xl font-bold">Scents Details</div>
@@ -33,51 +38,56 @@ const ScentsTable = ({ data }) => {
         </thead>
 
         <tbody>
-          {data.map((scent) => (
-            <tr key={scent.id}>
-              <td>{scent.attributes.SKU_fk.data.id}</td>
-              <td>{scent.attributes.SKU_fk.data.attributes.name}</td>
-              <td>
-                <input
-                  name={`fiveml-${scent.id}`}
-                  type="number"
-                  min="0"
-                  max="1000"
-                  value={quantities[scent.id]?.fiveml || 0}
-                  onChange={(e) =>
-                    handleQuantity(scent.id, "fiveml", e.target.value)
-                  }
-                />
-              </td>
-              <td>
-                <input
-                  name={`thirtyml-${scent.id}`}
-                  type="number"
-                  min="0"
-                  max="1000"
-                  value={quantities[scent.id]?.thirtyml || 0}
-                  onChange={(e) =>
-                    handleQuantity(scent.id, "thirtyml", e.target.value)
-                  }
-                />
-              </td>
-              <td>
-                <input
-                  name={`fiftyml-${scent.id}`}
-                  type="number"
-                  min="0"
-                  max="1000"
-                  value={quantities[scent.id]?.fiftyml || 0}
-                  onChange={(e) =>
-                    handleQuantity(scent.id, "fiftyml", e.target.value)
-                  }
-                />
-              </td>
-              <td>
-                <FaCartPlus onClick={handleAddToCart} />
-              </td>
-            </tr>
-          ))}
+          {uniqueSKUs.map((sku) => {
+            const scent = data.find(
+              (scent) => scent.attributes.SKU_fk.data.id === sku
+            );
+            return (
+              <tr key={sku}>
+                <td>{sku}</td>
+                <td>{scent.attributes.SKU_fk.data.attributes.name}</td>
+                <td>
+                  <input
+                    name={`fiveml-${scent.id}`}
+                    type="number"
+                    min="0"
+                    max="1000"
+                    value={quantities[scent.id]?.fiveml || 0}
+                    onChange={(e) =>
+                      handleQuantity(scent.id, "fiveml", e.target.value)
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    name={`thirtyml-${scent.id}`}
+                    type="number"
+                    min="0"
+                    max="1000"
+                    value={quantities[scent.id]?.thirtyml || 0}
+                    onChange={(e) =>
+                      handleQuantity(scent.id, "thirtyml", e.target.value)
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    name={`fiftyml-${scent.id}`}
+                    type="number"
+                    min="0"
+                    max="1000"
+                    value={quantities[scent.id]?.fiftyml || 0}
+                    onChange={(e) =>
+                      handleQuantity(scent.id, "fiftyml", e.target.value)
+                    }
+                  />
+                </td>
+                <td>
+                  <FaCartPlus onClick={handleAddToCart} />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </>

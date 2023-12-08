@@ -92,14 +92,14 @@ const BuyerOrder = () => {
 
     if (typeMap[event] === "string") {
       filtered = scentsList.filter((scent) =>
-        scent.attributes.name
+        scent.attributes.SKU_fk.data.attributes.name
           .toLowerCase()
           .toString()
           .includes(scentInput.name.toString().toLowerCase())
       );
     } else if (typeMap[event] === "number") {
       filtered = scentsList.filter(
-        (scent) => scent.id === parseInt(scentInput.name)
+        (scent) => scent.attributes.SKU_fk.data.id === parseInt(scentInput.name)
       );
     }
 
