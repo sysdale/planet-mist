@@ -62,7 +62,7 @@ const BuyerOrder = () => {
     };
 
     getAllScents();
-    PushOrder();
+    //PushOrder();
   }, []);
 
   const handleChange = (e) => {
