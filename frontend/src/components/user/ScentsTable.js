@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaCartPlus } from "react-icons/fa";
 
 const initQty = {
   fiveml: 0,
@@ -23,7 +24,7 @@ const ScentsTable = ({ data }) => {
   return (
     <>
       <div className="text-xl font-bold">Scents Details</div>
-      <table className="table-auto border-separate">
+      <table className="text-center border-separate border-spacing-5">
         <thead>
           <tr>
             <th>SKU</th>
@@ -69,6 +70,9 @@ const ScentsTable = ({ data }) => {
                     max="1000"
                     onChange={handleQuantity}
                   />
+                </td>
+                <td>
+                  <FaCartPlus />
                 </td>
               </tr>
             );

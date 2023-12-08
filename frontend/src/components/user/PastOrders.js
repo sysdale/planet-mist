@@ -45,7 +45,7 @@ const PastOrders = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, []);
 
   return (
     <>
@@ -62,7 +62,7 @@ const PastOrders = () => {
           {pastOrders.attributes.orders.data.map((order) => (
             <div key={order.id}>
               <div>Order #{order.id}</div>
-              <table className="table-auto border-separate py-3">
+              <table className="table-auto text-center border-separate py-3">
                 <thead>
                   <tr key={order.id}>
                     <th>SKU</th>
@@ -76,49 +76,39 @@ const PastOrders = () => {
 
                 <tbody>
                   {order.attributes.order_details.data.map((detail) => (
-                    <>
-                      {console.log(detail)}
+                    <tr key={detail.id}>
+                      {/* SKU */}
+                      <td>
+                        {
+                          detail.attributes.scentID_fk.data.attributes.SKU_fk
+                            .data.id
+                        }
+                      </td>
+                      {/* Name */}
+                      <td>
+                        {
+                          detail.attributes.scentID_fk.data.attributes.SKU_fk
+                            .data.attributes.name
+                        }
+                      </td>
 
-                      <tr key={detail.id}>
-                        {/* SKU */}
-                        <td>
-                          {
-                            detail.attributes.scentID_fk.data.attributes.SKU_fk
-                              .data.id
-                          }
-                        </td>
-                        {/* Name */}
-                        <td>
-                          {
-                            detail.attributes.scentID_fk.data.attributes.SKU_fk
-                              .data.attributes.name
-                          }
-                        </td>
-                        {/* 5ML, 30ML, 50ML*/}
-                        <td>
-                          {detail.attributes.scentID_fk.data.attributes
-                            .milliLts === 5
-                            ? detail.attributes.quantity
-                            : null}
-                        </td>
-                        <td>
-                          {detail.attributes.scentID_fk.data.attributes
-                            .milliLts === 30
-                            ? detail.attributes.quantity
-                            : null}
-                        </td>
-                        <td>
-                          {detail.attributes.scentID_fk.data.attributes
-                            .milliLts === 50
-                            ? detail.attributes.quantity
-                            : null}
-                        </td>
-                        {/* Price */}
-                        <td>
-                          {detail.attributes.scentID_fk.data.attributes.price}
-                        </td>
-                      </tr>
-                    </>
+                      {/* 5ML, 30ML, 50ML*/}
+                      {mltsValues.map((ml) => {
+                        return (
+                          <td key={`${ml}${detail.id}`}>
+                            {(detail.attributes.scentID_fk.data.attributes
+                              .milliLts === ml &&
+                              detail.attributes.quantity) ||
+                              "-"}
+                          </td>
+                        );
+                      })}
+
+                      {/* Price */}
+                      <td>
+                        {detail.attributes.scentID_fk.data.attributes.price}
+                      </td>
+                    </tr>
                   ))}
                 </tbody>
               </table>

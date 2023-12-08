@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ScentsTable from "./ScentsTable";
+import { useNavigate, useParams } from "react-router-dom";
+import qs from "qs";
 import axios from "axios";
 
 const initState = {
@@ -15,21 +17,53 @@ const BuyerOrder = () => {
   const [scentInput, setScentInput] = useState(initState);
   const [scentsList, setScentsList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { id } = useParams();
 
   useEffect(() => {
-    getAllScents();
-  }, []);
-
-  const getAllScents = async () => {
-    try {
-      await axios.get(process.env.REACT_APP_API_SCENTS).then((response) => {
+    const getAllScents = async () => {
+      try {
+        const response = await axios.get(process.env.REACT_APP_API_SCENTS);
         setScentsList(response.data.data);
         setFilteredList(response.data.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const PushOrder = async () => {
+      const newOrderData = {
+        data: {
+          date: "2010-12-08",
+          buyerID_fk: {
+            id: 3,
+          },
+          order_details: {
+            data: {
+              quantity: 12,
+              scentID_fk: {
+                id: 6,
+              },
+            },
+          },
+        },
+      };
+
+      try {
+        const response = await axios.post(
+          process.env.REACT_APP_API_ORDERS,
+          newOrderData
+        );
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    getAllScents();
+    PushOrder();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,7 +126,20 @@ const BuyerOrder = () => {
 
       {/* Scents table here */}
       <div className="pt-10">
-        <ScentsTable data={filteredList} />
+        {isLoading ? (
+          <p>Loading ... Please Wait</p>
+        ) : (
+          <ScentsTable data={filteredList} />
+        )}
+      </div>
+
+      <div>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+          onClick={() => handleSearch("sku")}
+        >
+          Place Order
+        </button>
       </div>
     </>
   );
