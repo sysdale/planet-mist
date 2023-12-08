@@ -1,24 +1,21 @@
 import React, { useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 
-const initQty = {
-  fiveml: 0,
-  thirtyml: 0,
-  fiftyml: 0,
-};
-
 const ScentsTable = ({ data }) => {
-  const [qty, setQty] = useState(initQty);
+  const [quantities, setQuantities] = useState({});
 
-  const handleQuantity = (e) => {
-    const { name, value } = e.target;
-
-    setQty((prevState) => ({
-      ...prevState,
-      [name]: value,
+  const handleQuantity = (scentId, field, value) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [scentId]: {
+        ...prevQuantities[scentId],
+        [field]: Number(value),
+      },
     }));
+  };
 
-    console.log(qty);
+  const handleAddToCart = () => {
+    console.log("Quantities:", quantities);
   };
 
   return (
@@ -36,47 +33,51 @@ const ScentsTable = ({ data }) => {
         </thead>
 
         <tbody>
-          {data.map((scent) => {
-            return (
-              <tr key={scent.id}>
-                <td>{scent.id}</td>
-                <td>{scent.attributes.name}</td>
-                <td>
-                  <input
-                    name="fiveml"
-                    type="number"
-                    value={qty.fiveml}
-                    min="0"
-                    max="1000"
-                    onChange={handleQuantity}
-                  />
-                </td>
-                <td>
-                  <input
-                    name="thirtyml"
-                    type="number"
-                    value={qty.thirtyml}
-                    min="0"
-                    max="1000"
-                    onChange={handleQuantity}
-                  />
-                </td>
-                <td>
-                  <input
-                    name="fiftyml"
-                    type="number"
-                    value={qty.fiftyml}
-                    min="0"
-                    max="1000"
-                    onChange={handleQuantity}
-                  />
-                </td>
-                <td>
-                  <FaCartPlus />
-                </td>
-              </tr>
-            );
-          })}
+          {data.map((scent) => (
+            <tr key={scent.id}>
+              <td>{scent.id}</td>
+              <td>{scent.attributes.name}</td>
+              <td>
+                <input
+                  name={`fiveml-${scent.id}`}
+                  type="number"
+                  min="0"
+                  max="1000"
+                  value={quantities[scent.id]?.fiveml || 0}
+                  onChange={(e) =>
+                    handleQuantity(scent.id, "fiveml", e.target.value)
+                  }
+                />
+              </td>
+              <td>
+                <input
+                  name={`thirtyml-${scent.id}`}
+                  type="number"
+                  min="0"
+                  max="1000"
+                  value={quantities[scent.id]?.thirtyml || 0}
+                  onChange={(e) =>
+                    handleQuantity(scent.id, "thirtyml", e.target.value)
+                  }
+                />
+              </td>
+              <td>
+                <input
+                  name={`fiftyml-${scent.id}`}
+                  type="number"
+                  min="0"
+                  max="1000"
+                  value={quantities[scent.id]?.fiftyml || 0}
+                  onChange={(e) =>
+                    handleQuantity(scent.id, "fiftyml", e.target.value)
+                  }
+                />
+              </td>
+              <td>
+                <FaCartPlus onClick={handleAddToCart} />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </>
