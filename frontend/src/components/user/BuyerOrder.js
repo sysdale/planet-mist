@@ -1,11 +1,38 @@
 import React, { useEffect, useState } from "react";
 import ScentsTable from "./ScentsTable";
 import { useNavigate, useParams } from "react-router-dom";
-import qs from "qs";
 import axios from "axios";
+import qs from "qs";
+
+const query = qs.stringify(
+  {
+    populate: ["SKU_fk"],
+  },
+
+  {
+    encodeValuesOnly: true,
+  }
+);
 
 const initState = {
   name: "",
+};
+
+const newOrderData = {
+  data: {
+    date: "2010-12-08",
+    buyerID_fk: {
+      id: 3,
+    },
+    order_details: {
+      data: {
+        quantity: 12,
+        scentID_fk: {
+          id: 6,
+        },
+      },
+    },
+  },
 };
 
 const typeMap = {
@@ -23,7 +50,10 @@ const BuyerOrder = () => {
   useEffect(() => {
     const getAllScents = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_API_SCENTS);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_SCENTDATAS}?${query}`
+        );
+        console.log(response.data.data);
         setScentsList(response.data.data);
         setFilteredList(response.data.data);
         setIsLoading(false);
@@ -33,23 +63,6 @@ const BuyerOrder = () => {
     };
 
     const PushOrder = async () => {
-      const newOrderData = {
-        data: {
-          date: "2010-12-08",
-          buyerID_fk: {
-            id: 3,
-          },
-          order_details: {
-            data: {
-              quantity: 12,
-              scentID_fk: {
-                id: 6,
-              },
-            },
-          },
-        },
-      };
-
       try {
         const response = await axios.post(
           process.env.REACT_APP_API_ORDERS,

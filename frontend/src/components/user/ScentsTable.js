@@ -35,8 +35,8 @@ const ScentsTable = ({ data }) => {
         <tbody>
           {data.map((scent) => (
             <tr key={scent.id}>
-              <td>{scent.id}</td>
-              <td>{scent.attributes.name}</td>
+              <td>{scent.attributes.SKU_fk.data.id}</td>
+              <td>{scent.attributes.SKU_fk.data.attributes.name}</td>
               <td>
                 <input
                   name={`fiveml-${scent.id}`}
