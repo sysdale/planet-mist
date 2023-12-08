@@ -23,10 +23,9 @@ const ScentsTable = ({ data }) => {
       [sku]: {
         ...prevQuantities[sku],
         [milliLts]: Number(value),
+        [scentID]: Number(value),
       },
     }));
-
-    console.log(scentID);
   };
 
   const handleAddToCart = () => {
