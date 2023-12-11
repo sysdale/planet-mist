@@ -5,8 +5,8 @@ import qs from "qs";
 
 const mltsValues = [5, 30, 50];
 
-const PastOrders = () => {
-  const { id } = useParams();
+const PastOrders = (buyerID) => {
+  const { id } = useParams() || { id: buyerID };
   const [pastOrders, setPastOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -58,7 +58,6 @@ const PastOrders = () => {
           </div>
 
           <div className="text-xl font-bold pb-4">Order History</div>
-          {console.log(pastOrders.attributes.orders.data)}
 
           {pastOrders.attributes.orders.data.map((order) => (
             <div key={order.id}>
@@ -117,6 +116,7 @@ const PastOrders = () => {
               </table>
             </div>
           ))}
+          {console.log(pastOrders)}
         </>
       )}
     </>

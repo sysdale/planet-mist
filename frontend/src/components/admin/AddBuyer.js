@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
 
 const initFields = { buyerName: "", email: "", password: "" };
 
@@ -11,7 +10,7 @@ function AddBuyer() {
   const [allBuyers, setAllBuyers] = useState([]);
 
   useEffect(() => {
-    fetchBuyer();
+    // fetchBuyer();
   }, []);
 
   const handleSubmit = (e) => {
