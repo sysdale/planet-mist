@@ -1,9 +1,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import PastOrders from "../user/PastOrders";
 
 const AllOrders = () => {
+  const DateSelector = () => {
+    const [startDate, setStartDate] = useState(new Date());
+    const [dateSelected, setDateSelected] = useState(false);
+
+    return (
+      <div>
+        <div className="font-medium">Select Date</div>
+        <DatePicker
+          showIcon
+          selected={startDate}
+          maxDate={new Date()}
+          onChange={(date) => setStartDate(date)}
+          dateFormat="dd-MM-yyyy"
+        />
+      </div>
+    );
+  };
+
   const [allBuyers, setAllBuyers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -22,11 +42,21 @@ const AllOrders = () => {
     fetchBuyer();
   }, []);
 
-  const handleOrderClick = (buyerID) => {};
+  const handleOrderClick = (buyerID) => {
+    navigate(`./${buyerID}`);
+  };
+
+  const handleDateSelect = (buyerID) => {
+    navigate(`./${buyerID}`);
+  };
 
   return (
     <>
       <div className="text-xl font-bold pb-4">See All Orders</div>
+      <div className="flex">
+        <DateSelector />
+      </div>
+
       {isLoading ? (
         <p>Please wait ... Fetching Buyers List</p>
       ) : (
@@ -34,9 +64,9 @@ const AllOrders = () => {
           <table className="table-auto text-center border-separate py-3">
             <thead>
               <tr>
-                <th>Buyer ID</th>
-                <th>Buyer Name</th>
-                <th>Orders Count</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Overall Count</th>
               </tr>
             </thead>
             <tbody>
@@ -50,6 +80,14 @@ const AllOrders = () => {
                       onClick={() => handleOrderClick(buyer.id)}
                     >
                       13
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleDateSelect(buyer.id)}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+                    >
+                      Filter
                     </button>
                   </td>
                 </tr>

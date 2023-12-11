@@ -8,15 +8,18 @@ const AdminHomePage = () => {
   const handleAddCustomer = () => {
     navigate("addbuyer");
   };
-
   const handlePreviousOrders = (second) => {
     navigate("allorders");
   };
   const handleTodayOrders = (second) => {
     navigate("todaysorders");
   };
-  const handleInvoices = (second) => {};
-  const handleMasterTable = (second) => {};
+  const handleInvoices = (second) => {
+    navigate("invoices");
+  };
+  const handleMasterTable = (second) => {
+    navigate("mastertable");
+  };
 
   return (
     <>

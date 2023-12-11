@@ -7,6 +7,7 @@ import {
   Login,
   PastOrders,
   BuyerHomePage,
+  ScentsTable,
   AdminHomePage,
   MasterTable,
   Invoices,
@@ -27,9 +28,22 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <AdminHomePage /> },
           { path: "addbuyer", element: <AddBuyer /> },
-          { path: "todayorders", element: <TodaysOrders /> },
-          { path: "allorders", element: <AllOrders /> },
-          { path: "invoices", element: <Invoices /> },
+          { path: "todayorders/:id", element: <TodaysOrders /> },
+          {
+            path: "allorders",
+            element: <Outlet />,
+            children: [
+              {
+                element: <AllOrders />,
+                index: true,
+              },
+              {
+                path: ":id",
+                element: <PastOrders />,
+              },
+            ],
+          },
+          { path: "invoices/:id", element: <Invoices /> },
           { path: "mastertable", element: <MasterTable /> },
         ],
       },

@@ -13,3 +13,4 @@ export { default as MasterTable } from "./components/admin/MasterTable";
 export { default as Invoices } from "./components/admin/Invoices";
 export { default as TodaysOrders } from "./components/admin/TodaysOrders";
 export { default as AllOrders } from "./components/admin/AllOrders";
+export { default as DateSelector } from "./components/admin/DateSelector";
