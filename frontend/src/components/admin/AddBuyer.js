@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 const initFields = { buyerName: "", email: "", password: "" };
 
@@ -57,43 +58,52 @@ function AddBuyer() {
 
   return (
     <div>
-      <h1>Add Buyer</h1>
+      <div className="text-xl font-bold pb-4">Add New Buyer</div>
 
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="flex-col">
           <label>Buyer Name</label>
-          <input
-            name="buyerName"
-            type="text"
-            placeholder="Enter name"
-            value={newBuyer.buyerName}
-            onChange={handleChange}
-          />
-        </div>
+          <div className="">
+            <input
+              name="buyerName"
+              type="text"
+              placeholder="Enter name"
+              value={newBuyer.buyerName}
+              className="border-2 border-slate-500"
+              onChange={handleChange}
+            />
+          </div>
 
-        <div>
           <label>Email</label>
-          <input
-            name="email"
-            type="text"
-            placeholder="Enter email"
-            value={newBuyer.email}
-            onChange={handleChange}
-          />
-        </div>
+          <div>
+            <input
+              name="email"
+              type="text"
+              placeholder="Enter email"
+              value={newBuyer.email}
+              className="border-2 border-slate-500"
+              onChange={handleChange}
+            />
+          </div>
 
-        <div>
           <label>Password</label>
-          <input
-            name="password"
-            type="password"
-            placeholder="Enter password"
-            value={newBuyer.password}
-            onChange={handleChange}
-          />
+          <div>
+            <input
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              value={newBuyer.password}
+              className="border-2 border-slate-500"
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
-        <button type="submit">Add Buyer</button>
+        <div className="pt-3">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Add Buyer
+          </button>
+        </div>
       </form>
 
       <div>

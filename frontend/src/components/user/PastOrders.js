@@ -58,10 +58,13 @@ const PastOrders = () => {
           </div>
 
           <div className="text-xl font-bold pb-4">Order History</div>
+          {console.log(pastOrders.attributes.orders.data)}
 
           {pastOrders.attributes.orders.data.map((order) => (
             <div key={order.id}>
-              <div>Order #{order.id}</div>
+              <div>
+                Order #{order.id} placed on {order.attributes.date}
+              </div>
               <table className="table-auto text-center border-separate py-3">
                 <thead>
                   <tr key={order.id}>

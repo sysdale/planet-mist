@@ -27,8 +27,13 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
     try {
       const entry = await strapi.entityService.create("api::order.order", {
         data: {
-          date: "2020-12-01",
+          date: "2020-10-01",
           buyerID_fk: 3,
+        },
+        populate: {
+          order_details: {
+            populate: "*",
+          },
         },
       });
       return entry;

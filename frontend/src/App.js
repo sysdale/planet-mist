@@ -7,8 +7,13 @@ import {
   Login,
   PastOrders,
   BuyerHomePage,
+  AdminHomePage,
+  MasterTable,
+  Invoices,
+  TodaysOrders,
+  AllOrders,
+  HomePage,
 } from "./listing";
-import HomePage from "./pages/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +22,17 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "admin", element: <AddBuyer /> },
+      {
+        path: "admin",
+        children: [
+          { index: true, element: <AdminHomePage /> },
+          { path: "addbuyer", element: <AddBuyer /> },
+          { path: "todayorders", element: <TodaysOrders /> },
+          { path: "allorders", element: <AllOrders /> },
+          { path: "invoices", element: <Invoices /> },
+          { path: "mastertable", element: <MasterTable /> },
+        ],
+      },
       {
         path: "buyer/:id",
         children: [
