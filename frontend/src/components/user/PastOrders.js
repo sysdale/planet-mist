@@ -75,7 +75,6 @@ const PastOrders = (buyerID) => {
                     <th>Price</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {order.attributes.order_details.data.map((detail) => (
                     <tr key={detail.id}>
@@ -94,17 +93,29 @@ const PastOrders = (buyerID) => {
                         }
                       </td>
 
-                      {/* 5ML, 30ML, 50ML*/}
-                      {mltsValues.map((ml) => {
-                        return (
-                          <td key={`${ml}${detail.id}`}>
-                            {(detail.attributes.scentID_fk.data.attributes
-                              .milliLts === ml &&
-                              detail.attributes.quantity) ||
-                              "-"}
-                          </td>
-                        );
-                      })}
+                      {/* 5ML */}
+                      <td>
+                        {mltsValues.includes(5) &&
+                          detail.attributes.scentID_fk.data.attributes
+                            .milliLts === 5 &&
+                          (detail.attributes.quantity || "-")}
+                      </td>
+
+                      {/* 30ML */}
+                      <td>
+                        {mltsValues.includes(30) &&
+                          detail.attributes.scentID_fk.data.attributes
+                            .milliLts === 30 &&
+                          (detail.attributes.quantity || "-")}
+                      </td>
+
+                      {/* 50ML */}
+                      <td>
+                        {mltsValues.includes(50) &&
+                          detail.attributes.scentID_fk.data.attributes
+                            .milliLts === 50 &&
+                          (detail.attributes.quantity || "-")}
+                      </td>
 
                       {/* Price */}
                       <td>
