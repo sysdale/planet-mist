@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DateSelector from "./DateSelector";
-import { AppContextProvider } from "../../store/AppContext";
+import { AppContext } from "../../store/AppContext";
+import { format } from "date-fns";
 
 const AllOrders = () => {
   const [allBuyers, setAllBuyers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(null);
+
   const navigate = useNavigate();
 
-  const dateCtx = useContext(AppContextProvider);
+  const { selectedDate, handleFilter, isFiltered } = useContext(AppContext);
 
   useEffect(() => {
     const fetchBuyer = async () => {
@@ -27,11 +28,27 @@ const AllOrders = () => {
   }, []);
 
   const handleOrderClick = (buyerID) => {
-    navigate(`./${buyerID}`);
+    if (isFiltered) {
+      const url = `./${buyerID}/filter`;
+
+      //creating date format
+      const dateFormat = "yyyy-MM-dd";
+      const formattedDate = format(selectedDate, dateFormat);
+
+      navigate(url, { state: { buyerID, dateFilter: formattedDate } });
+    } else {
+      navigate(`./${buyerID}`);
+    }
   };
 
-  const handleDateSelect = (buyerID) => {
-    navigate(`./`);
+  const handleDateSelect = () => {
+    console.log(selectedDate);
+    handleFilter(true);
+  };
+
+  const handleClearSelect = () => {
+    handleFilter(false);
+    console.log(isFiltered);
   };
 
   return (
@@ -44,7 +61,14 @@ const AllOrders = () => {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
             onClick={handleDateSelect}
           >
-            Filter
+            Set Date
+          </button>
+
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+            onClick={handleClearSelect}
+          >
+            Clear
           </button>
         </div>
       </div>
@@ -58,7 +82,6 @@ const AllOrders = () => {
               <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Overall Count</th>
               </tr>
             </thead>
             <tbody>

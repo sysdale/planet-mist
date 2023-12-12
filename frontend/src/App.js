@@ -41,6 +41,13 @@ const router = createBrowserRouter([
               {
                 path: ":id",
                 element: <PastOrders />,
+                children: [
+                  {
+                    path: "filter",
+                    element: <PastOrders />,
+                    index: true,
+                  },
+                ],
               },
             ],
           },

@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 
 const mltsValues = [5, 30, 50];
 
-const PastOrders = ({ dateFilter }) => {
-  const { id } = useParams();
+const PastOrders = () => {
+  const { state } = useLocation();
+
+  const buyerID = state?.buyerID || null;
+  const dateFilter = state?.dateFilter || null;
+
+  const { id } = useParams() || { id: buyerID };
   const [pastOrders, setPastOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
