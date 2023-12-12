@@ -1,4 +1,5 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { AppContextProvider } from "./store/AppContext";
 import {
   AddBuyer,
   ErrorPage,
@@ -71,9 +72,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div>
+    <AppContextProvider>
       <RouterProvider router={router} />
-    </div>
+    </AppContextProvider>
   );
 }
 

@@ -1,32 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import PastOrders from "../user/PastOrders";
+import DateSelector from "./DateSelector";
+import { AppContextProvider } from "../../store/AppContext";
 
 const AllOrders = () => {
-  const DateSelector = () => {
-    const [startDate, setStartDate] = useState(new Date());
-    const [dateSelected, setDateSelected] = useState(false);
-
-    return (
-      <div>
-        <div className="font-medium">Select Date</div>
-        <DatePicker
-          showIcon
-          selected={startDate}
-          maxDate={new Date()}
-          onChange={(date) => setStartDate(date)}
-          dateFormat="dd-MM-yyyy"
-        />
-      </div>
-    );
-  };
-
   const [allBuyers, setAllBuyers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState(null);
   const navigate = useNavigate();
+
+  const dateCtx = useContext(AppContextProvider);
 
   useEffect(() => {
     const fetchBuyer = async () => {
@@ -47,14 +31,22 @@ const AllOrders = () => {
   };
 
   const handleDateSelect = (buyerID) => {
-    navigate(`./${buyerID}`);
+    navigate(`./`);
   };
 
   return (
     <>
       <div className="text-xl font-bold pb-4">See All Orders</div>
       <div className="flex">
-        <DateSelector />
+        <div>
+          <DateSelector />
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+            onClick={handleDateSelect}
+          >
+            Filter
+          </button>
+        </div>
       </div>
 
       {isLoading ? (
@@ -76,20 +68,13 @@ const AllOrders = () => {
                   <td>{buyer.attributes.buyerName}</td>
                   <td>
                     <button
-                      className="bg-slate-200"
                       onClick={() => handleOrderClick(buyer.id)}
-                    >
-                      13
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleDateSelect(buyer.id)}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
                     >
-                      Filter
+                      View All
                     </button>
                   </td>
+                  <td></td>
                 </tr>
               ))}
             </tbody>

@@ -6,11 +6,11 @@ const BuyerHomePage = () => {
   const { id } = useParams();
 
   const pastOrders = () => {
-    navigate(`./${id}/pastorders`);
+    navigate(`./pastorders`);
   };
 
   const placeOrder = () => {
-    navigate(`./${id}/placeorder`);
+    navigate(`./placeorder`);
   };
 
   return (
