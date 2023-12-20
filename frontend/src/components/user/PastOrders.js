@@ -2,8 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
+import { format } from "date-fns";
 
 const mltsValues = [5, 30, 50];
+const query = qs.stringify(
+  {
+    populate: {
+      orders: {
+        populate: {
+          order_details: {
+            populate: {
+              scentID_fk: {
+                populate: ["SKU_fk"],
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    encodeValuesOnly: true,
+  }
+);
 
 const PastOrders = () => {
   const { state } = useLocation();
@@ -14,27 +35,6 @@ const PastOrders = () => {
   const { id } = useParams() || { id: buyerID };
   const [pastOrders, setPastOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const query = qs.stringify(
-    {
-      populate: {
-        orders: {
-          populate: {
-            order_details: {
-              populate: {
-                scentID_fk: {
-                  populate: ["SKU_fk"],
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    {
-      encodeValuesOnly: true,
-    }
-  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -136,7 +136,6 @@ const PastOrders = () => {
                 </table>
               </div>
             ))}
-          {console.log(pastOrders)}
         </>
       )}
     </>

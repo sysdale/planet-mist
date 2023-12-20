@@ -22,34 +22,17 @@
       "required": true,
       "min": 0
     },
-    "literCost": {
-      "type": "decimal",
-      "required": false,
-      "min": 0
-    },
-    "zo50": {
-      "type": "decimal",
-      "required": false,
-      "min": 0
-    },
-    "yesfir50": {
-      "type": "decimal",
-      "required": false,
-      "min": 0
-    },
-    "tm30": {
-      "type": "decimal",
-      "min": 0
-    },
-    "test5": {
-      "type": "integer",
-      "min": 0
-    },
     "SKU_fk": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::scent-list.scent-list",
       "inversedBy": "master_tables"
+    },
+    "SKU_name": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::scent-list.scent-list",
+      "inversedBy": "master_tabless"
     }
   }
 }

@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import DateSelector from "./DateSelector";
+import { AppContext } from "../../store/AppContext";
+import { format } from "date-fns";
 
 const TodaysOrders = () => {
   const [allBuyers, setAllBuyers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
+
+  const { selectedDate, handleFilter, isFiltered } = useContext(AppContext);
 
   useEffect(() => {
     const fetchBuyer = async () => {
@@ -22,12 +28,20 @@ const TodaysOrders = () => {
   }, []);
 
   const handleOrderClick = (buyerID) => {
-    navigate(`./${buyerID}`);
+    const url = `./${buyerID}`;
+
+    //creating date format
+    const dateFormat = "yyyy-MM-dd";
+    const formattedDate = format(new Date(), dateFormat);
+    console.log(formattedDate);
+
+    navigate(url, { state: { buyerID, dateFilter: formattedDate } });
   };
 
   return (
     <>
-      <div className="text-xl font-bold pb-4">See All Orders</div>
+      <div className="text-xl font-bold pb-4">See Today's Orders</div>
+
       {isLoading ? (
         <p>Please wait ... Fetching Buyers List</p>
       ) : (
@@ -37,7 +51,6 @@ const TodaysOrders = () => {
               <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Overall Count</th>
               </tr>
             </thead>
             <tbody>
@@ -47,12 +60,13 @@ const TodaysOrders = () => {
                   <td>{buyer.attributes.buyerName}</td>
                   <td>
                     <button
-                      className="bg-slate-200"
                       onClick={() => handleOrderClick(buyer.id)}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
                     >
-                      13
+                      View All
                     </button>
                   </td>
+                  <td></td>
                 </tr>
               ))}
             </tbody>

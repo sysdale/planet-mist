@@ -68,7 +68,7 @@ const AllOrders = () => {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
             onClick={handleClearSelect}
           >
-            Clear
+            Clear Filter
           </button>
         </div>
       </div>

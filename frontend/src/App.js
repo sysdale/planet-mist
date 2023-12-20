@@ -38,6 +38,7 @@ const router = createBrowserRouter([
                 element: <AllOrders />,
                 index: true,
               },
+
               {
                 path: ":id",
                 element: <PastOrders />,
@@ -48,6 +49,20 @@ const router = createBrowserRouter([
                     index: true,
                   },
                 ],
+              },
+            ],
+          },
+          {
+            element: <Outlet />,
+            path: "todaysorders",
+            children: [
+              {
+                element: <TodaysOrders />,
+                index: true,
+              },
+              {
+                path: ":id",
+                element: <PastOrders />,
               },
             ],
           },

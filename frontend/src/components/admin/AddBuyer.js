@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initFields = { buyerName: "", email: "", password: "" };
 
@@ -9,14 +10,22 @@ function AddBuyer() {
   const [newBuyer, setNewBuyer] = useState(initFields);
   const [allBuyers, setAllBuyers] = useState([]);
 
-  useEffect(() => {
-    // fetchBuyer();
-  }, []);
+  // useEffect(() => {
+  //   fetchBuyer();
+  // }, []);
+
+  const showToastMessage = () => {
+    toast.success("Buyer Successfully Added!", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 2000,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setNewBuyer(initFields);
     addBuyer();
+    showToastMessage();
   };
 
   const handleChange = (e) => {
@@ -102,6 +111,7 @@ function AddBuyer() {
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Add Buyer
           </button>
+          <ToastContainer />
         </div>
       </form>
 

@@ -27,6 +27,12 @@
       "relation": "oneToMany",
       "target": "api::master-table.master-table",
       "mappedBy": "SKU_fk"
+    },
+    "master_tabless": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::master-table.master-table",
+      "mappedBy": "SKU_name"
     }
   }
 }

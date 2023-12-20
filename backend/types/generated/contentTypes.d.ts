@@ -707,6 +707,7 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
       'oneToMany',
       'api::invoice.invoice'
     >;
+    group: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -789,27 +790,12 @@ export interface ApiMasterTableMasterTable extends Schema.CollectionType {
       Attribute.SetMinMax<{
         min: 0;
       }>;
-    literCost: Attribute.Decimal &
-      Attribute.SetMinMax<{
-        min: 0;
-      }>;
-    zo50: Attribute.Decimal &
-      Attribute.SetMinMax<{
-        min: 0;
-      }>;
-    yesfir50: Attribute.Decimal &
-      Attribute.SetMinMax<{
-        min: 0;
-      }>;
-    tm30: Attribute.Decimal &
-      Attribute.SetMinMax<{
-        min: 0;
-      }>;
-    test5: Attribute.Integer &
-      Attribute.SetMinMax<{
-        min: 0;
-      }>;
     SKU_fk: Attribute.Relation<
+      'api::master-table.master-table',
+      'manyToOne',
+      'api::scent-list.scent-list'
+    >;
+    SKU_name: Attribute.Relation<
       'api::master-table.master-table',
       'manyToOne',
       'api::scent-list.scent-list'
@@ -989,6 +975,11 @@ export interface ApiScentListScentList extends Schema.CollectionType {
       'api::scent-data.scent-data'
     >;
     master_tables: Attribute.Relation<
+      'api::scent-list.scent-list',
+      'oneToMany',
+      'api::master-table.master-table'
+    >;
+    master_tabless: Attribute.Relation<
       'api::scent-list.scent-list',
       'oneToMany',
       'api::master-table.master-table'

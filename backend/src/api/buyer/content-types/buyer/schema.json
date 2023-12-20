@@ -43,6 +43,9 @@
       "relation": "oneToMany",
       "target": "api::invoice.invoice",
       "mappedBy": "buyerID_fk"
+    },
+    "group": {
+      "type": "integer"
     }
   }
 }
