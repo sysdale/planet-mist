@@ -132,8 +132,6 @@ const PerfumeTable = () => {
         setMasterData(updatedData);
         setBuyersList(buyers.data.data);
         setIsLoading(false);
-
-        console.log(masterData);
       } catch (e) {
         console.log(e);
       }
@@ -141,10 +139,11 @@ const PerfumeTable = () => {
 
     const fetchScentsData = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_API_SCENTDATAS);
-        setScentsData(response.data.data);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_SCENTDATAS}?${query}`
+        );
 
-        console.log(scentsData);
+        setScentsData(response.data.data);
       } catch (e) {
         console.log(e);
       }
@@ -154,7 +153,34 @@ const PerfumeTable = () => {
     fetchScentsData();
   }, []);
 
-  const handleMTEdit = () => {};
+  const handleMTEdit = () => {
+    console.log(masterData);
+
+    const updatedScents = scentsData.map((perfume) => {
+      const current = masterData.find(
+        (masterRow) =>
+          masterRow.attributes.SKU_fk.data.id ===
+          perfume.attributes.SKU_fk.data.id
+      );
+
+      if (current) {
+        const updatedPrice =
+          (current.attributes.literCost / 1000) * perfume.attributes.milliLts;
+
+        return {
+          ...perfume,
+          attributes: {
+            ...perfume.attributes,
+            price: updatedPrice,
+          },
+        };
+      }
+      return perfume;
+    });
+
+    setScentsData(updatedScents);
+    console.log(updatedScents);
+  };
 
   return (
     <>
