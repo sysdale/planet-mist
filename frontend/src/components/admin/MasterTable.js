@@ -153,7 +153,21 @@ const PerfumeTable = () => {
     fetchScentsData();
   }, []);
 
-  const handleMTEdit = () => {
+  // const updateScentsDataBackend = async (updatedScents) => {
+  //   const payload = {
+  //     data: {
+  //       price: updatedScents.attributes.price,
+  //     },
+  //   };
+
+  //   try {
+  //     await axios.put(process.env.REACT_APP_API_SCENTDATAS, payload);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  const handleMTEdit = async () => {
     console.log(masterData);
 
     const updatedScents = scentsData.map((perfume) => {
@@ -182,6 +196,8 @@ const PerfumeTable = () => {
     console.log(updatedScents);
   };
 
+  const handleNewScent = () => {};
+
   return (
     <>
       {isLoading ? (
@@ -190,7 +206,10 @@ const PerfumeTable = () => {
         <>
           <div className="text-xl font-bold pb-4">Master Sheet</div>
 
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded">
+          <button
+            onClick={handleNewScent}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+          >
             Add new Scent
           </button>
 

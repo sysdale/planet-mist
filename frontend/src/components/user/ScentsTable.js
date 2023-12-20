@@ -40,7 +40,7 @@ const ScentsTable = ({ data }) => {
   return (
     <>
       <div className="text-xl font-bold">Scents Details</div>
-      <table className="text-center border-separate border-spacing-5">
+      <table className="table-auto border-separate items-center border-spacing-x-4">
         <thead>
           <tr>
             <th>SKU</th>

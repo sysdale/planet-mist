@@ -104,25 +104,22 @@ const PastOrders = () => {
 
                         {/* 5ML */}
                         <td>
-                          {mltsValues.includes(5) &&
-                            detail.attributes.scentID_fk.data.attributes
-                              .milliLts === 5 &&
+                          {detail.attributes.scentID_fk.data.attributes
+                            .milliLts === 2 &&
                             (detail.attributes.quantity || "-")}
                         </td>
 
                         {/* 30ML */}
                         <td>
-                          {mltsValues.includes(30) &&
-                            detail.attributes.scentID_fk.data.attributes
-                              .milliLts === 30 &&
+                          {detail.attributes.scentID_fk.data.attributes
+                            .milliLts === 16 &&
                             (detail.attributes.quantity || "-")}
                         </td>
 
                         {/* 50ML */}
                         <td>
-                          {mltsValues.includes(50) &&
-                            detail.attributes.scentID_fk.data.attributes
-                              .milliLts === 50 &&
+                          {detail.attributes.scentID_fk.data.attributes
+                            .milliLts === 20 &&
                             (detail.attributes.quantity || "-")}
                         </td>
 

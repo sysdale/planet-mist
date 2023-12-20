@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ScentsTable from "./ScentsTable";
+import { RxReset } from "react-icons/rx";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
-
-const query = qs.stringify(
-  {
-    populate: ["SKU_fk"],
-  },
-
-  {
-    encodeValuesOnly: true,
-  }
-);
 
 const initState = {
   name: "",
@@ -34,6 +25,16 @@ const newOrderData = {
     },
   },
 };
+
+const query = qs.stringify(
+  {
+    populate: ["SKU_fk"],
+  },
+
+  {
+    encodeValuesOnly: true,
+  }
+);
 
 const typeMap = {
   name: "string",
@@ -87,6 +88,11 @@ const BuyerOrder = () => {
     }));
   };
 
+  const handleSearchReset = () => {
+    setScentInput(initState);
+    setFilteredList(scentsList);
+  };
+
   const handleSearch = (event) => {
     let filtered = [];
 
@@ -107,18 +113,27 @@ const BuyerOrder = () => {
     setScentInput(initState);
   };
 
+  const handleOrderPlaced = () => {};
+
   return (
     <>
       <div className="text-xl font-bold pb-4">Select Scents</div>
 
-      <input
-        className="bg-gray-100 py-2 px-4"
-        name="name"
-        type="text"
-        placeholder="Enter scent name/SKU"
-        value={scentInput.name}
-        onChange={handleChange}
-      />
+      <div className="flex">
+        <div className="p-2">
+          <RxReset onClick={handleSearchReset} />
+        </div>
+        <div>
+          <input
+            className="bg-gray-100 py-2 px-4"
+            name="name"
+            type="text"
+            placeholder="Enter scent name/SKU"
+            value={scentInput.name}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
 
       {/* Search functionality */}
       <div className="space-x-2">
@@ -149,7 +164,7 @@ const BuyerOrder = () => {
       <div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-          onClick={() => handleSearch("sku")}
+          onClick={() => handleOrderPlaced}
         >
           Place Order
         </button>
