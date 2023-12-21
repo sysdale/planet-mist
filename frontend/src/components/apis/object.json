@@ -1,0 +1,20 @@
+{
+  "date": "2008-12-08",
+  "buyerID_fk": {
+    "id": 3
+  },
+  "detailsArray": [
+    {
+      "quantity": 12,
+      "scentID_fk": {
+        "id": 6
+      }
+    },
+    {
+      "quantity": 10,
+      "scentID_fk": {
+        "id": 3
+      }
+    }
+  ]
+}

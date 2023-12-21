@@ -69,7 +69,7 @@ const BuyerOrder = () => {
           process.env.REACT_APP_API_ORDERS,
           newOrderData
         );
-        console.log(response);
+        //console.log(response);
       } catch (e) {
         console.error(e);
       }

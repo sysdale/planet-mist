@@ -11,14 +11,11 @@ module.exports = createCoreController(
   ({ strapi }) => ({
     async createOrder(ctx) {
       try {
-        //const { date, buyerID_fk, orderDetailsObj } = ctx.request.body;
-        const orderDetailsObj = [
-          { quantity: 12, scentID_fk: 7 },
-          { quantity: 8, scentID_fk: 3 },
-        ];
+        console.log(ctx.request.body);
+        const { date, buyerID_fk, detailsArray } = ctx.request.body;
 
         const currentOrderDetail = await Promise.all(
-          orderDetailsObj.map(({ quantity, scentID_fk }) =>
+          detailsArray.map(({ quantity, scentID_fk }) =>
             strapi.entityService.create("api::order-detail.order-detail", {
               data: { quantity, scentID_fk },
             })
@@ -27,8 +24,8 @@ module.exports = createCoreController(
 
         const newOrder = await strapi.entityService.create("api::order.order", {
           data: {
-            date: "1990-02-02",
-            buyerID_fk: "3",
+            date,
+            buyerID_fk,
             order_details: currentOrderDetail.map(({ id }) => id),
           },
         });

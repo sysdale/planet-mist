@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
+import { AppContext } from "../../store/AppContext";
 
 const mlMapping = {
   fiveml: 2,
@@ -9,7 +10,6 @@ const mlMapping = {
 
 const ScentsTable = ({ data }) => {
   const [quantities, setQuantities] = useState({});
-  console.log(data);
 
   const handleQuantity = (sku, milliLts, value) => {
     //getting the scentID
