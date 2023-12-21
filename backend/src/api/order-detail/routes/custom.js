@@ -3,7 +3,7 @@ module.exports = {
     {
       method: "POST",
       path: "/custom",
-      handler: "order.customAction",
+      handler: "order-detail.createOrder",
       config: {
         auth: false,
       },

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const initFields = { buyerName: "", email: "", password: "" };
+const initFields = { buyerName: "", email: "", password: "", group: 20 };
 
 function AddBuyer() {
   const [newBuyer, setNewBuyer] = useState(initFields);
@@ -50,6 +50,7 @@ function AddBuyer() {
           email: newBuyer.email,
           buyerName: newBuyer.buyerName,
           password: newBuyer.password,
+          group: newBuyer.group,
         },
       };
 
@@ -101,6 +102,18 @@ function AddBuyer() {
               type="password"
               placeholder="Enter password"
               value={newBuyer.password}
+              className="border-2 border-slate-500"
+              onChange={handleChange}
+            />
+          </div>
+
+          <label>ML Group (16 or 20)</label>
+          <div>
+            <input
+              name="group"
+              type="text"
+              placeholder="Enter group: 16 or 20ML"
+              value={newBuyer.group}
               className="border-2 border-slate-500"
               onChange={handleChange}
             />

@@ -689,14 +689,14 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    buyerName: Attribute.String & Attribute.Required;
+    buyerName: Attribute.String;
     email: Attribute.Email & Attribute.Required & Attribute.Unique;
     password: Attribute.Password &
       Attribute.Required &
       Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    type: Attribute.String & Attribute.Required & Attribute.DefaultTo<'user'>;
+    type: Attribute.String & Attribute.DefaultTo<'user'>;
     orders: Attribute.Relation<
       'api::buyer.buyer',
       'oneToMany',
@@ -707,7 +707,7 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
       'oneToMany',
       'api::invoice.invoice'
     >;
-    group: Attribute.Integer;
+    group: Attribute.Integer & Attribute.DefaultTo<20>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

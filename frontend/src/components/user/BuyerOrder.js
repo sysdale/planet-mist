@@ -5,6 +5,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 
+const query = qs.stringify(
+  {
+    populate: ["SKU_fk"],
+  },
+
+  {
+    encodeValuesOnly: true,
+  }
+);
+
 const initState = {
   name: "",
 };
@@ -26,16 +36,6 @@ const newOrderData = {
   },
 };
 
-const query = qs.stringify(
-  {
-    populate: ["SKU_fk"],
-  },
-
-  {
-    encodeValuesOnly: true,
-  }
-);
-
 const typeMap = {
   name: "string",
   sku: "number",
@@ -54,7 +54,7 @@ const BuyerOrder = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_SCENTDATAS}?${query}`
         );
-        console.log(response.data.data);
+
         setScentsList(response.data.data);
         setFilteredList(response.data.data);
         setIsLoading(false);
@@ -113,8 +113,6 @@ const BuyerOrder = () => {
     setScentInput(initState);
   };
 
-  const handleOrderPlaced = () => {};
-
   return (
     <>
       <div className="text-xl font-bold pb-4">Select Scents</div>
@@ -164,7 +162,7 @@ const BuyerOrder = () => {
       <div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-          onClick={() => handleOrderPlaced}
+          onClick={() => {}}
         >
           Place Order
         </button>

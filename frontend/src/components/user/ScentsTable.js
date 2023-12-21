@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 
 const mlMapping = {
-  fiveml: 5,
-  thirtyml: 30,
-  fiftyml: 50,
+  fiveml: 2,
+  thirtyml: 16,
+  fiftyml: 20,
 };
 
 const ScentsTable = ({ data }) => {
   const [quantities, setQuantities] = useState({});
+  console.log(data);
 
   const handleQuantity = (sku, milliLts, value) => {
     //getting the scentID
@@ -40,7 +41,7 @@ const ScentsTable = ({ data }) => {
   return (
     <>
       <div className="text-xl font-bold">Scents Details</div>
-      <table className="table-auto border-separate items-center border-spacing-x-4">
+      <table className="text-center border-separate border-spacing-5">
         <thead>
           <tr>
             <th>SKU</th>
