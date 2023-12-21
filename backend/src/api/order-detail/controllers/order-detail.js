@@ -11,16 +11,25 @@ module.exports = createCoreController(
   ({ strapi }) => ({
     async createOrder(ctx) {
       try {
-        const entry = await strapi.entityService.create(
-          "api::order-detail.order-detail",
-          { data: { quantity: 12, scentID_fk: 7 } }
+        //const { date, buyerID_fk, orderDetailsObj } = ctx.request.body;
+        const orderDetailsObj = [
+          { quantity: 12, scentID_fk: 7 },
+          { quantity: 8, scentID_fk: 3 },
+        ];
+
+        const currentOrderDetail = await Promise.all(
+          orderDetailsObj.map(({ quantity, scentID_fk }) =>
+            strapi.entityService.create("api::order-detail.order-detail", {
+              data: { quantity, scentID_fk },
+            })
+          )
         );
 
         const newOrder = await strapi.entityService.create("api::order.order", {
           data: {
-            date: "1990-01-01",
-            buyerID_fk: 3,
-            order_details: [entry.id],
+            date: "1990-02-02",
+            buyerID_fk: "3",
+            order_details: currentOrderDetail.map(({ id }) => id),
           },
         });
 
