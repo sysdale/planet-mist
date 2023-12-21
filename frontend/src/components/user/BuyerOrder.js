@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ScentsTable from "./ScentsTable";
 import { RxReset } from "react-icons/rx";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
+import { AppContext } from "../../store/AppContext";
 
 const query = qs.stringify(
   {
@@ -19,23 +20,6 @@ const initState = {
   name: "",
 };
 
-const newOrderData = {
-  data: {
-    date: "2010-12-08",
-    buyerID_fk: {
-      id: 3,
-    },
-    order_details: {
-      data: {
-        quantity: 12,
-        scentID_fk: {
-          id: 6,
-        },
-      },
-    },
-  },
-};
-
 const typeMap = {
   name: "string",
   sku: "number",
@@ -46,6 +30,7 @@ const BuyerOrder = () => {
   const [scentsList, setScentsList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { quantities } = useContext(AppContext);
   const { id } = useParams();
 
   useEffect(() => {
@@ -63,20 +48,7 @@ const BuyerOrder = () => {
       }
     };
 
-    const PushOrder = async () => {
-      try {
-        const response = await axios.post(
-          process.env.REACT_APP_API_ORDERS,
-          newOrderData
-        );
-        //console.log(response);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
     getAllScents();
-    //PushOrder();
   }, []);
 
   const handleChange = (e) => {
@@ -111,6 +83,14 @@ const BuyerOrder = () => {
 
     setFilteredList(filtered);
     setScentInput(initState);
+  };
+
+  const handleNewOrder = () => {
+    try {
+      console.log(quantities);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -162,7 +142,7 @@ const BuyerOrder = () => {
       <div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-          onClick={() => {}}
+          onClick={handleNewOrder}
         >
           Place Order
         </button>

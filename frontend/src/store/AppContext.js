@@ -10,7 +10,7 @@ export const AppContext = createContext({
 export const AppContextProvider = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isFiltered, setIsFiltered] = useState(false);
-  const [scentQuants, setscentQuants] = useState([]);
+  const [quantities, setQuantities] = useState([]);
 
   const handleDate = (date) => {
     setSelectedDate(date);
@@ -21,8 +21,8 @@ export const AppContextProvider = ({ children }) => {
     setIsFiltered(status);
   };
 
-  const handleScentQuants = (quants) => {
-    setscentQuants(quants);
+  const handleQuants = (quants) => {
+    setQuantities(quants);
   };
 
   return (
@@ -32,8 +32,8 @@ export const AppContextProvider = ({ children }) => {
         handleDate,
         isFiltered,
         handleFilter,
-        scentQuants,
-        handleScentQuants,
+        quantities,
+        handleQuants,
       }}
     >
       {children}

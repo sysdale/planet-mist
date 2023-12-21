@@ -18,3 +18,28 @@
     }
   ]
 }
+
+// const newOrderData = {
+//   data: {
+//     date: "2010-12-08",
+//     buyerID_fk: {
+//       id: 3,
+//     },
+//     order_details: {
+//       data: [
+//         {
+//           quantity: 12,
+//           scentID_fk: {
+//             id: 6,
+//           },
+//         },
+//         {
+//           quantity: 14,
+//           scentID_fk: {
+//             id: 7,
+//           },
+//         },
+//       ],
+//     },
+//   },
+// };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { AppContext } from "../../store/AppContext";
 
@@ -9,7 +9,11 @@ const mlMapping = {
 };
 
 const ScentsTable = ({ data }) => {
-  const [quantities, setQuantities] = useState({});
+  const { quantities, handleQuants } = useContext(AppContext);
+
+  const uniqueSKUs = Array.from(
+    new Set(data.map((scent) => scent.attributes.SKU_fk.data.id))
+  );
 
   const handleQuantity = (sku, milliLts, value) => {
     //getting the scentID
@@ -19,7 +23,7 @@ const ScentsTable = ({ data }) => {
         scent.attributes.milliLts === mlMapping[milliLts]
     ).id;
 
-    setQuantities((prevQuantities) => ({
+    handleQuants((prevQuantities) => ({
       ...prevQuantities,
       [sku]: {
         ...prevQuantities[sku],
@@ -29,14 +33,7 @@ const ScentsTable = ({ data }) => {
     }));
   };
 
-  const handleAddToCart = () => {
-    console.log("Quantities:", quantities);
-  };
-
   // Extract unique SKUs
-  const uniqueSKUs = Array.from(
-    new Set(data.map((scent) => scent.attributes.SKU_fk.data.id))
-  );
 
   return (
     <>
@@ -96,9 +93,6 @@ const ScentsTable = ({ data }) => {
                       handleQuantity(sku, "fiftyml", e.target.value)
                     }
                   />
-                </td>
-                <td>
-                  <FaCartPlus onClick={handleAddToCart} />
                 </td>
               </tr>
             );
