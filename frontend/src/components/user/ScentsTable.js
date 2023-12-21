@@ -33,8 +33,6 @@ const ScentsTable = ({ data }) => {
     }));
   };
 
-  // Extract unique SKUs
-
   return (
     <>
       <div className="text-xl font-bold">Scents Details</div>

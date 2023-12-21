@@ -4,6 +4,7 @@ import { RxReset } from "react-icons/rx";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
+import { format } from "date-fns";
 import { AppContext } from "../../store/AppContext";
 
 const query = qs.stringify(
@@ -25,11 +26,16 @@ const typeMap = {
   sku: "number",
 };
 
+const dateFormat = "yyyy-MM-dd";
+const formattedDate = format(new Date(), dateFormat);
+
 const BuyerOrder = () => {
   const [scentInput, setScentInput] = useState(initState);
   const [scentsList, setScentsList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [transformedOrder, setTransformedOrder] = useState([]);
+
   const { quantities } = useContext(AppContext);
   const { id } = useParams();
 
@@ -85,9 +91,38 @@ const BuyerOrder = () => {
     setScentInput(initState);
   };
 
-  const handleNewOrder = () => {
+  const handleNewOrder = (e) => {
+    e.preventDefault();
+
+    const transformedOrder = Object.keys(quantities).flatMap((sku) => {
+      return Object.keys(quantities[sku])
+        .filter((key) => !isNaN(Number(key)))
+        .map((scentID) => ({
+          quantity: quantities[sku][scentID],
+          scentID_fk: {
+            id: Number(scentID),
+          },
+        }));
+    });
+
+    setTransformedOrder({
+      order_details: {
+        data: transformedOrder,
+      },
+    });
+
+    console.log(transformedOrder);
+
+    const payload = {
+      date: formattedDate,
+      buyerID_fk: 3,
+      detailsArray: transformedOrder,
+    };
+
     try {
-      console.log(quantities);
+      axios
+        .post(process.env.REACT_APP_API_POSTORDER, payload)
+        .then((response) => console.log(response));
     } catch (e) {
       console.error(e);
     }
