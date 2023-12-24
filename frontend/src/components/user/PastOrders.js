@@ -26,6 +26,10 @@ const query = qs.stringify(
   }
 );
 
+const formatter = new Intl.NumberFormat("en-IN", {
+  maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
+
 const PastOrders = () => {
   const { state } = useLocation();
 
@@ -125,7 +129,9 @@ const PastOrders = () => {
 
                         {/* Price */}
                         <td>
-                          {detail.attributes.scentID_fk.data.attributes.price}
+                          {formatter.format(
+                            detail.attributes.scentID_fk.data.attributes.price
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -135,6 +141,7 @@ const PastOrders = () => {
             ))}
         </>
       )}
+      {console.log(pastOrders)}
     </>
   );
 };

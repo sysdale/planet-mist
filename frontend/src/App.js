@@ -8,13 +8,15 @@ import {
   Login,
   PastOrders,
   BuyerHomePage,
-  ScentsTable,
   AdminHomePage,
   MasterTable,
   Invoices,
   TodaysOrders,
   AllOrders,
   HomePage,
+  TodayInvoice,
+  PastTenDaysInvoice,
+  InvoiceDetails,
 } from "./listing";
 
 const router = createBrowserRouter([
@@ -66,7 +68,24 @@ const router = createBrowserRouter([
               },
             ],
           },
-          { path: "invoices/:id", element: <Invoices /> },
+          {
+            path: "invoices",
+            element: <Outlet />,
+            children: [
+              {
+                element: <Invoices />,
+                index: true,
+              },
+              {
+                path: "today",
+                element: <TodayInvoice />,
+              },
+              {
+                path: "past",
+                element: <PastTenDaysInvoice />,
+              },
+            ],
+          },
           { path: "mastertable", element: <MasterTable /> },
         ],
       },

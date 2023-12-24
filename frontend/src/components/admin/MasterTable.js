@@ -1,97 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const perfumeData = [
-  {
-    sku: 1,
-    name: "Bright Crystal",
-    purchasedML: 500,
-    costPerVisit: 8750,
-    literCost: 17500,
-    zoCulture: 350,
-    yesfir: 350,
-    tropicalMist: 280,
-    testers: 35,
-  },
-  {
-    sku: 2,
-    name: "Envy",
-    purchasedML: 200,
-    costPerVisit: 5000,
-    literCost: 25000,
-    zoCulture: 500,
-    yesfir: 500,
-    tropicalMist: 400,
-    testers: 50,
-  },
-  {
-    sku: 3,
-    name: "Flora",
-    purchasedML: 200,
-    costPerVisit: 4000,
-    literCost: 20000,
-    zoCulture: 400,
-    yesfir: 400,
-    tropicalMist: 320,
-    testers: 40,
-  },
-  {
-    sku: 4,
-    name: "Herrera for Men",
-    purchasedML: 1000,
-    costPerVisit: 1000,
-    literCost: 1000,
-    zoCulture: 20,
-    yesfir: 20,
-    tropicalMist: 16,
-    testers: 2,
-  },
-  {
-    sku: 5,
-    name: "1 million",
-    purchasedML: 1000,
-    costPerVisit: 1000,
-    literCost: 1000,
-    zoCulture: 20,
-    yesfir: 20,
-    tropicalMist: 16,
-    testers: 2,
-  },
-  {
-    sku: 6,
-    name: "Mr. Burberry",
-    purchasedML: 200,
-    costPerVisit: 4800,
-    literCost: 24000,
-    zoCulture: 480,
-    yesfir: 480,
-    tropicalMist: 384,
-    testers: 48,
-  },
-  {
-    sku: 7,
-    name: "Chance Eau De Tendre",
-    purchasedML: 300,
-    costPerVisit: 8400,
-    literCost: 28000,
-    zoCulture: 560,
-    yesfir: 560,
-    tropicalMist: 448,
-    testers: 56,
-  },
-  {
-    sku: 8,
-    name: "Aventus for Her",
-    purchasedML: 200,
-    costPerVisit: 5500,
-    literCost: 27500,
-    zoCulture: 550,
-    yesfir: 550,
-    tropicalMist: 440,
-    testers: 55,
-  },
-];
-
 const qs = require("qs");
 const query = qs.stringify(
   {
@@ -101,6 +10,10 @@ const query = qs.stringify(
     encodeValuesOnly: true,
   }
 );
+
+const formatter = new Intl.NumberFormat("en-IN", {
+  maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+});
 
 const PerfumeTable = () => {
   const [masterData, setMasterData] = useState([]);
@@ -242,8 +155,8 @@ const PerfumeTable = () => {
                   <td>{perfume.attributes.SKU_fk.data.id}</td>
                   <td>{perfume.attributes.SKU_fk.data.attributes.name}</td>
                   <td>{perfume.attributes.purchasedML}</td>
-                  <td>{perfume.attributes.costEveryVisit}</td>
-                  <td>{perfume.attributes.literCost}</td>
+                  <td>{formatter.format(perfume.attributes.costEveryVisit)}</td>
+                  <td>{formatter.format(perfume.attributes.literCost)}</td>
 
                   {/* buyers information here */}
                   {buyersList.map((item) => (
