@@ -32,13 +32,14 @@ const formatter = new Intl.NumberFormat("en-IN", {
 
 const PastOrders = () => {
   const { state } = useLocation();
-
   const buyerID = state?.buyerID || null;
   const dateFilter = state?.dateFilter || null;
-
+  const invoicedStatus = state?.invoicedStatus || null;
   const { id } = useParams() || { id: buyerID };
+
   const [pastOrders, setPastOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [processedData, setProcessedData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +48,8 @@ const PastOrders = () => {
           `${process.env.REACT_APP_API_BUYERS}/${id}?${query}`
         );
         setPastOrders(response.data.data);
+        const transformed = processOrderData(response.data.data);
+        setProcessedData(transformed);
       } catch (e) {
         console.error(e);
       }
@@ -56,6 +59,39 @@ const PastOrders = () => {
     fetchData();
   }, []);
 
+  const processOrderData = (data) => {
+    const processedOrders = [];
+
+    data.attributes.orders.data.forEach((order) => {
+      const processedObject = {};
+
+      order.attributes.order_details.data.forEach((detail) => {
+        const skuID =
+          detail.attributes.scentID_fk.data.attributes.SKU_fk.data.id;
+        const milliLts = detail.attributes.scentID_fk.data.attributes.milliLts;
+
+        if (!processedObject[skuID]) {
+          processedObject[skuID] = {
+            scentIDs: {},
+            name: detail.attributes.scentID_fk.data.attributes.SKU_fk.data
+              .attributes.name,
+            quantities: {},
+            totalPrice: 0,
+          };
+        }
+
+        processedObject[skuID].quantities[milliLts] =
+          detail.attributes.quantity;
+        processedObject[skuID].totalPrice +=
+          detail.attributes.quantity *
+          detail.attributes.scentID_fk.data.attributes.price;
+      });
+
+      processedOrders.push(processedObject);
+    });
+
+    return processedOrders;
+  };
   return (
     <>
       {isLoading ? (
@@ -72,66 +108,40 @@ const PastOrders = () => {
             .filter((order) =>
               dateFilter ? order.attributes.date === dateFilter : true
             )
-            .map((order) => (
+            .map((order, index) => (
               <div key={order.id}>
                 <div>
                   Order #{order.id} placed on {order.attributes.date}
                 </div>
                 <table className="table-auto text-center border-separate py-3">
                   <thead>
-                    <tr key={order.id}>
+                    <tr>
                       <th>SKU</th>
                       <th>Name</th>
-                      <th>5ML</th>
-                      <th>30ML</th>
-                      <th>50ML</th>
-                      <th>Price</th>
+                      <th>5ml</th>
+                      <th>16ml</th>
+                      <th>20ml</th>
+                      <th>Scents Count</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {order.attributes.order_details.data.map((detail) => (
-                      <tr key={detail.id}>
-                        {/* SKU */}
+                    {Object.keys(processedData[index]).map((skuID) => (
+                      <tr key={skuID}>
+                        <td>{skuID}</td>
+                        <td>{processedData[index][skuID].name}</td>
                         <td>
-                          {
-                            detail.attributes.scentID_fk.data.attributes.SKU_fk
-                              .data.id
-                          }
+                          {processedData[index][skuID].quantities[2] || "-"}
                         </td>
-                        {/* Name */}
                         <td>
-                          {
-                            detail.attributes.scentID_fk.data.attributes.SKU_fk
-                              .data.attributes.name
-                          }
+                          {processedData[index][skuID].quantities[16] || "-"}
                         </td>
-
-                        {/* 5ML */}
                         <td>
-                          {detail.attributes.scentID_fk.data.attributes
-                            .milliLts === 2 &&
-                            (detail.attributes.quantity || "-")}
+                          {processedData[index][skuID].quantities[20] || "-"}
                         </td>
-
-                        {/* 30ML */}
                         <td>
-                          {detail.attributes.scentID_fk.data.attributes
-                            .milliLts === 16 &&
-                            (detail.attributes.quantity || "-")}
-                        </td>
-
-                        {/* 50ML */}
-                        <td>
-                          {detail.attributes.scentID_fk.data.attributes
-                            .milliLts === 20 &&
-                            (detail.attributes.quantity || "-")}
-                        </td>
-
-                        {/* Price */}
-                        <td>
-                          {formatter.format(
-                            detail.attributes.scentID_fk.data.attributes.price
-                          )}
+                          {Object.values(
+                            processedData[index][skuID].quantities
+                          ).reduce((acc, qt) => acc + qt, 0)}
                         </td>
                       </tr>
                     ))}
@@ -141,7 +151,6 @@ const PastOrders = () => {
             ))}
         </>
       )}
-      {console.log(pastOrders)}
     </>
   );
 };

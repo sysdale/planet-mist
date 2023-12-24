@@ -25,15 +25,13 @@ const TodayInvoice = () => {
 
   const handleInvoiceClick = (buyerID) => {
     const url = `./${buyerID}`;
-    console.log(url);
 
     //creating date format
     const dateFormat = "yyyy-MM-dd";
     const formattedDate = format(new Date(), dateFormat);
     console.log(formattedDate);
 
-    //navigate(url, { state: { buyerID, dateFilter: formattedDate } });
-    //navigate(url);
+    navigate(url, { state: { buyerID, dateFilter: formattedDate } });
   };
 
   return (
