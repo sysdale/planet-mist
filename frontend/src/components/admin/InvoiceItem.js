@@ -54,8 +54,6 @@ const InvoiceItem = () => {
         setPastOrders(response.data.data);
         const transformed = processOrderData(response.data.data);
         setProcessedData(transformed);
-
-        calculateTotals(response.data.data);
       } catch (e) {
         console.error(e);
       } finally {
@@ -65,6 +63,12 @@ const InvoiceItem = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (processedData.length > 0) {
+      calculateTotals(pastOrders);
+    }
+  }, [processedData]);
 
   const processOrderData = (data) => {
     const processedOrders = [];
@@ -155,7 +159,7 @@ const InvoiceItem = () => {
             Welcome, {pastOrders.attributes.buyerName}
           </div>
 
-          <div className="text-xl font-bold pb-4">Order History</div>
+          <div className="text-xl font-bold pb-4">Invoice History</div>
 
           {pastOrders.attributes.orders.data
             .filter((order) =>
