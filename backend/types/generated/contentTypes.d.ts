@@ -892,6 +892,10 @@ export interface ApiOrderDetailOrderDetail extends Schema.CollectionType {
       'manyToOne',
       'api::order.order'
     >;
+    price: Attribute.Decimal &
+      Attribute.SetMinMax<{
+        min: 0;
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1002,28 +1006,6 @@ export interface ApiScentListScentList extends Schema.CollectionType {
   };
 }
 
-export interface ApiTodoTodo extends Schema.CollectionType {
-  collectionName: 'todos';
-  info: {
-    singularName: 'todo';
-    pluralName: 'todos';
-    displayName: 'Todo';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    description: Attribute.Text;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::todo.todo', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::todo.todo', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1047,7 +1029,6 @@ declare module '@strapi/types' {
       'api::order-detail.order-detail': ApiOrderDetailOrderDetail;
       'api::scent-data.scent-data': ApiScentDataScentData;
       'api::scent-list.scent-list': ApiScentListScentList;
-      'api::todo.todo': ApiTodoTodo;
     }
   }
 }

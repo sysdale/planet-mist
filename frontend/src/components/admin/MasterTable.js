@@ -57,6 +57,7 @@ const PerfumeTable = () => {
         );
 
         setScentsData(response.data.data);
+        console.log(response.data.data);
       } catch (e) {
         console.log(e);
       }
@@ -66,23 +67,21 @@ const PerfumeTable = () => {
     fetchScentsData();
   }, []);
 
-  // const updateScentsDataBackend = async (updatedScents) => {
-  //   const payload = {
-  //     data: {
-  //       price: updatedScents.attributes.price,
-  //     },
-  //   };
+  const updateScentsDataBackend = async (updatedScents) => {
+    const payload = {
+      data: {
+        price: updatedScents.attributes.price,
+      },
+    };
 
-  //   try {
-  //     await axios.put(process.env.REACT_APP_API_SCENTDATAS, payload);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+    try {
+      await axios.put(process.env.REACT_APP_API_SCENTDATAS, payload);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleMTEdit = async () => {
-    console.log(masterData);
-
     const updatedScents = scentsData.map((perfume) => {
       const current = masterData.find(
         (masterRow) =>
@@ -118,49 +117,60 @@ const PerfumeTable = () => {
       ) : (
         <>
           <div className="text-xl font-bold pb-4">Master Sheet</div>
+          <div className="flex space-x-2">
+            <button
+              onClick={handleNewScent}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+            >
+              Add new Scent
+            </button>
 
-          <button
-            onClick={handleNewScent}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
-          >
-            Add new Scent
-          </button>
+            <button
+              onClick={handleMTEdit}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+            >
+              Edit Master Table
+            </button>
+          </div>
 
-          <button
-            onClick={handleMTEdit}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
-          >
-            Edit Master Table
-          </button>
-
-          <table className="table-auto border-separate text-center border-spacing-x-4">
+          <table className="table-auto text-center border-collapse py-3">
             <thead>
               <tr>
-                <th>SKU</th>
-                <th>Name</th>
-                <th>Purchased ML</th>
-                <th>Cost Per Visit</th>
-                <th>Liter Cost</th>
+                <th className="border p-3">SKU</th>
+                <th className="border p-3">Name</th>
+                <th className="border p-3">Purchased ML</th>
+                <th className="border p-3">Cost Per Visit</th>
+                <th className="border p-3">Liter Cost</th>
                 {buyersList.map((item) => (
-                  <th key={item.id}>
+                  <th key={item.id} className="border p-3">
                     {item.attributes.buyerName}-{item.attributes.group}
                   </th>
                 ))}
-                <th>Testers (5ml)</th>
+                <th className="border p-3">Testers (5ml)</th>
               </tr>
             </thead>
             <tbody>
               {masterData.map((perfume) => (
                 <tr key={perfume.id}>
-                  <td>{perfume.attributes.SKU_fk.data.id}</td>
-                  <td>{perfume.attributes.SKU_fk.data.attributes.name}</td>
-                  <td>{perfume.attributes.purchasedML}</td>
-                  <td>{formatter.format(perfume.attributes.costEveryVisit)}</td>
-                  <td>{formatter.format(perfume.attributes.literCost)}</td>
+                  <td className="border p-3">
+                    {perfume.attributes.SKU_fk.data.id}
+                  </td>
+                  <td className="border p-3">
+                    {perfume.attributes.SKU_fk.data.attributes.name}
+                  </td>
+                  <td className="border p-3">
+                    {perfume.attributes.purchasedML}
+                  </td>
+                  <td className="border p-3">
+                    {formatter.format(perfume.attributes.costEveryVisit)}
+                  </td>
+                  <td className="border p-3">
+                    {formatter.format(perfume.attributes.literCost)}
+                  </td>
 
                   {/* buyers information here */}
                   {buyersList.map((item) => (
-                    <td key={item.id}>
+                    <td className="border p-3" key={item.id}>
                       {item.attributes.group === 20 ||
                       item.attributes.group === 16
                         ? (perfume.attributes.literCost / 1000) *
@@ -169,7 +179,9 @@ const PerfumeTable = () => {
                     </td>
                   ))}
 
-                  <td>{(perfume.attributes.literCost / 1000) * 2}</td>
+                  <td className="border p-3">
+                    {(perfume.attributes.literCost / 1000) * 2}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const HomePage = () => {
   };
 
   const navBuyer = () => {
-    navigate("/buyer");
+    navigate("/buyer/3");
   };
 
   return (

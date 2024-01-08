@@ -34,6 +34,7 @@ const PastOrders = () => {
   const { state } = useLocation();
   const buyerID = state?.buyerID || null;
   const dateFilter = state?.dateFilter || null;
+  console.log(dateFilter);
   const invoicedStatus = state?.invoicedStatus || null;
   const { id } = useParams() || { id: buyerID };
 
@@ -48,7 +49,7 @@ const PastOrders = () => {
           `${process.env.REACT_APP_API_BUYERS}/${id}?${query}`
         );
         setPastOrders(response.data.data);
-        const transformed = processOrderData(response.data.data);
+        const transformed = processOrderData(response.data.data, dateFilter);
         setProcessedData(transformed);
       } catch (e) {
         console.error(e);
@@ -59,35 +60,38 @@ const PastOrders = () => {
     fetchData();
   }, []);
 
-  const processOrderData = (data) => {
+  const processOrderData = (data, filterDate) => {
     const processedOrders = [];
 
     data.attributes.orders.data.forEach((order) => {
-      const processedObject = {};
+      if (!filterDate || order.attributes.date === filterDate) {
+        const processedObject = {};
 
-      order.attributes.order_details.data.forEach((detail) => {
-        const skuID =
-          detail.attributes.scentID_fk.data.attributes.SKU_fk.data.id;
-        const milliLts = detail.attributes.scentID_fk.data.attributes.milliLts;
+        order.attributes.order_details.data.forEach((detail) => {
+          const skuID =
+            detail.attributes.scentID_fk.data.attributes.SKU_fk.data.id;
+          const milliLts =
+            detail.attributes.scentID_fk.data.attributes.milliLts;
 
-        if (!processedObject[skuID]) {
-          processedObject[skuID] = {
-            scentIDs: {},
-            name: detail.attributes.scentID_fk.data.attributes.SKU_fk.data
-              .attributes.name,
-            quantities: {},
-            totalPrice: 0,
-          };
-        }
+          if (!processedObject[skuID]) {
+            processedObject[skuID] = {
+              scentIDs: {},
+              name: detail.attributes.scentID_fk.data.attributes.SKU_fk.data
+                .attributes.name,
+              quantities: {},
+              totalPrice: 0,
+            };
+          }
 
-        processedObject[skuID].quantities[milliLts] =
-          detail.attributes.quantity;
-        processedObject[skuID].totalPrice +=
-          detail.attributes.quantity *
-          detail.attributes.scentID_fk.data.attributes.price;
-      });
+          processedObject[skuID].quantities[milliLts] =
+            detail.attributes.quantity;
+          processedObject[skuID].totalPrice +=
+            detail.attributes.quantity *
+            detail.attributes.scentID_fk.data.attributes.price;
+        });
 
-      processedOrders.push(processedObject);
+        processedOrders.push(processedObject);
+      }
     });
 
     return processedOrders;
@@ -105,6 +109,7 @@ const PastOrders = () => {
           <div className="text-xl font-bold pb-4">Order History</div>
 
           {pastOrders.attributes.orders.data
+            .sort((item) => item.id)
             .filter((order) =>
               dateFilter ? order.attributes.date === dateFilter : true
             )
@@ -113,32 +118,34 @@ const PastOrders = () => {
                 <div>
                   Order #{order.id} placed on {order.attributes.date}
                 </div>
-                <table className="table-auto text-center border-separate py-3">
+                <table className="table-auto text-center border-collapse py-3">
                   <thead>
                     <tr>
-                      <th>SKU</th>
-                      <th>Name</th>
-                      <th>5ml</th>
-                      <th>16ml</th>
-                      <th>20ml</th>
-                      <th>Scents Count</th>
+                      <th className="border p-3">SKU</th>
+                      <th className="border p-3">Name</th>
+                      <th className="border p-3">5ml</th>
+                      <th className="border p-3">16ml</th>
+                      <th className="border p-3">20ml</th>
+                      <th className="border p-3">Scents Count</th>
                     </tr>
                   </thead>
                   <tbody>
                     {Object.keys(processedData[index]).map((skuID) => (
                       <tr key={skuID}>
-                        <td>{skuID}</td>
-                        <td>{processedData[index][skuID].name}</td>
-                        <td>
+                        <td className="border p-2">{skuID}</td>
+                        <td className="border p-2">
+                          {processedData[index][skuID].name}
+                        </td>
+                        <td className="border p-2">
                           {processedData[index][skuID].quantities[2] || "-"}
                         </td>
-                        <td>
+                        <td className="border p-2">
                           {processedData[index][skuID].quantities[16] || "-"}
                         </td>
-                        <td>
+                        <td className="border p-2">
                           {processedData[index][skuID].quantities[20] || "-"}
                         </td>
-                        <td>
+                        <td className="border p-2">
                           {Object.values(
                             processedData[index][skuID].quantities
                           ).reduce((acc, qt) => acc + qt, 0)}
@@ -148,18 +155,22 @@ const PastOrders = () => {
                   </tbody>
                 </table>
                 <div className="mt-3">
-                  Total Scents Ordered:{" "}
-                  {Object.values(processedData[index]).reduce(
-                    (acc, sku) =>
-                      acc +
-                      Object.values(sku.quantities).reduce(
-                        (accQt, qt) => accQt + qt,
-                        0
-                      ),
-                    0
-                  )}
+                  <div className="font-semibold">
+                    Total Scents Ordered:{" "}
+                    {Object.values(processedData[index]).reduce(
+                      (acc, sku) =>
+                        acc +
+                        Object.values(sku.quantities).reduce(
+                          (accQt, qt) => accQt + qt,
+                          0
+                        ),
+                      0
+                    )}
+                  </div>
                 </div>
-                {"----------------------------------------------------------"}
+                {
+                  "-----------------------------------------------------------------------------"
+                }
               </div>
             ))}
         </>

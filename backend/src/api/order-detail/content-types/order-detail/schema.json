@@ -29,6 +29,11 @@
       "relation": "manyToOne",
       "target": "api::order.order",
       "inversedBy": "order_details"
+    },
+    "price": {
+      "type": "decimal",
+      "required": false,
+      "min": 0
     }
   }
 }

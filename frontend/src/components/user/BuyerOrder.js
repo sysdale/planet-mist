@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import ScentsTable from "./ScentsTable";
 import { RxReset } from "react-icons/rx";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import qs from "qs";
 import { format } from "date-fns";
 import { AppContext } from "../../store/AppContext";
+import "react-toastify/dist/ReactToastify.css";
 
 const query = qs.stringify(
   {
@@ -29,12 +31,21 @@ const typeMap = {
 const dateFormat = "yyyy-MM-dd";
 const formattedDate = format(new Date(), dateFormat);
 
+const showToastMessage = () => {
+  toast.success("Order Successfully Added!", {
+    position: toast.POSITION.TOP_RIGHT,
+    autoClose: 2000,
+    toastId: "sxs1",
+  });
+};
+
 const BuyerOrder = () => {
   const [scentInput, setScentInput] = useState(initState);
   const [scentsList, setScentsList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [transformedOrder, setTransformedOrder] = useState([]);
+  const navigate = useNavigate();
 
   const { quantities } = useContext(AppContext);
   const { id } = useParams();
@@ -122,10 +133,13 @@ const BuyerOrder = () => {
     try {
       axios
         .post(process.env.REACT_APP_API_POSTORDER, payload)
-        .then((response) => console.log(response));
+        .then((response) => {
+          console.log(response);
+        });
     } catch (e) {
       console.error(e);
     }
+    showToastMessage();
   };
 
   return (
@@ -181,6 +195,7 @@ const BuyerOrder = () => {
         >
           Place Order
         </button>
+        <ToastContainer />
       </div>
     </>
   );
