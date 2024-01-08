@@ -212,9 +212,12 @@ const InvoiceItem = () => {
                       <div>
                         Total Ethanol Cost: {formatter.format(totalEthanolCost)}
                       </div>
-                      <div>Final Bill: {formatter.format(finalTotal)}</div>
+                      <div className="font-semibold">
+                        Final Bill: {formatter.format(finalTotal)}
+                      </div>
                     </div>
                   </div>
+                  {"----------------------------------------------------------"}
                 </div>
               );
             })}

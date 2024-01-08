@@ -147,6 +147,19 @@ const PastOrders = () => {
                     ))}
                   </tbody>
                 </table>
+                <div className="mt-3">
+                  Total Scents Ordered:{" "}
+                  {Object.values(processedData[index]).reduce(
+                    (acc, sku) =>
+                      acc +
+                      Object.values(sku.quantities).reduce(
+                        (accQt, qt) => accQt + qt,
+                        0
+                      ),
+                    0
+                  )}
+                </div>
+                {"----------------------------------------------------------"}
               </div>
             ))}
         </>
