@@ -896,6 +896,11 @@ export interface ApiOrderDetailOrderDetail extends Schema.CollectionType {
       Attribute.SetMinMax<{
         min: 0;
       }>;
+    SKU_fk: Attribute.Relation<
+      'api::order-detail.order-detail',
+      'manyToOne',
+      'api::scent-data.scent-data'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -938,6 +943,11 @@ export interface ApiScentDataScentData extends Schema.CollectionType {
       'api::scent-list.scent-list'
     >;
     order_details: Attribute.Relation<
+      'api::scent-data.scent-data',
+      'oneToMany',
+      'api::order-detail.order-detail'
+    >;
+    orderDetails: Attribute.Relation<
       'api::scent-data.scent-data',
       'oneToMany',
       'api::order-detail.order-detail'

@@ -15,9 +15,9 @@ module.exports = createCoreController(
         const { date, buyerID_fk, detailsArray } = ctx.request.body;
 
         const currentOrderDetail = await Promise.all(
-          detailsArray.map(({ quantity, scentID_fk }) =>
+          detailsArray.map(({ quantity, scentID_fk, price }) =>
             strapi.entityService.create("api::order-detail.order-detail", {
-              data: { quantity, scentID_fk },
+              data: { quantity, scentID_fk, price },
             })
           )
         );

@@ -32,6 +32,12 @@
       "relation": "oneToMany",
       "target": "api::order-detail.order-detail",
       "mappedBy": "scentID_fk"
+    },
+    "orderDetails": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-detail.order-detail",
+      "mappedBy": "SKU_fk"
     }
   }
 }

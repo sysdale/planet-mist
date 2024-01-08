@@ -16,5 +16,5 @@ export { default as AllOrders } from "./components/admin/AllOrders";
 export { default as DateSelector } from "./components/admin/DateSelector";
 export { default as TodayInvoice } from "./pages/TodayInvoice";
 export { default as PastTenDaysInvoice } from "./components/admin/PastTenDaysInvoice";
-export { default as InvoiceDetails } from "./components/admin/InvoiceDetails";
+
 export { default as InvoiceItem } from "./components/admin/InvoiceItem";

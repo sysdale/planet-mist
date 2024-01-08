@@ -59,7 +59,7 @@ const TodayInvoice = () => {
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
                       onClick={() => handleInvoiceClick(buyer.id)}
                     >
-                      View All
+                      View
                     </button>
                   </td>
                   <td></td>

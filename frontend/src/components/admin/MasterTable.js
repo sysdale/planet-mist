@@ -105,6 +105,7 @@ const PerfumeTable = () => {
     });
 
     setScentsData(updatedScents);
+
     console.log(updatedScents);
   };
 

@@ -45,6 +45,7 @@ const BuyerOrder = () => {
   const [filteredList, setFilteredList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [transformedOrder, setTransformedOrder] = useState([]);
+  const [masterTableData, setMasterTableData] = useState([]);
   const navigate = useNavigate();
 
   const { quantities } = useContext(AppContext);
@@ -65,7 +66,22 @@ const BuyerOrder = () => {
       }
     };
 
+    const getMasterTable = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_MASTERTABLE}?${query}`
+        );
+
+        setMasterTableData(response.data.data);
+        console.log(response.data.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getAllScents();
+    getMasterTable();
   }, []);
 
   const handleChange = (e) => {
@@ -108,27 +124,54 @@ const BuyerOrder = () => {
     const transformedOrder = Object.keys(quantities).flatMap((sku) => {
       return Object.keys(quantities[sku])
         .filter((key) => !isNaN(Number(key)))
-        .map((scentID) => ({
-          quantity: quantities[sku][scentID],
-          scentID_fk: {
-            id: Number(scentID),
-          },
-        }));
+        .map((scentID) => {
+          const masterTableRow = masterTableData.find(
+            (row) => row.attributes.SKU_fk.data.id === parseInt(sku)
+          );
+
+          // Find the corresponding entry in scentsList
+          const scentEntry = scentsList.find(
+            (scent) => scent.id === parseInt(scentID)
+          );
+
+          if (masterTableRow && scentEntry) {
+            const price =
+              (masterTableRow.attributes.costEveryVisit /
+                masterTableRow.attributes.purchasedML) *
+              scentEntry.attributes.milliLts;
+
+            return {
+              quantity: quantities[sku][scentID],
+              scentID_fk: {
+                id: Number(scentID),
+              },
+              price: price,
+            };
+          } else {
+            // Handle the case where either masterTableRow or scentEntry is not found
+            return null;
+          }
+        });
     });
+
+    // Remove null entries if any
+    const validTransformedOrder = transformedOrder.filter(Boolean);
 
     setTransformedOrder({
       order_details: {
-        data: transformedOrder,
+        data: validTransformedOrder,
       },
     });
 
-    console.log(transformedOrder);
+    console.log(validTransformedOrder);
 
     const payload = {
       date: formattedDate,
       buyerID_fk: 3,
       detailsArray: transformedOrder,
     };
+
+    console.log(payload);
 
     try {
       axios
