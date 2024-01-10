@@ -23,6 +23,7 @@ function AddBuyer() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     setNewBuyer(initFields);
     addBuyer();
     showToastMessage();
@@ -76,6 +77,7 @@ function AddBuyer() {
             <input
               name="buyerName"
               type="text"
+              required
               placeholder="Enter name"
               value={newBuyer.buyerName}
               className="border-2 border-slate-500"
