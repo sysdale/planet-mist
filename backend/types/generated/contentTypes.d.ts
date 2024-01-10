@@ -691,11 +691,7 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
   attributes: {
     buyerName: Attribute.String;
     email: Attribute.Email & Attribute.Required & Attribute.Unique;
-    password: Attribute.Password &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        minLength: 6;
-      }>;
+    password: Attribute.Password & Attribute.Required;
     type: Attribute.String & Attribute.DefaultTo<'user'>;
     orders: Attribute.Relation<
       'api::buyer.buyer',

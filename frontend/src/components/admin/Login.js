@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 const Login = () => {
-  const initFields = { email: "", password: "" };
+  const initFields = { username: "", password: "" };
   const [credentials, setCredentials] = useState(initFields);
 
   const navigate = useNavigate();
@@ -14,20 +14,23 @@ const Login = () => {
     console.log(credentials);
 
     const payload = {
-      data: {
-        email: credentials.email,
-        password: credentials.password,
-      },
+      identifier: credentials.username,
+      password: credentials.password,
     };
 
     axios
-      .post(process.env.REACT_APP_API_BUYERS, payload)
+      .post("http://localhost:1337/api/auth/local", payload)
       .then((response) => {
-        console.log(response.data.user);
-        console.log(response.data.jwt);
+        // Handle success.
+        console.log("User profile", response.data.user.id);
+        console.log("User token", response.data.jwt);
+        navigate(`/buyer/${response.data.user.id}`, {
+          state: { buyerID: response.data.user.id },
+        });
       })
       .catch((error) => {
-        console.log("An error occurred!", error.response);
+        // Handle error.
+        console.log("An error occurred:", error.response);
       });
   };
 
@@ -45,19 +48,19 @@ const Login = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="flex-col">
-          <label>Email</label>
+          <label className="font-semibold">Username</label>
           <div>
             <input
-              name="email"
+              name="username"
               type="text"
-              placeholder="Enter email"
-              value={credentials.email}
+              placeholder="Enter username"
+              value={credentials.username}
               className="border-2 border-slate-500"
               onChange={handleChange}
             />
           </div>
 
-          <label>Password</label>
+          <label className="font-semibold">Password</label>
           <div>
             <input
               name="password"

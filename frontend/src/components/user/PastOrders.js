@@ -49,6 +49,7 @@ const PastOrders = () => {
           `${process.env.REACT_APP_API_BUYERS}/${id}?${query}`
         );
         setPastOrders(response.data.data);
+        console.log(response.data.data);
         const transformed = processOrderData(response.data.data, dateFilter);
         setProcessedData(transformed);
       } catch (e) {
