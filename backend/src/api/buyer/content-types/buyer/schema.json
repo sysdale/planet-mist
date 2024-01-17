@@ -37,12 +37,6 @@
       "target": "api::order.order",
       "mappedBy": "buyerID_fk"
     },
-    "invoices": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::invoice.invoice",
-      "mappedBy": "buyerID_fk"
-    },
     "group": {
       "type": "integer",
       "default": 20

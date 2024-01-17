@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       { index: true, element: <Login /> },
       {
         path: "admin",
-        element: <AdminRoute />,
+        //element: <AdminRoute />,
         children: [
           { index: true, element: <AdminHomePage /> },
           { path: "addbuyer", element: <AddBuyer /> },

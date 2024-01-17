@@ -39,7 +39,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(credentials);
+    //console.log(credentials);
     //setCredentials(initFields);
 
     const payload = {

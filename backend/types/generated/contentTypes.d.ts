@@ -698,11 +698,6 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
       'oneToMany',
       'api::order.order'
     >;
-    invoices: Attribute.Relation<
-      'api::buyer.buyer',
-      'oneToMany',
-      'api::invoice.invoice'
-    >;
     group: Attribute.Integer & Attribute.DefaultTo<20>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -715,48 +710,6 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::buyer.buyer',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiInvoiceInvoice extends Schema.CollectionType {
-  collectionName: 'invoices';
-  info: {
-    singularName: 'invoice';
-    pluralName: 'invoices';
-    displayName: 'Invoice';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    buyerID_fk: Attribute.Relation<
-      'api::invoice.invoice',
-      'manyToOne',
-      'api::buyer.buyer'
-    >;
-    orderID_fk: Attribute.Relation<
-      'api::invoice.invoice',
-      'manyToOne',
-      'api::order.order'
-    >;
-    date: Attribute.Date & Attribute.Required;
-    summary: Attribute.JSON;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::invoice.invoice',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::invoice.invoice',
       'oneToOne',
       'admin::user'
     > &
@@ -831,11 +784,6 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'api::order.order',
       'manyToOne',
       'api::buyer.buyer'
-    >;
-    invoices: Attribute.Relation<
-      'api::order.order',
-      'oneToMany',
-      'api::invoice.invoice'
     >;
     order_details: Attribute.Relation<
       'api::order.order',
@@ -1029,7 +977,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::buyer.buyer': ApiBuyerBuyer;
-      'api::invoice.invoice': ApiInvoiceInvoice;
       'api::master-table.master-table': ApiMasterTableMasterTable;
       'api::order.order': ApiOrderOrder;
       'api::order-detail.order-detail': ApiOrderDetailOrderDetail;

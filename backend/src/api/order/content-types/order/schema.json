@@ -22,12 +22,6 @@
       "target": "api::buyer.buyer",
       "inversedBy": "orders"
     },
-    "invoices": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::invoice.invoice",
-      "mappedBy": "orderID_fk"
-    },
     "order_details": {
       "type": "relation",
       "relation": "oneToMany",

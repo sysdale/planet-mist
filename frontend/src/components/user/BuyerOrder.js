@@ -40,6 +40,7 @@ const showToastMessage = () => {
 };
 
 const BuyerOrder = () => {
+  const { user } = useContext(AppContext);
   const [scentInput, setScentInput] = useState(initState);
   const [scentsList, setScentsList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
@@ -73,7 +74,7 @@ const BuyerOrder = () => {
         );
 
         setMasterTableData(response.data.data);
-        console.log(response.data.data);
+        //console.log(response.data.data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -163,15 +164,15 @@ const BuyerOrder = () => {
       },
     });
 
-    console.log(validTransformedOrder);
+    //console.log(validTransformedOrder);
 
     const payload = {
       date: formattedDate,
-      buyerID_fk: 3,
+      buyerID_fk: user.id,
       detailsArray: transformedOrder,
     };
 
-    console.log(payload);
+    //console.log(payload);
 
     try {
       axios
@@ -183,6 +184,8 @@ const BuyerOrder = () => {
       console.error(e);
     }
     showToastMessage();
+
+    //navigate(`/buyer/${user.id}`);
   };
 
   return (

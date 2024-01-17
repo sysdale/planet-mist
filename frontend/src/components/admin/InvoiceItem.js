@@ -117,11 +117,15 @@ const InvoiceItem = () => {
         <p>Loading... Please Wait...</p>
       ) : (
         <>
-          <div className="text-xl pb-5">
+          <div className="text-3xl font-bold pb-5 align-middle">
             Welcome, {pastOrders.attributes.buyerName}
           </div>
 
-          <div className="text-xl font-bold pb-4">Invoice History</div>
+          {pastOrders.attributes.orders.data.length ? (
+            <div className="text-xl font-bold pb-4">Invoice History</div>
+          ) : (
+            <p>No invoices to display</p>
+          )}
 
           {pastOrders.attributes.orders.data
             .filter((order) =>

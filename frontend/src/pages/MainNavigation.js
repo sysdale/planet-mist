@@ -24,12 +24,7 @@ function MainNavigation() {
     <header>
       <nav>
         <div className="flex justify-between bg-blue-200">
-          <button
-            className="text-3xl font-bold px-10"
-            onClick={handleHomeClick}
-          >
-            Planet Mist
-          </button>
+          <button className="text-3xl font-bold px-10">Planet Mist</button>
           <div>
             {jwtToken && (
               <button className="font-bold px-10 " onClick={handleLogout}>

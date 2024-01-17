@@ -86,16 +86,23 @@ function AddBuyer() {
   };
 
   const addBuyer = async () => {
-    try {
-      const payload = {
-        data: {
-          email: newBuyer.email,
-          buyerName: newBuyer.buyerName,
-          password: newBuyer.password,
-          group: newBuyer.group,
-        },
-      };
+    const payload = {
+      data: {
+        email: newBuyer.email,
+        buyerName: newBuyer.buyerName,
+        password: newBuyer.password,
+        group: newBuyer.group,
+      },
+    };
 
+    const usersPayload = {
+      email: newBuyer.email,
+      username: newBuyer.buyerName,
+      password: newBuyer.password,
+      role: "authenticated",
+    };
+
+    try {
       await axios
         .post(process.env.REACT_APP_API_BUYERS, payload)
         .then((response) => {
@@ -109,23 +116,11 @@ function AddBuyer() {
     }
 
     try {
-      const usersPayload = {
-        data: {
-          email: newBuyer.email,
-          username: newBuyer.buyerName,
-          password: newBuyer.password,
-          role: "authenticated",
-        },
-      };
-
       axios
-        .post("process.env.REACT_API_API_REGISTER", usersPayload)
+        .post("http://localhost:1337/api/auth/local/register", usersPayload)
         .then((response) => {
           console.log("User profile", response.data.user);
           console.log("User token", response.data.jwt);
-        })
-        .catch((error) => {
-          console.log("An error occurred:", error.response);
         });
     } catch (error) {
       console.log("Error adding", error);
