@@ -16,7 +16,7 @@ import {
   HomePage,
   TodayInvoice,
   PastTenDaysInvoice,
-  InvoiceDetails,
+  AdminRoute,
   InvoiceItem,
 } from "./listing";
 
@@ -26,9 +26,10 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <Login /> },
       {
         path: "admin",
+        element: <AdminRoute />,
         children: [
           { index: true, element: <AdminHomePage /> },
           { path: "addbuyer", element: <AddBuyer /> },

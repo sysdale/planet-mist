@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
-import { format } from "date-fns";
 
 const mltsValues = [5, 30, 50];
 const query = qs.stringify(
@@ -41,6 +40,7 @@ const PastOrders = () => {
   const [pastOrders, setPastOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [processedData, setProcessedData] = useState([]);
+  const [isPopulated, setIsPopulated] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,8 +52,10 @@ const PastOrders = () => {
         console.log(response.data.data);
         const transformed = processOrderData(response.data.data, dateFilter);
         setProcessedData(transformed);
+        setIsPopulated(true);
       } catch (e) {
         console.error(e);
+        setIsPopulated(false);
       }
       setIsLoading(false);
     };
@@ -101,9 +103,9 @@ const PastOrders = () => {
     <>
       {isLoading ? (
         <p>Loading... Please Wait...</p>
-      ) : (
+      ) : isPopulated ? (
         <>
-          <div className="text-xl pb-5">
+          <div className="text-3xl font-bold pb-5 align-middle">
             Welcome, {pastOrders.attributes.buyerName}
           </div>
 
@@ -175,6 +177,10 @@ const PastOrders = () => {
               </div>
             ))}
         </>
+      ) : (
+        <div className="text-xl pb-5">
+          <p> No data to display here</p>
+        </div>
       )}
     </>
   );

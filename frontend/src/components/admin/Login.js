@@ -1,17 +1,46 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { useContext } from "react";
+import { AppContext } from "../../store/AppContext";
+import qs from "qs";
+import "react-toastify/dist/ReactToastify.css";
+
+const query = qs.stringify(
+  {
+    populate: "*",
+  },
+  {
+    encodeValuesOnly: true,
+  }
+);
+
+const showToastMessage = () => {
+  toast.error("Invalid Login Details", {
+    position: toast.POSITION.TOP_RIGHT,
+    autoClose: 2000,
+  });
+};
 
 const Login = () => {
   const initFields = { username: "", password: "" };
   const [credentials, setCredentials] = useState(initFields);
+  const { login, jwtToken } = useContext(AppContext);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
+    }
+  }, [jwtToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(credentials);
+    //setCredentials(initFields);
 
     const payload = {
       identifier: credentials.username,
@@ -19,18 +48,35 @@ const Login = () => {
     };
 
     axios
-      .post("http://localhost:1337/api/auth/local", payload)
+      .post(`http://localhost:1337/api/auth/local`, payload)
       .then((response) => {
-        // Handle success.
-        console.log("User profile", response.data.user.id);
-        console.log("User token", response.data.jwt);
-        navigate(`/buyer/${response.data.user.id}`, {
-          state: { buyerID: response.data.user.id },
-        });
+        localStorage.setItem("authToken", response.data.jwt);
+
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.jwt}`;
+
+        //console.log(axios.defaults.headers.common);
+
+        login(
+          response.data.user,
+          response.data.user.username === "admin" ? "admin" : "authenticated",
+          response.data.jwt
+        );
+
+        // Navigate based on user type
+        navigate(
+          response.data.user.username === "admin"
+            ? "/admin"
+            : `/buyer/${response.data.user.id}`,
+          { replace: true }
+        );
       })
       .catch((error) => {
         // Handle error.
-        console.log("An error occurred:", error.response);
+        if (error.response?.status === 400) {
+          showToastMessage();
+        }
       });
   };
 

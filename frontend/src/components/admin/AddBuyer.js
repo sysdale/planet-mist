@@ -4,7 +4,13 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const initFields = { buyerName: "", email: "", password: "", group: 20 };
+const initFields = {
+  buyerName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  group: 20,
+};
 
 function AddBuyer() {
   const [newBuyer, setNewBuyer] = useState(initFields);
@@ -113,7 +119,7 @@ function AddBuyer() {
       };
 
       axios
-        .post(process.env.REACT_API_API_REGISTER, usersPayload)
+        .post("process.env.REACT_API_API_REGISTER", usersPayload)
         .then((response) => {
           console.log("User profile", response.data.user);
           console.log("User token", response.data.jwt);

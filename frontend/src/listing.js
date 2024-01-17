@@ -18,3 +18,4 @@ export { default as TodayInvoice } from "./pages/TodayInvoice";
 export { default as PastTenDaysInvoice } from "./components/admin/PastTenDaysInvoice";
 
 export { default as InvoiceItem } from "./components/admin/InvoiceItem";
+export { default as AdminRoute } from "./components/admin/AdminRoute";
