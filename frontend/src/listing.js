@@ -19,3 +19,5 @@ export { default as PastTenDaysInvoice } from "./components/admin/PastTenDaysInv
 
 export { default as InvoiceItem } from "./components/admin/InvoiceItem";
 export { default as AdminRoute } from "./components/admin/AdminRoute";
+
+export { default as AllInvoices } from "./components/admin/AllInvoices";

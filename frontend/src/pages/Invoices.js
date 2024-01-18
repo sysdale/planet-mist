@@ -11,6 +11,10 @@ const Invoices = () => {
     navigate(`past`);
   };
 
+  const handleAllInvoice = (second) => {
+    navigate("allinvoice");
+  };
+
   return (
     <>
       <div className="flex flex-col">
@@ -30,6 +34,15 @@ const Invoices = () => {
               onClick={handlePastInvoice}
             >
               10-Day Invoices
+            </button>
+          </div>
+
+          <div className="m-5">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={handleAllInvoice}
+            >
+              All Invoices
             </button>
           </div>
         </div>

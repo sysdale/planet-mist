@@ -18,6 +18,7 @@ import {
   PastTenDaysInvoice,
   AdminRoute,
   InvoiceItem,
+  AllInvoices,
 } from "./listing";
 
 const router = createBrowserRouter([
@@ -92,6 +93,17 @@ const router = createBrowserRouter([
               {
                 path: "past",
                 element: <PastTenDaysInvoice />,
+              },
+              {
+                path: "allinvoice",
+                element: <Outlet />,
+                children: [
+                  { element: <AllInvoices />, index: true },
+                  {
+                    path: ":id",
+                    element: <InvoiceItem />,
+                  },
+                ],
               },
             ],
           },
