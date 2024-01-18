@@ -15,10 +15,12 @@ import {
   AllOrders,
   HomePage,
   TodayInvoice,
-  PastTenDaysInvoice,
+  PastInvList,
   AdminRoute,
   InvoiceItem,
   AllInvoices,
+  TenDayInvoice,
+  TenDayItem,
 } from "./listing";
 
 const router = createBrowserRouter([
@@ -92,7 +94,24 @@ const router = createBrowserRouter([
               },
               {
                 path: "past",
-                element: <PastTenDaysInvoice />,
+                element: <Outlet />,
+                children: [
+                  {
+                    element: <PastInvList />,
+                    index: true,
+                  },
+                  {
+                    path: ":id",
+                    element: <Outlet />,
+                    children: [
+                      { element: <TenDayInvoice />, index: true },
+                      {
+                        path: ":invoiceId",
+                        element: <TenDayItem />,
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 path: "allinvoice",

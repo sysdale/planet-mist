@@ -5,7 +5,7 @@ import DateSelector from "./DateSelector";
 import { AppContext } from "../../store/AppContext";
 import { format } from "date-fns";
 
-const PastTenDaysInvoice = () => {
+const PastInvList = () => {
   const [allBuyers, setAllBuyers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,48 +27,16 @@ const PastTenDaysInvoice = () => {
     fetchBuyer();
   }, []);
 
-  const handleOrderClick = (buyerID) => {
-    if (isFiltered) {
-      const url = `./${buyerID}/filter`;
-
-      //creating date format
-      const dateFormat = "yyyy-MM-dd";
-      const formattedDate = format(selectedDate, dateFormat);
-
-      navigate(url, { state: { buyerID, dateFilter: formattedDate } });
-    } else {
-      navigate(`./${buyerID}`);
-    }
-  };
-
-  const handleDateSelect = () => {
-    console.log(selectedDate);
-    handleFilter(true);
-  };
-
-  const handleClearSelect = () => {
-    handleFilter(false);
-    console.log(isFiltered);
+  const handleInvoiceClick = (buyerID) => {
+    navigate(`./${buyerID}`);
   };
 
   return (
     <>
-      <div className="text-xl font-bold pb-4">See 10-Day Invoices</div>
-      <div className="flex">
-        <div>
-          <DateSelector />
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded">
-            Set Date
-          </button>
-
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded">
-            Clear Filter
-          </button>
-        </div>
-      </div>
+      <div className="text-xl font-bold pb-4">See Today's Invoices</div>
 
       {isLoading ? (
-        <p>Please wait ... Fetching Invoices</p>
+        <p>Please wait ... Fetching Today's Invoices</p>
       ) : (
         <>
           <table className="table-auto text-center border-separate py-3">
@@ -84,8 +52,11 @@ const PastTenDaysInvoice = () => {
                   <td>{buyer.id}</td>
                   <td>{buyer.attributes.buyerName}</td>
                   <td>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded">
-                      View All
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+                      onClick={() => handleInvoiceClick(buyer.id)}
+                    >
+                      View
                     </button>
                   </td>
                   <td></td>
@@ -99,4 +70,4 @@ const PastTenDaysInvoice = () => {
   );
 };
 
-export default PastTenDaysInvoice;
+export default PastInvList;

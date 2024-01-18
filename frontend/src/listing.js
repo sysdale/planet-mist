@@ -15,9 +15,13 @@ export { default as TodaysOrders } from "./components/admin/TodaysOrders";
 export { default as AllOrders } from "./components/admin/AllOrders";
 export { default as DateSelector } from "./components/admin/DateSelector";
 export { default as TodayInvoice } from "./pages/TodayInvoice";
-export { default as PastTenDaysInvoice } from "./components/admin/PastTenDaysInvoice";
+export { default as PastInvList } from "./components/admin/PastInvList";
 
 export { default as InvoiceItem } from "./components/admin/InvoiceItem";
 export { default as AdminRoute } from "./components/admin/AdminRoute";
 
 export { default as AllInvoices } from "./components/admin/AllInvoices";
+
+export { default as TenDayInvoice } from "./components/admin/TenDayInvoice";
+
+export { default as TenDayItem } from "./components/admin/TenDayItem";
