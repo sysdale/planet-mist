@@ -33,7 +33,7 @@ const PastInvList = () => {
 
   return (
     <>
-      <div className="text-xl font-bold pb-4">See Today's Invoices</div>
+      <div className="text-xl font-bold pb-4">10-Day Invoicing</div>
 
       {isLoading ? (
         <p>Please wait ... Fetching Today's Invoices</p>
