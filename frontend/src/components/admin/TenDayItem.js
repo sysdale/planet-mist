@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
-import { addDays, startOfMonth, isAfter } from "date-fns";
+import { addDays, startOfMonth, isAfter, format } from "date-fns";
 
 const query = qs.stringify(
   {
@@ -33,7 +33,18 @@ const TenDayItem = () => {
   const { state } = useLocation();
   const buyerID = state?.buyerID || null;
   const dateFilter = state?.dateFilter || null;
-  console.log(dateFilter);
+
+  const dateFormat = "yyyy-MM-dd";
+
+  const [fmtStartDate, setFmtStartDate] = useState(
+    format(dateFilter.startDate, dateFormat)
+  );
+  const [fmtEndDate, setfmtEndDate] = useState(
+    format(dateFilter.endDate, dateFormat)
+  );
+
+  console.log(fmtStartDate, fmtEndDate);
+
   const { id } = useParams() || { id: buyerID };
 
   const [pastOrders, setPastOrders] = useState([]);
@@ -47,7 +58,11 @@ const TenDayItem = () => {
           `${process.env.REACT_APP_API_BUYERS}/${id}?${query}`
         );
         setPastOrders(response.data.data);
-        const transformed = processOrderData(response.data.data);
+        const transformed = processOrderData(
+          response.data.data,
+          fmtStartDate,
+          fmtEndDate
+        );
         setProcessedData(transformed);
       } catch (e) {
         console.error(e);
@@ -59,42 +74,46 @@ const TenDayItem = () => {
     fetchData();
   }, []);
 
-  const processOrderData = (data) => {
+  const processOrderData = (data, startDate, endDate) => {
     const processedOrders = [];
-    console.log(data);
 
     data.attributes.orders.data.forEach((order) => {
-      const processedObject = {};
+      const orderDate = order.attributes.date;
 
-      order.attributes.order_details.data.forEach((detail) => {
-        const skuID =
-          detail.attributes.scentID_fk.data.attributes.SKU_fk.data.id;
+      // Check if the order date is within the specified date range
+      if (orderDate >= startDate && orderDate <= endDate) {
+        const processedObject = {};
 
-        if (!processedObject[skuID]) {
-          processedObject[skuID] = {
-            name: detail.attributes.scentID_fk.data.attributes.SKU_fk.data
-              .attributes.name,
-            details: [],
-          };
-        }
+        order.attributes.order_details.data.forEach((detail) => {
+          const skuID =
+            detail.attributes.scentID_fk.data.attributes.SKU_fk.data.id;
 
-        processedObject[skuID].details.push({
-          ml: detail.attributes.scentID_fk.data.attributes.milliLts,
-          quantity: detail.attributes.quantity,
-          price: detail.attributes.price,
-          ethanol: {
-            2: 7,
-            16: 30,
-            20: 50,
-          },
+          if (!processedObject[skuID]) {
+            processedObject[skuID] = {
+              name: detail.attributes.scentID_fk.data.attributes.SKU_fk.data
+                .attributes.name,
+              details: [],
+            };
+          }
+
+          processedObject[skuID].details.push({
+            ml: detail.attributes.scentID_fk.data.attributes.milliLts,
+            quantity: detail.attributes.quantity,
+            price: detail.attributes.price,
+            ethanol: {
+              2: 7,
+              16: 30,
+              20: 50,
+            },
+          });
         });
-      });
 
-      Object.keys(processedObject).forEach((skuID) => {
-        processedObject[skuID].details.sort((a, b) => a.ml - b.ml);
-      });
+        Object.keys(processedObject).forEach((skuID) => {
+          processedObject[skuID].details.sort((a, b) => a.ml - b.ml);
+        });
 
-      processedOrders.push(processedObject);
+        processedOrders.push(processedObject);
+      }
     });
 
     return processedOrders;
@@ -129,9 +148,14 @@ const TenDayItem = () => {
           )}
 
           {pastOrders.attributes.orders.data
-            .filter((order) =>
-              dateFilter ? order.attributes.date === dateFilter : true
-            )
+            .filter((order) => {
+              const orderDate = order.attributes.date;
+              console.log("Order Date:", orderDate);
+              console.log("Start Date:", fmtStartDate);
+              console.log("End Date:", fmtEndDate);
+
+              return orderDate >= fmtStartDate && orderDate <= fmtEndDate;
+            })
             .map((order, index) => {
               let subtotal = 0;
               let totalQuantities = 0;

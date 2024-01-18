@@ -39,8 +39,17 @@ const showToastMessage = () => {
   });
 };
 
+const showErrorMessage = () => {
+  toast.error("Invalid Order! Kindly add some scents to order", {
+    position: toast.POSITION.TOP_RIGHT,
+    autoClose: 2000,
+    toastId: "sxs2",
+  });
+};
+
 const BuyerOrder = () => {
   const { user } = useContext(AppContext);
+
   const [scentInput, setScentInput] = useState(initState);
   const [scentsList, setScentsList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
@@ -50,7 +59,7 @@ const BuyerOrder = () => {
   const navigate = useNavigate();
 
   const { quantities } = useContext(AppContext);
-  const { id } = useParams();
+  //const { id } = useParams();
 
   useEffect(() => {
     const getAllScents = async () => {
@@ -157,6 +166,7 @@ const BuyerOrder = () => {
 
     // Remove null entries if any
     const validTransformedOrder = transformedOrder.filter(Boolean);
+    console.log(validTransformedOrder);
 
     setTransformedOrder({
       order_details: {
@@ -173,17 +183,20 @@ const BuyerOrder = () => {
     };
 
     //console.log(payload);
-
-    try {
-      axios
-        .post(process.env.REACT_APP_API_POSTORDER, payload)
-        .then((response) => {
-          console.log(response);
-        });
-    } catch (e) {
-      console.error(e);
+    if (validTransformedOrder.length > 0) {
+      try {
+        axios
+          .post(process.env.REACT_APP_API_POSTORDER, payload)
+          .then((response) => {
+            console.log(response);
+          });
+      } catch (e) {
+        console.error(e);
+      }
+      showToastMessage();
+    } else {
+      showErrorMessage();
     }
-    showToastMessage();
 
     //navigate(`/buyer/${user.id}`);
   };

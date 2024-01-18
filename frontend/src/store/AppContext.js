@@ -15,7 +15,7 @@ export const AppContextProvider = ({ children }) => {
   const [isFiltered, setIsFiltered] = useState(false);
   const [quantities, setQuantities] = useState([]);
 
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({ id: localStorage.getItem("userId") });
   const [loggedIn, setIsLoggedIn] = useState(false);
   const [jwtToken, setJwtToken] = useState(localStorage.getItem("authToken"));
 
@@ -24,12 +24,17 @@ export const AppContextProvider = ({ children }) => {
     setIsLoggedIn(true);
     setJwtToken(token);
     console.log(user);
+
+    localStorage.setItem("userId", user.id);
+    localStorage.setItem("username", user.username);
   };
 
   const logout = () => {
     setIsLoggedIn(false);
     setUser(null);
     localStorage.removeItem("authToken");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userId");
     setJwtToken(null);
   };
 
