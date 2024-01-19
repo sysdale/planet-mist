@@ -67,16 +67,9 @@ const TenDayItem = () => {
   };
 
   // Calculate totals for all invoices
+  console.log(processedData);
 
-  const totalOrderCountInvoices = processedData.reduce(
-    (total, processedObject) => {
-      Object.keys(processedObject).forEach((skuID) => {
-        orderCount++;
-      });
-      return orderCount;
-    },
-    0
-  );
+  const totalOrderCountInvoices = processedData.length;
 
   const totalQuantitiesAllInvoices = processedData.reduce(
     (total, processedObject) => {
@@ -198,44 +191,69 @@ const TenDayItem = () => {
           <>
             {/* Display overall totals at the top */}
             <table className="table-auto text-center border-collapse py-3">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th className="border p-3">Total Ethanol Cost</th>
-                  <th className="border p-3">Total Scents Bill</th>
-                  <th className="border p-3">Total Invoice Amount</th>
-                </tr>
-              </thead>
               <tbody>
-                <td className="border p-3">{totalOrderCountInvoices}</td>
-                <td className="border p-3">{totalQuantitiesAllInvoices}</td>
-                <td className="border p-3">{totalEthanolCostAllInvoices}</td>
-                <td className="border p-3">{totalScentsBillAllInvoices}</td>
-                <td className="border p-3">{totalOverallAmountToInvoice}</td>
+                <tr>
+                  <td className="border p-3 font-medium">
+                    Orders in the Invoice
+                  </td>
+                  <td className="border p-3">
+                    {formatter.format(totalOrderCountInvoices)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className="border p-3 font-medium">Total Quantities</td>
+                  <td className="border p-3">
+                    {formatter.format(totalQuantitiesAllInvoices)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className="border p-3 font-medium">Total Ethanol Cost</td>
+                  <td className="border p-3">
+                    {formatter.format(totalEthanolCostAllInvoices)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className="border p-3 font-medium">Total Scents Bill</td>
+                  <td className="border p-3">
+                    {formatter.format(totalScentsBillAllInvoices)}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className="border p-3 font-medium">
+                    Overall Invoice Amount
+                  </td>
+                  <td className="border p-3">
+                    {formatter.format(totalOverallAmountToInvoice)}
+                  </td>
+                </tr>
               </tbody>
-              <div className="text-lg font-bold pb-4">
-                Total Orders in Invoice: {totalOrderCountInvoices}
-              </div>
-              <div className="text-lg font-bold pb-4">
-                Total Quantities: {totalQuantitiesAllInvoices}
-              </div>
-              <div className="text-lg font-bold pb-4">
-                Total Ethanol Cost:{" "}
-                {formatter.format(totalEthanolCostAllInvoices)}
-              </div>
-              <div className="text-lg font-bold pb-4">
-                Total Scents Bill:{" "}
-                {formatter.format(totalScentsBillAllInvoices)}
-              </div>
-              <div className="text-xl font-bold pb-4">
-                Overall Amount to be Invoiced:{" "}
-                {formatter.format(totalOverallAmountToInvoice)}
-              </div>
             </table>
+            <>
+              {/* <div className="text-lg font-bold pb-4">
+              Total Orders in Invoice: {totalOrderCountInvoices}
+            </div>
+            <div className="text-lg font-bold pb-4">
+              Total Quantities: {totalQuantitiesAllInvoices}
+            </div>
+            <div className="text-lg font-bold pb-4">
+              Total Ethanol Cost:{" "}
+              {formatter.format(totalEthanolCostAllInvoices)}
+            </div>
+            <div className="text-lg font-bold pb-4">
+              Total Scents Bill: {formatter.format(totalScentsBillAllInvoices)}
+            </div>
+            <div className="text-xl font-bold pb-4">
+              Overall Amount to be Invoiced:{" "}
+              {formatter.format(totalOverallAmountToInvoice)}
+            </div> */}
+            </>
           </>
 
-          <div>
+          <div className="flex py-5">
             {/* Add a button to toggle the visibility of invoice details */}
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

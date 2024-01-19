@@ -15,9 +15,13 @@ export const AppContextProvider = ({ children }) => {
   const [isFiltered, setIsFiltered] = useState(false);
   const [quantities, setQuantities] = useState([]);
 
-  const [user, setUser] = useState({ id: localStorage.getItem("userId") });
+  const [user, setUser] = useState(
+    { id: localStorage.getItem("userId") } || null
+  );
   const [loggedIn, setIsLoggedIn] = useState(false);
-  const [jwtToken, setJwtToken] = useState(localStorage.getItem("authToken"));
+  const [jwtToken, setJwtToken] = useState(
+    localStorage.getItem("authToken") || null
+  );
 
   const login = (user, role, token) => {
     setUser(user, role, token);

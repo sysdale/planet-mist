@@ -4,6 +4,8 @@ import { AppContext } from "../store/AppContext";
 
 function MainNavigation() {
   const { user, jwtToken, logout } = useContext(AppContext);
+  const whichUser = localStorage.getItem("username");
+  const whichUserId = localStorage.getItem("userId");
 
   const navigate = useNavigate();
 
@@ -13,10 +15,10 @@ function MainNavigation() {
   };
 
   const handleHomeClick = () => {
-    if (user.username === "admin") {
+    if (whichUser === "admin") {
       navigate("/admin");
     } else {
-      navigate(`/buyer/${user.id}`);
+      navigate(`/buyer/${whichUserId}`);
     }
   };
 
@@ -24,7 +26,12 @@ function MainNavigation() {
     <header>
       <nav>
         <div className="flex justify-between bg-blue-200">
-          <button className="text-3xl font-bold px-10">Planet Mist</button>
+          <button
+            onClick={handleHomeClick}
+            className="text-3xl font-bold px-10"
+          >
+            Planet Mist
+          </button>
           <div>
             {jwtToken && (
               <button className="font-bold px-10 " onClick={handleLogout}>
