@@ -43,13 +43,79 @@ const TenDayItem = () => {
     format(dateFilter.endDate, dateFormat)
   );
 
-  console.log(fmtStartDate, fmtEndDate);
+  //console.log(fmtStartDate, fmtEndDate);
 
   const { id } = useParams() || { id: buyerID };
 
   const [pastOrders, setPastOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [processedData, setProcessedData] = useState([]);
+  const [showInvoicesPressed, setShowInvoicesPressed] = useState(false);
+
+  let orderCount = 0;
+
+  const calculateSubtotal = (detail) => {
+    const quantity = detail.quantity || 0;
+    const price = detail.price || 0;
+    const ethanol = {
+      2: 7,
+      16: 30,
+      20: 50,
+    };
+
+    return quantity * price;
+  };
+
+  // Calculate totals for all invoices
+
+  const totalOrderCountInvoices = processedData.reduce(
+    (total, processedObject) => {
+      Object.keys(processedObject).forEach((skuID) => {
+        orderCount++;
+      });
+      return orderCount;
+    },
+    0
+  );
+
+  const totalQuantitiesAllInvoices = processedData.reduce(
+    (total, processedObject) => {
+      Object.keys(processedObject).forEach((skuID) => {
+        processedObject[skuID].details.forEach((detail) => {
+          total += detail.quantity || 0;
+        });
+      });
+      return total;
+    },
+    0
+  );
+
+  const totalEthanolCostAllInvoices = processedData.reduce(
+    (total, processedObject) => {
+      Object.keys(processedObject).forEach((skuID) => {
+        processedObject[skuID].details.forEach((detail) => {
+          total += (detail.ethanol[detail.ml] || 0) * (detail.quantity || 0);
+        });
+      });
+      return total;
+    },
+    0
+  );
+
+  const totalScentsBillAllInvoices = processedData.reduce(
+    (total, processedObject) => {
+      Object.keys(processedObject).forEach((skuID) => {
+        processedObject[skuID].details.forEach((detail) => {
+          total += calculateSubtotal(detail);
+        });
+      });
+      return total;
+    },
+    0
+  );
+
+  const totalOverallAmountToInvoice =
+    totalScentsBillAllInvoices + totalEthanolCostAllInvoices;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,18 +185,6 @@ const TenDayItem = () => {
     return processedOrders;
   };
 
-  const calculateSubtotal = (detail) => {
-    const quantity = detail.quantity || 0;
-    const price = detail.price || 0;
-    const ethanol = {
-      2: 7,
-      16: 30,
-      20: 50,
-    };
-
-    return quantity * price;
-  };
-
   return (
     <>
       {isLoading ? (
@@ -141,93 +195,161 @@ const TenDayItem = () => {
             Welcome, {pastOrders.attributes.buyerName}
           </div>
 
-          {pastOrders.attributes.orders.data.length ? (
-            <div className="text-xl font-bold pb-4">Invoice History</div>
-          ) : (
-            <p>No invoices to display</p>
-          )}
+          <>
+            {/* Display overall totals at the top */}
+            <table className="table-auto text-center border-collapse py-3">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th className="border p-3">Total Ethanol Cost</th>
+                  <th className="border p-3">Total Scents Bill</th>
+                  <th className="border p-3">Total Invoice Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <td className="border p-3">{totalOrderCountInvoices}</td>
+                <td className="border p-3">{totalQuantitiesAllInvoices}</td>
+                <td className="border p-3">{totalEthanolCostAllInvoices}</td>
+                <td className="border p-3">{totalScentsBillAllInvoices}</td>
+                <td className="border p-3">{totalOverallAmountToInvoice}</td>
+              </tbody>
+              <div className="text-lg font-bold pb-4">
+                Total Orders in Invoice: {totalOrderCountInvoices}
+              </div>
+              <div className="text-lg font-bold pb-4">
+                Total Quantities: {totalQuantitiesAllInvoices}
+              </div>
+              <div className="text-lg font-bold pb-4">
+                Total Ethanol Cost:{" "}
+                {formatter.format(totalEthanolCostAllInvoices)}
+              </div>
+              <div className="text-lg font-bold pb-4">
+                Total Scents Bill:{" "}
+                {formatter.format(totalScentsBillAllInvoices)}
+              </div>
+              <div className="text-xl font-bold pb-4">
+                Overall Amount to be Invoiced:{" "}
+                {formatter.format(totalOverallAmountToInvoice)}
+              </div>
+            </table>
+          </>
 
-          {pastOrders.attributes.orders.data
-            .filter((order) => {
-              const orderDate = order.attributes.date;
-              console.log("Order Date:", orderDate);
-              console.log("Start Date:", fmtStartDate);
-              console.log("End Date:", fmtEndDate);
+          <div>
+            {/* Add a button to toggle the visibility of invoice details */}
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => setShowInvoicesPressed(!showInvoicesPressed)}
+            >
+              {showInvoicesPressed ? "Hide Invoices" : "Show Invoices"}
+            </button>
+          </div>
 
-              return orderDate >= fmtStartDate && orderDate <= fmtEndDate;
-            })
-            .map((order, index) => {
-              let subtotal = 0;
-              let totalQuantities = 0;
-              let totalSubtotals = 0;
-              let totalEthanolCost = 0;
-              return (
-                <div key={order.id}>
-                  <div>
-                    Invoice #{order.id} generated on {order.attributes.date}
-                  </div>
-                  <table className="table-auto text-center border-collapse py-3">
-                    <thead>
-                      <tr>
-                        <th className="border p-3">SKU</th>
-                        <th className="border p-3">Name</th>
-                        <th className="border p-3">ML</th>
-                        <th className="border p-3">Quantity</th>
-                        <th className="border p-3">Price</th>
-                        <th className="border p-3">Sub-total</th>
-                        <th className="border p-3">Ethanol</th>
-                      </tr>
-                    </thead>
+          {showInvoicesPressed && (
+            <>
+              {pastOrders.attributes.orders.data.length ? (
+                <div className="text-xl font-bold pb-4">Invoice History</div>
+              ) : (
+                <p>No invoices to display</p>
+              )}
 
-                    <tbody>
-                      {Object.keys(processedData[index]).map((skuID) =>
-                        processedData[index][skuID].details.map((detail, i) => {
-                          subtotal = calculateSubtotal(detail);
-                          totalQuantities += detail.quantity || 0;
-                          totalSubtotals += subtotal;
-                          totalEthanolCost +=
-                            (detail.ethanol[detail.ml] || 0) * detail.quantity;
+              {pastOrders.attributes.orders.data
+                .filter((order) => {
+                  const orderDate = order.attributes.date;
+                  // console.log("Order Date:", orderDate);
+                  // console.log("Start Date:", fmtStartDate);
+                  // console.log("End Date:", fmtEndDate);
 
-                          return (
-                            <tr key={`${skuID}-${i}`}>
-                              <td className="border p-3">{skuID}</td>
-                              <td className="border p-3">
-                                {processedData[index][skuID].name}
-                              </td>
-                              <td className="border p-3">{detail.ml}</td>
-                              <td className="border p-3">{detail.quantity}</td>
-                              <td className="border p-3">
-                                {formatter.format(detail.price)}
-                              </td>
-                              <td className="border p-3">
-                                {formatter.format(calculateSubtotal(detail))}
-                              </td>
-                              <td className="border p-3">
-                                {detail.ethanol[detail.ml]}
-                              </td>
-                            </tr>
-                          );
-                        })
-                      )}
-                    </tbody>
-                  </table>
-                  <div className="flex flex-col">
-                    <div className="flex flex-col">
-                      <div>Total Quantities: {totalQuantities}</div>
+                  return orderDate >= fmtStartDate && orderDate <= fmtEndDate;
+                })
+                .map((order, index) => {
+                  let subtotal = 0;
+                  let totalQuantities = 0;
+                  let totalSubtotals = 0;
+                  let totalEthanolCost = 0;
+                  return (
+                    <div key={order.id}>
                       <div>
-                        Total Ethanol Cost: {formatter.format(totalEthanolCost)}
+                        Invoice #{order.id} generated on {order.attributes.date}
                       </div>
-                      <div>Scents Bill: {formatter.format(totalSubtotals)}</div>
-                      <div className="font-semibold">
-                        Final Bill :{" "}
-                        {formatter.format(totalSubtotals + totalEthanolCost)}
+                      <table className="table-auto text-center border-collapse py-3">
+                        <thead>
+                          <tr>
+                            <th className="border p-3">SKU</th>
+                            <th className="border p-3">Name</th>
+                            <th className="border p-3">ML</th>
+                            <th className="border p-3">Quantity</th>
+                            <th className="border p-3">Price</th>
+                            <th className="border p-3">Sub-total</th>
+                            <th className="border p-3">Ethanol</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {Object.keys(processedData[index]).map((skuID) =>
+                            processedData[index][skuID].details.map(
+                              (detail, i) => {
+                                subtotal = calculateSubtotal(detail);
+                                totalQuantities += detail.quantity || 0;
+                                totalSubtotals += subtotal;
+                                totalEthanolCost +=
+                                  (detail.ethanol[detail.ml] || 0) *
+                                  detail.quantity;
+
+                                return (
+                                  <tr key={`${skuID}-${i}`}>
+                                    <td className="border p-3">{skuID}</td>
+                                    <td className="border p-3">
+                                      {processedData[index][skuID].name}
+                                    </td>
+                                    <td className="border p-3">{detail.ml}</td>
+                                    <td className="border p-3">
+                                      {detail.quantity}
+                                    </td>
+                                    <td className="border p-3">
+                                      {formatter.format(detail.price)}
+                                    </td>
+                                    <td className="border p-3">
+                                      {formatter.format(
+                                        calculateSubtotal(detail)
+                                      )}
+                                    </td>
+                                    <td className="border p-3">
+                                      {detail.ethanol[detail.ml]}
+                                    </td>
+                                  </tr>
+                                );
+                              }
+                            )
+                          )}
+                        </tbody>
+                      </table>
+                      <div className="flex flex-col">
+                        <div className="flex flex-col">
+                          <div>Total Quantities: {totalQuantities}</div>
+                          <div>
+                            Total Ethanol Cost:{" "}
+                            {formatter.format(totalEthanolCost)}
+                          </div>
+                          <div>
+                            Scents Bill: {formatter.format(totalSubtotals)}
+                          </div>
+                          <div className="font-semibold">
+                            Final Bill :{" "}
+                            {formatter.format(
+                              totalSubtotals + totalEthanolCost
+                            )}
+                          </div>
+                        </div>
                       </div>
+                      {
+                        "----------------------------------------------------------"
+                      }
                     </div>
-                  </div>
-                  {"----------------------------------------------------------"}
-                </div>
-              );
-            })}
+                  );
+                })}
+            </>
+          )}
         </>
       )}
     </>
