@@ -129,6 +129,9 @@ const InvoiceItem = () => {
           )}
 
           {pastOrders.attributes.orders.data
+            .filter((item) =>
+              dateFilter ? item.attributes.date === dateFilter : true
+            )
             .sort(
               (orderA, orderB) =>
                 new Date(orderB.attributes.date) -

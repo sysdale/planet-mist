@@ -1,11 +1,14 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../store/AppContext";
 
 function MainNavigation() {
-  const { user, jwtToken, logout } = useContext(AppContext);
+  const { user, jwtToken, logout, loggedIn } = useContext(AppContext);
   const whichUser = localStorage.getItem("username");
   const whichUserId = localStorage.getItem("userId");
+
+  const [activeButtonId, setActiveButtonId] = useState(null);
+  const [activeButtonIdUser, setActiveButtonIdUser] = useState(null);
 
   const navigate = useNavigate();
 
@@ -23,21 +26,49 @@ function MainNavigation() {
   };
 
   const handleAdd = () => {
+    setActiveButtonId("add");
     navigate("/admin/addbuyer");
   };
 
   const handleToday = () => {
+    setActiveButtonId("today");
     navigate("/admin/todaysorders");
   };
   const handlePast = () => {
+    setActiveButtonId("all");
     navigate("/admin/allorders");
   };
   const handleInvoices = () => {
+    setActiveButtonId("invoices");
     navigate("/admin/invoices");
   };
   const handleMaster = () => {
+    setActiveButtonId("master");
     navigate("/admin/mastertable");
   };
+
+  const handlePastOrder = () => {
+    setActiveButtonIdUser("past");
+    navigate(`/buyer/${whichUserId}/pastorders`);
+  };
+
+  const handlePlaceOrder = () => {
+    setActiveButtonIdUser("placeorder");
+    navigate(`/buyer/${whichUserId}/placeorder`);
+  };
+
+  const buttons = [
+    { id: "add", label: "Add Customer", onClick: handleAdd },
+    { id: "today", label: "Today's Orders", onClick: handleToday },
+    { id: "all", label: "Past Orders", onClick: handlePast },
+    { id: "invoices", label: "Invoicing", onClick: handleInvoices },
+    { id: "master", label: "Master Table", onClick: handleMaster },
+  ];
+
+  const buttonsUser = [
+    { id: "past", label: "Past Orders", onClick: handlePastOrder },
+    { id: "placeorder", label: "Place Order", onClick: handlePlaceOrder },
+  ];
 
   return (
     <header>
@@ -51,13 +82,31 @@ function MainNavigation() {
               Planet Mist
             </button>
 
-            {whichUser === "admin" ? (
+            {whichUser === "admin" && localStorage.getItem("loginStatus") ? (
               <div className="flex space-x-5">
-                <button onClick={handleAdd}>Add Customer</button>
-                <button onClick={handleToday}>Todays' Orders</button>
-                <button onClick={handlePast}>Past Orders</button>
-                <button onClick={handleInvoices}>Invoices</button>
-                <button onClick={handleMaster}>Master Table</button>
+                {buttons.map((button) => (
+                  <button
+                    key={button.id}
+                    onClick={button.onClick}
+                    className={`${activeButtonId === button.id} `}
+                  >
+                    {button.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
+            {whichUser !== "admin" && localStorage.getItem("loginStatus") ? (
+              <div className="flex space-x-5">
+                {buttonsUser.map((button) => (
+                  <button
+                    key={button.id}
+                    onClick={button.onClick}
+                    className={`${activeButtonIdUser === button.id} `}
+                  >
+                    {button.label}
+                  </button>
+                ))}
               </div>
             ) : null}
           </div>

@@ -31,6 +31,7 @@ export const AppContextProvider = ({ children }) => {
     setJwtToken(token);
     console.log(user);
 
+    localStorage.setItem("loginStatus", true);
     localStorage.setItem("userId", user.id);
     localStorage.setItem("username", user.username);
   };
@@ -41,6 +42,7 @@ export const AppContextProvider = ({ children }) => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("username");
     localStorage.removeItem("userId");
+    localStorage.removeItem("loginStatus");
     setJwtToken(null);
   };
 

@@ -30,6 +30,7 @@ const typeMap = {
 
 const dateFormat = "yyyy-MM-dd";
 const formattedDate = format(new Date(), dateFormat);
+console.log(formattedDate);
 
 const showToastMessage = () => {
   toast.success("Order Placed. Redirecting to Orders History!", {
@@ -190,9 +191,6 @@ const BuyerOrder = () => {
           .then((response) => {
             console.log(response);
             showToastMessage();
-            setTimeout(() => {
-              navigate(`/buyer/${user.id}/pastorders`);
-            }, 3000);
           });
       } catch (e) {
         console.error(e);
@@ -200,6 +198,10 @@ const BuyerOrder = () => {
     } else {
       showErrorMessage();
     }
+
+    setTimeout(() => {
+      navigate(`/buyer/${user.id}/pastorders`);
+    }, 3000);
 
     //navigate(`/buyer/${user.id}/pastorders`);
   };
