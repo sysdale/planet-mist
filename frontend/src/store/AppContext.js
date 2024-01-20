@@ -8,12 +8,14 @@ export const AppContext = createContext({
   user: null,
   loggedIn: false,
   jwtToken: null,
+  buyerName: null,
 });
 
 export const AppContextProvider = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isFiltered, setIsFiltered] = useState(false);
   const [quantities, setQuantities] = useState([]);
+  const [buyerName, setBuyerName] = useState();
 
   const [user, setUser] = useState(
     { id: localStorage.getItem("userId") } || null
@@ -55,6 +57,10 @@ export const AppContextProvider = ({ children }) => {
     setQuantities(quants);
   };
 
+  const handleBuyerName = (bName) => {
+    setBuyerName(bName);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -69,6 +75,8 @@ export const AppContextProvider = ({ children }) => {
         logout,
         loggedIn,
         jwtToken,
+        buyerName,
+        handleBuyerName,
       }}
     >
       {children}

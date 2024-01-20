@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 import { addDays, startOfMonth, isAfter, format, parseISO } from "date-fns";
+import { AppContext } from "../../store/AppContext";
 
 const query = qs.stringify(
   {
@@ -31,11 +32,14 @@ const formatter = new Intl.NumberFormat("en-IN", {
 
 const TenDayItem = () => {
   const { state } = useLocation();
+
   const buyerID = state?.buyerID || null;
   const dateFilter = state?.dateFilter || null;
 
   const dateFormat = "yyyy-MM-dd";
   const dateInvoiceFormat = "dd MMMM yyyy";
+
+  const { buyerName } = useContext(AppContext);
 
   const [fmtStartDate, setFmtStartDate] = useState(
     format(dateFilter.startDate, dateFormat)
@@ -68,7 +72,7 @@ const TenDayItem = () => {
   };
 
   // Calculate totals for all invoices
-  console.log(processedData);
+  //console.log(processedData);
 
   const totalOrderCountInvoices = processedData.length;
 
@@ -189,6 +193,11 @@ const TenDayItem = () => {
             Invoicing for {format(parseISO(fmtStartDate), dateInvoiceFormat)} to{" "}
             {format(parseISO(fmtEndDate), dateInvoiceFormat)}
           </div>
+
+          <div>
+            Buyer Name: <span className="font-bold">{buyerName}</span>
+          </div>
+          <div className="text-xl font-bold pb-5 align-middle">{}</div>
 
           <>
             {/* Display overall totals at the top */}

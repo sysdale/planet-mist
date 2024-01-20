@@ -11,7 +11,8 @@ const PastInvList = () => {
 
   const navigate = useNavigate();
 
-  const { selectedDate, handleFilter, isFiltered } = useContext(AppContext);
+  const { selectedDate, handleFilter, isFiltered, handleBuyerName } =
+    useContext(AppContext);
 
   useEffect(() => {
     const fetchBuyer = async () => {
@@ -27,8 +28,9 @@ const PastInvList = () => {
     fetchBuyer();
   }, []);
 
-  const handleInvoiceClick = (buyerID) => {
+  const handleInvoiceClick = (buyerID, buyerName) => {
     navigate(`./${buyerID}`);
+    handleBuyerName(buyerName);
   };
 
   return (
@@ -54,7 +56,9 @@ const PastInvList = () => {
                   <td>
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
-                      onClick={() => handleInvoiceClick(buyer.id)}
+                      onClick={() =>
+                        handleInvoiceClick(buyer.id, buyer.attributes.buyerName)
+                      }
                     >
                       View
                     </button>
