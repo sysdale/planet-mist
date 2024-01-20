@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
-import { addDays, startOfMonth, isAfter, format } from "date-fns";
+import { addDays, startOfMonth, isAfter, format, parseISO } from "date-fns";
 
 const query = qs.stringify(
   {
@@ -35,6 +35,7 @@ const TenDayItem = () => {
   const dateFilter = state?.dateFilter || null;
 
   const dateFormat = "yyyy-MM-dd";
+  const dateInvoiceFormat = "dd MMMM yyyy";
 
   const [fmtStartDate, setFmtStartDate] = useState(
     format(dateFilter.startDate, dateFormat)
@@ -184,8 +185,9 @@ const TenDayItem = () => {
         <p>Loading... Please Wait...</p>
       ) : (
         <>
-          <div className="text-3xl font-bold pb-5 align-middle">
-            Welcome, {pastOrders.attributes.buyerName}
+          <div className="text-xl font-bold pb-5 align-middle">
+            Invoicing for {format(parseISO(fmtStartDate), dateInvoiceFormat)} to{" "}
+            {format(parseISO(fmtEndDate), dateInvoiceFormat)}
           </div>
 
           <>
@@ -265,7 +267,7 @@ const TenDayItem = () => {
 
           {showInvoicesPressed && (
             <>
-              {pastOrders.attributes.orders.data.length ? (
+              {totalOrderCountInvoices > 0 ? (
                 <div className="text-xl font-bold pb-4">Invoice History</div>
               ) : (
                 <p>No invoices to display</p>

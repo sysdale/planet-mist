@@ -17,7 +17,7 @@ const BuyerHomePage = () => {
     <>
       {console.log(window.location.href)}
       <div className="flex flex-col">
-        <div className="flex justify-between">
+        <div className="flex flex-col items-center justify-center">
           <div className="m-5">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

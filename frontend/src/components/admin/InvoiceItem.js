@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 const query = qs.stringify(
   {
@@ -34,6 +34,7 @@ const InvoiceItem = () => {
   const buyerID = state?.buyerID || null;
   const dateFilter = state?.dateFilter || null;
   const { id } = useParams() || { id: buyerID };
+  const dateFormat = "dd MMMM yyyy";
 
   const [pastOrders, setPastOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -128,8 +129,10 @@ const InvoiceItem = () => {
           )}
 
           {pastOrders.attributes.orders.data
-            .filter((order) =>
-              dateFilter ? order.attributes.date === dateFilter : true
+            .sort(
+              (orderA, orderB) =>
+                new Date(orderB.attributes.date) -
+                new Date(orderA.attributes.date)
             )
             .map((order, index) => {
               let subtotal = 0;
@@ -139,7 +142,10 @@ const InvoiceItem = () => {
               return (
                 <div key={order.id}>
                   <div>
-                    Invoice #{order.id} generated on {order.attributes.date}
+                    Invoice #{order.id} generated on{" "}
+                    <span className="font-medium">
+                      {format(parseISO(order.attributes.date), dateFormat)}
+                    </span>
                   </div>
                   <table className="table-auto text-center border-collapse py-3">
                     <thead>

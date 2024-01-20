@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 const mltsValues = [5, 30, 50];
 const query = qs.stringify(
@@ -34,7 +34,9 @@ const PastOrders = () => {
   const { state } = useLocation();
   const buyerID = state?.buyerID || null;
   const dateFilter = state?.dateFilter || null;
-  console.log(dateFilter);
+  //console.log(dateFilter);
+
+  const dateFormat = "dd MMMM yyyy";
   const invoicedStatus = state?.invoicedStatus || null;
   const { id } = useParams() || { id: buyerID };
 
@@ -106,21 +108,28 @@ const PastOrders = () => {
           <div className="text-xl pb-5 font-bold">
             Welcome, {pastOrders.attributes.buyerName}
           </div>
-          {pastOrders.attributes.orders.data.length ? (
+          {pastOrders.attributes.orders.data.length > 0 ? (
             <div className="text-xl font-bold pb-4">Order History</div>
           ) : (
             <p>No orders to display</p>
           )}
 
           {pastOrders.attributes.orders.data
-            .sort((item) => item.id)
+            .sort(
+              (orderA, orderB) =>
+                new Date(orderB.attributes.date) -
+                new Date(orderA.attributes.date)
+            )
             .filter((order) =>
               dateFilter ? order.attributes.date === dateFilter : true
             )
             .map((order, index) => (
               <div key={order.id}>
                 <div>
-                  Order #{order.id} placed on {order.attributes.date}
+                  Order #{order.id} placed on{" "}
+                  <span className="font-medium">
+                    {format(parseISO(order.attributes.date), dateFormat)}
+                  </span>
                 </div>
                 <table className="table-auto text-center border-collapse py-3">
                   <thead>

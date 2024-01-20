@@ -32,7 +32,7 @@ const dateFormat = "yyyy-MM-dd";
 const formattedDate = format(new Date(), dateFormat);
 
 const showToastMessage = () => {
-  toast.success("Order Successfully Added!", {
+  toast.success("Order Placed. Redirecting to Orders History!", {
     position: toast.POSITION.TOP_RIGHT,
     autoClose: 2000,
     toastId: "sxs1",
@@ -189,16 +189,19 @@ const BuyerOrder = () => {
           .post(process.env.REACT_APP_API_POSTORDER, payload)
           .then((response) => {
             console.log(response);
+            showToastMessage();
+            setTimeout(() => {
+              navigate(`/buyer/${user.id}/pastorders`);
+            }, 3000);
           });
       } catch (e) {
         console.error(e);
       }
-      showToastMessage();
     } else {
       showErrorMessage();
     }
 
-    //navigate(`/buyer/${user.id}`);
+    //navigate(`/buyer/${user.id}/pastorders`);
   };
 
   return (

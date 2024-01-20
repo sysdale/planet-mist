@@ -65,7 +65,9 @@ const AllOrders = () => {
           </button>
 
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+            className={`${
+              isFiltered ? "bg-green-500" : "bg-blue-500"
+            }  text-white font-bold p-1 rounded`}
             onClick={handleClearSelect}
           >
             Clear Filter
