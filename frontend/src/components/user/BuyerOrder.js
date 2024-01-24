@@ -199,9 +199,9 @@ const BuyerOrder = () => {
       showErrorMessage();
     }
 
-    setTimeout(() => {
-      navigate(`/buyer/${user.id}/pastorders`);
-    }, 3000);
+    // setTimeout(() => {
+    //   navigate(`/buyer/${user.id}/pastorders`);
+    // }, 3000);
 
     //navigate(`/buyer/${user.id}/pastorders`);
   };

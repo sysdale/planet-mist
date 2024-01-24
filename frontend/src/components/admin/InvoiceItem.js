@@ -72,7 +72,7 @@ const InvoiceItem = () => {
     const { price, size } = getPrice(type, totalQuantities);
     return (
       <span>
-        {price} - ({size})
+        ({size}) - {price}
       </span>
     );
   };

@@ -26,6 +26,19 @@ const query = qs.stringify(
   }
 );
 
+const prices = {
+  flyer: {
+    small: 11,
+    medium: 15,
+    large: 18,
+  },
+  bubble: {
+    small: 16,
+    medium: 24,
+    large: 32,
+  },
+};
+
 const formatter = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 2,
 });
@@ -75,6 +88,29 @@ const TenDayItem = () => {
   //console.log(processedData);
 
   const totalOrderCountInvoices = processedData.length;
+
+  const getPrice = (type, totalQuantities) => {
+    if (!prices[type]) {
+      throw new Error(`Invalid type: ${type}`);
+    }
+    const priceObject = prices[type];
+    if (totalQuantities >= 1 && totalQuantities <= 2) {
+      return { price: priceObject["small"], size: "small" };
+    } else if (totalQuantities >= 3 && totalQuantities <= 4) {
+      return { price: priceObject["medium"], size: "medium" };
+    } else if (totalQuantities > 4) {
+      return { price: priceObject["large"], size: "large" };
+    }
+    return 0; // fallback price if quantity is out of range
+  };
+  const handleCost = (totalQuantities, type) => {
+    const { price, size } = getPrice(type, totalQuantities);
+    return (
+      <span>
+        ({size}) - {price}
+      </span>
+    );
+  };
 
   const totalQuantitiesAllInvoices = processedData.reduce(
     (total, processedObject) => {
@@ -291,6 +327,7 @@ const TenDayItem = () => {
 
                   return orderDate >= fmtStartDate && orderDate <= fmtEndDate;
                 })
+                .sort((a, b) => b.id - a.id)
                 .map((order, index) => {
                   let subtotal = 0;
                   let totalQuantities = 0;
@@ -299,7 +336,17 @@ const TenDayItem = () => {
                   return (
                     <div key={order.id}>
                       <div>
-                        Invoice #{order.id} generated on {order.attributes.date}
+                        Invoice #{" "}
+                        <span className="text-blue-700 font-medium">
+                          {order.id}
+                        </span>{" "}
+                        generated on{" "}
+                        <span className="font-medium">
+                          {format(
+                            parseISO(order.attributes.date),
+                            dateInvoiceFormat
+                          )}
+                        </span>
                       </div>
                       <table className="table-auto text-center border-collapse py-3">
                         <thead>
@@ -359,6 +406,12 @@ const TenDayItem = () => {
                           <div>
                             Total Ethanol Cost:{" "}
                             {formatter.format(totalEthanolCost)}
+                          </div>
+                          <div>
+                            Flyer Cost: {handleCost(totalQuantities, "flyer")}
+                          </div>
+                          <div>
+                            B.Wrap Cost: {handleCost(totalQuantities, "bubble")}
                           </div>
                           <div>
                             Scents Bill: {formatter.format(totalSubtotals)}
