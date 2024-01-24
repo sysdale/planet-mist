@@ -90,7 +90,7 @@ const Login = () => {
 
   return (
     <div>
-      <div className="text-xl font-bold pb-4">Buyer Login</div>
+      <div className="text-xl font-bold pb-4">Login</div>
 
       <form onSubmit={handleSubmit}>
         <div className="flex-col">

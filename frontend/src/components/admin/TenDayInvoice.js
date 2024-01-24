@@ -30,6 +30,7 @@ const TenDayInvoice = () => {
       };
 
       invoiceDates.push(newInvoice);
+      invoiceDates.sort((a, b) => b.id - a.id);
     }
 
     setInvoices(invoiceDates);

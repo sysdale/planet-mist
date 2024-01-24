@@ -686,7 +686,7 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     buyerName: Attribute.String;
@@ -701,7 +701,6 @@ export interface ApiBuyerBuyer extends Schema.CollectionType {
     group: Attribute.Integer & Attribute.DefaultTo<20>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::buyer.buyer',
       'oneToOne',

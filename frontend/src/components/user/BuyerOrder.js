@@ -30,7 +30,7 @@ const typeMap = {
 
 const dateFormat = "yyyy-MM-dd";
 const formattedDate = format(new Date(), dateFormat);
-console.log(formattedDate);
+//console.log(formattedDate);
 
 const showToastMessage = () => {
   toast.success("Order Placed. Redirecting to Orders History!", {

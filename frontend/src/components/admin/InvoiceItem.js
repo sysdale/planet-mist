@@ -29,6 +29,19 @@ const formatter = new Intl.NumberFormat("en-IN", {
   maximumFractionDigits: 2,
 });
 
+const prices = {
+  flyer: {
+    small: 11,
+    medium: 15,
+    large: 18,
+  },
+  bubble: {
+    small: 16,
+    medium: 24,
+    large: 32,
+  },
+};
+
 const InvoiceItem = () => {
   const { state } = useLocation();
   const buyerID = state?.buyerID || null;
@@ -39,6 +52,30 @@ const InvoiceItem = () => {
   const [pastOrders, setPastOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [processedData, setProcessedData] = useState([]);
+
+  const getPrice = (type, totalQuantities) => {
+    if (!prices[type]) {
+      throw new Error(`Invalid type: ${type}`);
+    }
+    const priceObject = prices[type];
+    if (totalQuantities >= 1 && totalQuantities <= 2) {
+      return { price: priceObject["small"], size: "small" };
+    } else if (totalQuantities >= 3 && totalQuantities <= 4) {
+      return { price: priceObject["medium"], size: "medium" };
+    } else if (totalQuantities > 4) {
+      return { price: priceObject["large"], size: "large" };
+    }
+    return 0; // fallback price if quantity is out of range
+  };
+
+  const handleCost = (totalQuantities, type) => {
+    const { price, size } = getPrice(type, totalQuantities);
+    return (
+      <span>
+        {price} - ({size})
+      </span>
+    );
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -201,6 +238,12 @@ const InvoiceItem = () => {
                       <div>
                         Total Ethanol Cost: {formatter.format(totalEthanolCost)}
                       </div>
+                      <div>
+                        Flyer Cost: {handleCost(totalQuantities, "flyer")}
+                      </div>
+                      <div>
+                        B.Wrap Cost: {handleCost(totalQuantities, "bubble")}
+                      </div>
                       <div>Scents Bill: {formatter.format(totalSubtotals)}</div>
                       <div className="font-semibold">
                         Final Bill :{" "}
@@ -208,7 +251,9 @@ const InvoiceItem = () => {
                       </div>
                     </div>
                   </div>
-                  {"----------------------------------------------------------"}
+                  {
+                    "---------------------------------------------------------------------------------------"
+                  }
                 </div>
               );
             })}
