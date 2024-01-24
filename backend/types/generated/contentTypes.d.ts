@@ -876,7 +876,6 @@ export interface ApiScentDataScentData extends Schema.CollectionType {
   attributes: {
     milliLts: Attribute.Decimal & Attribute.Required;
     price: Attribute.Decimal &
-      Attribute.Required &
       Attribute.SetMinMax<{
         min: 0;
       }>;

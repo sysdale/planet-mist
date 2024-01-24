@@ -33,11 +33,14 @@ const formattedDate = format(new Date(), dateFormat);
 //console.log(formattedDate);
 
 const showToastMessage = () => {
-  toast.success("Order Placed. Redirecting to Orders History!", {
-    position: toast.POSITION.TOP_RIGHT,
-    autoClose: 2000,
-    toastId: "sxs1",
-  });
+  toast.success(
+    "Order Placed. You are only allowed 1 Order per day. Thank you!",
+    {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 5000,
+      toastId: "sxs1",
+    }
+  );
 };
 
 const showErrorMessage = () => {
@@ -56,6 +59,9 @@ const BuyerOrder = () => {
   const [filteredList, setFilteredList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [transformedOrder, setTransformedOrder] = useState([]);
+  const [orderDone, setOrderDone] = useState(
+    localStorage.getItem("orderDone") ? "true" : false
+  );
   const [masterTableData, setMasterTableData] = useState([]);
   const navigate = useNavigate();
 
@@ -72,6 +78,8 @@ const BuyerOrder = () => {
         setScentsList(response.data.data);
         setFilteredList(response.data.data);
         setIsLoading(false);
+        setOrderDone(localStorage.getItem("orderDone") || false);
+        console.log(response.data.data);
       } catch (error) {
         console.log(error);
       }
@@ -191,6 +199,7 @@ const BuyerOrder = () => {
           .then((response) => {
             console.log(response);
             showToastMessage();
+            setOrderDone(localStorage.setItem("orderDone", true));
           });
       } catch (e) {
         console.error(e);
@@ -199,9 +208,9 @@ const BuyerOrder = () => {
       showErrorMessage();
     }
 
-    // setTimeout(() => {
-    //   navigate(`/buyer/${user.id}/pastorders`);
-    // }, 3000);
+    setTimeout(() => {
+      navigate(`/buyer/${user.id}/pastorders`);
+    }, 6000);
 
     //navigate(`/buyer/${user.id}/pastorders`);
   };
@@ -254,8 +263,13 @@ const BuyerOrder = () => {
 
       <div>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+          className={`${
+            orderDone
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-700"
+          } text-white font-bold py-2 px-2 rounded`}
           onClick={handleNewOrder}
+          disabled={orderDone ? true : false}
         >
           Place Order
         </button>

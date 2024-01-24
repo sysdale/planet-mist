@@ -169,11 +169,6 @@ const InvoiceItem = () => {
             .filter((item) =>
               dateFilter ? item.attributes.date === dateFilter : true
             )
-            .sort(
-              (orderA, orderB) =>
-                new Date(orderB.attributes.date) -
-                new Date(orderA.attributes.date)
-            )
             .map((order, index) => {
               let subtotal = 0;
               let totalQuantities = 0;
@@ -182,7 +177,11 @@ const InvoiceItem = () => {
               return (
                 <div key={order.id}>
                   <div>
-                    Invoice #{order.id} generated on{" "}
+                    Invoice #{" "}
+                    <span className="text-blue-700 font-medium">
+                      {order.id}
+                    </span>{" "}
+                    generated on{" "}
                     <span className="font-medium">
                       {format(parseISO(order.attributes.date), dateFormat)}
                     </span>

@@ -327,7 +327,6 @@ const TenDayItem = () => {
 
                   return orderDate >= fmtStartDate && orderDate <= fmtEndDate;
                 })
-                .sort((a, b) => b.id - a.id)
                 .map((order, index) => {
                   let subtotal = 0;
                   let totalQuantities = 0;

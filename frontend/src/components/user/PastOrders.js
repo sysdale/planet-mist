@@ -115,18 +115,15 @@ const PastOrders = () => {
           )}
 
           {pastOrders.attributes.orders.data
-            .sort(
-              (orderA, orderB) =>
-                new Date(orderB.attributes.date) -
-                new Date(orderA.attributes.date)
-            )
             .filter((order) =>
               dateFilter ? order.attributes.date === dateFilter : true
             )
             .map((order, index) => (
               <div key={order.id}>
                 <div>
-                  Order #{order.id} placed on{" "}
+                  Order #{" "}
+                  <span className="text-blue-700 font-medium">{order.id}</span>{" "}
+                  placed on{" "}
                   <span className="font-medium">
                     {format(parseISO(order.attributes.date), dateFormat)}
                   </span>

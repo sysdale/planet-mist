@@ -43,6 +43,7 @@ export const AppContextProvider = ({ children }) => {
     localStorage.removeItem("username");
     localStorage.removeItem("userId");
     localStorage.removeItem("loginStatus");
+    localStorage.removeItem("orderDone");
     setJwtToken(null);
   };
 
