@@ -333,6 +333,8 @@ const TenDayItem = () => {
                   let totalQuantities = 0;
                   let totalSubtotals = 0;
                   let totalEthanolCost = 0;
+                  let bwrapCost = 0;
+                  let flyerCost = 0;
                   return (
                     <div key={order.id}>
                       <div>
@@ -371,6 +373,16 @@ const TenDayItem = () => {
                                 totalEthanolCost +=
                                   (detail.ethanol[detail.ml] || 0) *
                                   detail.quantity;
+                                bwrapCost += handleCost(
+                                  totalQuantities,
+                                  "bubble"
+                                );
+                                flyerCost += handleCost(
+                                  totalQuantities,
+                                  "flyer"
+                                );
+
+                                console.log(bwrapCost, flyerCost);
 
                                 return (
                                   <tr key={`${skuID}-${i}`}>

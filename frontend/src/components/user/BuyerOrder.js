@@ -79,7 +79,7 @@ const BuyerOrder = () => {
         setFilteredList(response.data.data);
         setIsLoading(false);
         setOrderDone(localStorage.getItem("orderDone") || false);
-        console.log(response.data.data);
+        //console.log(response.data.data);
       } catch (error) {
         console.log(error);
       }
@@ -177,7 +177,7 @@ const BuyerOrder = () => {
 
     // Remove null entries if any
     const validTransformedOrder = transformedOrder.filter(Boolean);
-    console.log(validTransformedOrder);
+    //console.log(validTransformedOrder);
 
     setTransformedOrder({
       order_details: {
@@ -199,7 +199,7 @@ const BuyerOrder = () => {
         axios
           .post(process.env.REACT_APP_API_POSTORDER, payload)
           .then((response) => {
-            console.log(response);
+            //console.log(response);
             showToastMessage();
           });
       } catch (e) {
@@ -277,7 +277,7 @@ const BuyerOrder = () => {
               : "bg-blue-500 hover:bg-blue-700"
           } text-white font-bold py-2 px-2 rounded`}
           onClick={handleNewOrder}
-          disabled={orderDone ? true : false}
+          //disabled={orderDone ? true : false}
         >
           Place Order
         </button>

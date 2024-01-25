@@ -104,14 +104,7 @@ const PastOrders = () => {
     return processedOrders;
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <>
       {isLoading ? (
         <p>Loading... Please Wait...</p>
       ) : (
@@ -151,7 +144,7 @@ const PastOrders = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {processOrderData[index] &&
+                    {processOrderData &&
                       Object.keys(processedData[index]).map((skuID) => (
                         <tr key={skuID}>
                           <td className="border p-2">{skuID}</td>
@@ -197,7 +190,7 @@ const PastOrders = () => {
             ))}
         </>
       )}
-    </div>
+    </>
   );
 };
 
