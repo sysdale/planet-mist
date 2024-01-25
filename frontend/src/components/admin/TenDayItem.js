@@ -71,6 +71,8 @@ const TenDayItem = () => {
   const [showInvoicesPressed, setShowInvoicesPressed] = useState(false);
 
   let orderCount = 0;
+  let totalFlyerCost = 0;
+  let totalBubbleWrapCost = 0;
 
   const calculateSubtotal = (detail) => {
     const quantity = detail.quantity || 0;
@@ -105,6 +107,13 @@ const TenDayItem = () => {
   };
   const handleCost = (totalQuantities, type) => {
     const { price, size } = getPrice(type, totalQuantities);
+    if (type === "flyer") {
+      totalFlyerCost += price;
+      console.log(totalFlyerCost);
+    } else if (type === "bubble") {
+      totalBubbleWrapCost += price;
+      console.log(totalBubbleWrapCost);
+    }
     return (
       <span>
         ({size}) - {price}
@@ -264,6 +273,21 @@ const TenDayItem = () => {
                 </tr>
 
                 <tr>
+                  <td className="border p-3 font-medium">Overall Flyer Cost</td>
+                  <td className="border p-3">
+                    {formatter.format(totalFlyerCost)}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border p-3 font-medium">
+                    Overall Bubble Wrap Cost
+                  </td>
+                  <td className="border p-3">
+                    {formatter.format(totalBubbleWrapCost)}
+                  </td>
+                </tr>
+
+                <tr>
                   <td className="border p-3 font-medium">Total Scents Bill</td>
                   <td className="border p-3">
                     {formatter.format(totalScentsBillAllInvoices)}
@@ -373,16 +397,6 @@ const TenDayItem = () => {
                                 totalEthanolCost +=
                                   (detail.ethanol[detail.ml] || 0) *
                                   detail.quantity;
-                                bwrapCost += handleCost(
-                                  totalQuantities,
-                                  "bubble"
-                                );
-                                flyerCost += handleCost(
-                                  totalQuantities,
-                                  "flyer"
-                                );
-
-                                console.log(bwrapCost, flyerCost);
 
                                 return (
                                   <tr key={`${skuID}-${i}`}>
