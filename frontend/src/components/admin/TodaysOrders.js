@@ -39,8 +39,15 @@ const TodaysOrders = () => {
   };
 
   return (
-    <>
-      <div className="text-xl font-bold pb-4">See Today's Orders</div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div className="text-2xl font-bold pb-4">See Today's Orders</div>
 
       {isLoading ? (
         <p>Please wait ... Fetching Buyers List</p>
@@ -73,7 +80,7 @@ const TodaysOrders = () => {
           </table>
         </>
       )}
-    </>
+    </div>
   );
 };
 

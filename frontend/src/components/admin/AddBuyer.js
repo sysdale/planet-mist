@@ -128,7 +128,14 @@ function AddBuyer() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <div className="text-xl font-bold pb-4">Add New Buyer</div>
 
       <form onSubmit={handleSubmit}>

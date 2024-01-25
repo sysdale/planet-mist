@@ -35,7 +35,7 @@ const ScentsTable = ({ data }) => {
 
   return (
     <>
-      <div className="text-xl font-bold">Scents Details</div>
+      <div className="text-xl font-bold text-center">Scents Details</div>
       <table className="text-center border-separate border-spacing-5">
         <thead>
           <tr>
@@ -55,7 +55,9 @@ const ScentsTable = ({ data }) => {
             return (
               <tr key={sku}>
                 <td>{sku}</td>
-                <td>{scent.attributes.SKU_fk.data.attributes.name}</td>
+                <td className={`${sku % 2 === 1 ? "bg-blue-100" : true}`}>
+                  {scent.attributes.SKU_fk.data.attributes.name}
+                </td>
                 <td>
                   <input
                     name={`fiveml-${sku}`}

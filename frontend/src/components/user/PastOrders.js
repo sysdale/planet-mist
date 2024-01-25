@@ -52,8 +52,10 @@ const PastOrders = () => {
           `${process.env.REACT_APP_API_BUYERS}/${id}?${query}`
         );
 
+        response.data.data.attributes.orders.data.sort((a, b) => b.id - a.id);
         setPastOrders(response.data.data);
         console.log(response.data.data);
+
         const transformed = processOrderData(response.data.data, dateFilter);
         setProcessedData(transformed);
       } catch (e) {
@@ -102,7 +104,14 @@ const PastOrders = () => {
     return processedOrders;
   };
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       {isLoading ? (
         <p>Loading... Please Wait...</p>
       ) : (
@@ -142,28 +151,29 @@ const PastOrders = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.keys(processedData[index]).map((skuID) => (
-                      <tr key={skuID}>
-                        <td className="border p-2">{skuID}</td>
-                        <td className="border p-2">
-                          {processedData[index][skuID].name}
-                        </td>
-                        <td className="border p-2">
-                          {processedData[index][skuID].quantities[2] || "-"}
-                        </td>
-                        <td className="border p-2">
-                          {processedData[index][skuID].quantities[16] || "-"}
-                        </td>
-                        <td className="border p-2">
-                          {processedData[index][skuID].quantities[20] || "-"}
-                        </td>
-                        <td className="border p-2">
-                          {Object.values(
-                            processedData[index][skuID].quantities
-                          ).reduce((acc, qt) => acc + qt, 0)}
-                        </td>
-                      </tr>
-                    ))}
+                    {processOrderData[index] &&
+                      Object.keys(processedData[index]).map((skuID) => (
+                        <tr key={skuID}>
+                          <td className="border p-2">{skuID}</td>
+                          <td className="border p-2">
+                            {processedData[index][skuID].name}
+                          </td>
+                          <td className="border p-2">
+                            {processedData[index][skuID].quantities[2] || "-"}
+                          </td>
+                          <td className="border p-2">
+                            {processedData[index][skuID].quantities[16] || "-"}
+                          </td>
+                          <td className="border p-2">
+                            {processedData[index][skuID].quantities[20] || "-"}
+                          </td>
+                          <td className="border p-2">
+                            {Object.values(
+                              processedData[index][skuID].quantities
+                            ).reduce((acc, qt) => acc + qt, 0)}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
                 <div className="mt-3">
@@ -187,7 +197,7 @@ const PastOrders = () => {
             ))}
         </>
       )}
-    </>
+    </div>
   );
 };
 

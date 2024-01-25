@@ -139,6 +139,8 @@ const BuyerOrder = () => {
 
   const handleNewOrder = (e) => {
     e.preventDefault();
+    setOrderDone(localStorage.setItem("orderDone", true));
+    setOrderDone(true);
 
     const transformedOrder = Object.keys(quantities).flatMap((sku) => {
       return Object.keys(quantities[sku])
@@ -199,7 +201,6 @@ const BuyerOrder = () => {
           .then((response) => {
             console.log(response);
             showToastMessage();
-            setOrderDone(localStorage.setItem("orderDone", true));
           });
       } catch (e) {
         console.error(e);
@@ -216,8 +217,15 @@ const BuyerOrder = () => {
   };
 
   return (
-    <>
-      <div className="text-xl font-bold pb-4">Select Scents</div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div className="text-xl font-bold pb-4">Place Order</div>
 
       <div className="flex">
         <div className="p-2">
@@ -236,7 +244,7 @@ const BuyerOrder = () => {
       </div>
 
       {/* Search functionality */}
-      <div className="space-x-2">
+      <div className="space-x-2 pt-3">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
           onClick={() => handleSearch("name")}
@@ -261,7 +269,7 @@ const BuyerOrder = () => {
         )}
       </div>
 
-      <div>
+      <div className="pb-10">
         <button
           className={`${
             orderDone
@@ -275,7 +283,7 @@ const BuyerOrder = () => {
         </button>
         <ToastContainer />
       </div>
-    </>
+    </div>
   );
 };
 

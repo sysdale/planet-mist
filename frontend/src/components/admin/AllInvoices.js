@@ -29,7 +29,14 @@ const AllInvoices = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <div className="text-xl font-bold pb-4">See Today's Invoices</div>
 
       {isLoading ? (
@@ -63,7 +70,7 @@ const AllInvoices = () => {
           </table>
         </>
       )}
-    </>
+    </div>
   );
 };
 

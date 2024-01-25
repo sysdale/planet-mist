@@ -52,7 +52,14 @@ const AllOrders = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <div className="text-xl font-bold pb-4">See All Orders</div>
       <div className="flex">
         <div>
@@ -106,7 +113,7 @@ const AllOrders = () => {
           </table>
         </>
       )}
-    </>
+    </div>
   );
 };
 

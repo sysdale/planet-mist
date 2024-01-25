@@ -157,6 +157,7 @@ const TenDayItem = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_BUYERS}/${id}?${query}`
         );
+        response.data.data.attributes.orders.data.sort((a, b) => b.id - a.id);
         setPastOrders(response.data.data);
         const transformed = processOrderData(
           response.data.data,

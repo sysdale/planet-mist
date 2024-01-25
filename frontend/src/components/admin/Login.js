@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { useContext } from "react";
 import { AppContext } from "../../store/AppContext";
 import qs from "qs";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const query = qs.stringify(
@@ -89,7 +89,14 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <div className="text-xl font-bold pb-4">Login</div>
 
       <form onSubmit={handleSubmit}>
@@ -102,6 +109,7 @@ const Login = () => {
               placeholder="Enter username"
               value={credentials.username}
               className="border-2 border-slate-500"
+              autoFocus
               onChange={handleChange}
             />
           </div>

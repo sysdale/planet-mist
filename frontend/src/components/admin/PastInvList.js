@@ -34,7 +34,14 @@ const PastInvList = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <div className="text-xl font-bold pb-4">10-Day Invoicing</div>
 
       {isLoading ? (
@@ -70,7 +77,7 @@ const PastInvList = () => {
           </table>
         </>
       )}
-    </>
+    </div>
   );
 };
 
