@@ -107,7 +107,39 @@ const PerfumeTable = () => {
     setScentsData(updatedScents);
   };
 
-  const handleNewScent = () => {};
+  const handleNewScent = async () => {
+    // const scentsPayload = {
+    //   data: {
+    //     name: "The Three",
+    //   },
+    // };
+
+    // try {
+    //   axios
+    //     .post(process.env.REACT_APP_API_MASTERTABLE, masterPayload)
+    //     .then((response) => {
+    //       console.log(response);
+    //     });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    const masterPayload = {
+      name: "The Three",
+      purchasedML: 200,
+      costEveryVisit: 300,
+    };
+
+    try {
+      axios
+        .post("http://localhost:1337/api/custom2", masterPayload)
+        .then((response) => {
+          console.log(response);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>

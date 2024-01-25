@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -27,12 +27,6 @@
       "relation": "manyToOne",
       "target": "api::scent-list.scent-list",
       "inversedBy": "master_tables"
-    },
-    "SKU_name": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::scent-list.scent-list",
-      "inversedBy": "master_tabless"
     }
   }
 }

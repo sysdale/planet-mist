@@ -725,7 +725,7 @@ export interface ApiMasterTableMasterTable extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     purchasedML: Attribute.Decimal &
@@ -743,14 +743,8 @@ export interface ApiMasterTableMasterTable extends Schema.CollectionType {
       'manyToOne',
       'api::scent-list.scent-list'
     >;
-    SKU_name: Attribute.Relation<
-      'api::master-table.master-table',
-      'manyToOne',
-      'api::scent-list.scent-list'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::master-table.master-table',
       'oneToOne',
@@ -871,7 +865,7 @@ export interface ApiScentDataScentData extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     milliLts: Attribute.Decimal & Attribute.Required;
@@ -896,7 +890,6 @@ export interface ApiScentDataScentData extends Schema.CollectionType {
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::scent-data.scent-data',
       'oneToOne',
@@ -921,7 +914,7 @@ export interface ApiScentListScentList extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     name: Attribute.String & Attribute.Required;
@@ -935,14 +928,8 @@ export interface ApiScentListScentList extends Schema.CollectionType {
       'oneToMany',
       'api::master-table.master-table'
     >;
-    master_tabless: Attribute.Relation<
-      'api::scent-list.scent-list',
-      'oneToMany',
-      'api::master-table.master-table'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::scent-list.scent-list',
       'oneToOne',
