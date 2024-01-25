@@ -41,6 +41,7 @@ const PastOrders = () => {
   const { id } = useParams() || { id: buyerID };
 
   const [pastOrders, setPastOrders] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
   const [processedData, setProcessedData] = useState([]);
 
@@ -50,6 +51,7 @@ const PastOrders = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_BUYERS}/${id}?${query}`
         );
+
         setPastOrders(response.data.data);
         console.log(response.data.data);
         const transformed = processOrderData(response.data.data, dateFilter);

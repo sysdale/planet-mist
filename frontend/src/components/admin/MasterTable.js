@@ -108,24 +108,8 @@ const PerfumeTable = () => {
   };
 
   const handleNewScent = async () => {
-    // const scentsPayload = {
-    //   data: {
-    //     name: "The Three",
-    //   },
-    // };
-
-    // try {
-    //   axios
-    //     .post(process.env.REACT_APP_API_MASTERTABLE, masterPayload)
-    //     .then((response) => {
-    //       console.log(response);
-    //     });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
     const masterPayload = {
-      name: "The Three",
+      name: "The Fifth",
       purchasedML: 200,
       costEveryVisit: 300,
     };

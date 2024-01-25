@@ -31,7 +31,40 @@ module.exports = createCoreController(
           }
         );
 
+        const newScentData = await strapi.entityService.create(
+          "api::scent-data.scent-data",
+          {
+            data: {
+              milliLts: 2,
+              SKU_fk: currentOrderDetail.id,
+            },
+          }
+        );
+
+        const newScentData2 = await strapi.entityService.create(
+          "api::scent-data.scent-data",
+          {
+            data: {
+              milliLts: 16,
+              SKU_fk: currentOrderDetail.id,
+            },
+          }
+        );
+
+        const newScentData3 = await strapi.entityService.create(
+          "api::scent-data.scent-data",
+          {
+            data: {
+              milliLts: 20,
+              SKU_fk: currentOrderDetail.id,
+            },
+          }
+        );
+
         ctx.body = newOrder;
+        ctx.body = newScentData;
+        ctx.body = newScentData2;
+        ctx.body = newScentData3;
       } catch (error) {
         ctx.body = error;
       }
