@@ -70,7 +70,6 @@ const TenDayItem = () => {
   const [processedData, setProcessedData] = useState([]);
   const [showInvoicesPressed, setShowInvoicesPressed] = useState(false);
 
-  let orderCount = 0;
   let totalFlyerCost = 0;
   let totalBubbleWrapCost = 0;
 
@@ -85,6 +84,25 @@ const TenDayItem = () => {
 
     return quantity * price;
   };
+
+  // const calculateOverallFlyer = () => {
+  //   const { price } = getPrice("flyer", totalQuantitiesAllInvoices);
+  //   totalFlyerCost += price;
+  //   console.log(totalFlyerCost);
+
+  //   return totalFlyerCost;
+  // };
+
+  // const calculateOverallBWrap = () => {
+  //   const { price: bubbleWrapPrice } = getPrice(
+  //     "bubble",
+  //     totalQuantitiesAllInvoices
+  //   );
+  //   totalBubbleWrapCost += bubbleWrapPrice;
+  //   console.log(totalBubbleWrapCost);
+
+  //   return totalBubbleWrapCost;
+  // };
 
   // Calculate totals for all invoices
   //console.log(processedData);
@@ -107,10 +125,10 @@ const TenDayItem = () => {
   };
   const handleCost = (totalQuantities, type) => {
     const { price, size } = getPrice(type, totalQuantities);
-    if (type === "flyer") {
+    if (type === "bubble") {
       totalFlyerCost += price;
       console.log(totalFlyerCost);
-    } else if (type === "bubble") {
+    } else if (type === "flyer") {
       totalBubbleWrapCost += price;
       console.log(totalBubbleWrapCost);
     }
