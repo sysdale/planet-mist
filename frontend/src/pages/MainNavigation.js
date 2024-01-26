@@ -73,7 +73,7 @@ function MainNavigation() {
   return (
     <header>
       <nav>
-        <div className="flex justify-between bg-blue-200">
+        <div className="flex justify-between bg-[#103B66] text-white py-2">
           <div className="flex">
             <button
               onClick={handleHomeClick}

@@ -46,7 +46,7 @@ const TenDayInvoice = () => {
           {invoices.map((invoice) => (
             <div key={invoice.id} className="py-3">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() =>
                   handleInvoiceButton(
                     invoice.id,

@@ -18,7 +18,7 @@ const HomePage = () => {
         <div className="flex justify-between">
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={navAdmin}
             >
               Admin Dashboard
@@ -27,7 +27,7 @@ const HomePage = () => {
 
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={navBuyer}
             >
               Buyer Dashboard

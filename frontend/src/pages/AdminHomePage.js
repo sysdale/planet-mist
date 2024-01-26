@@ -27,7 +27,7 @@ const AdminHomePage = () => {
         <div className="flex flex-col items-center justify-center">
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleAddCustomer}
             >
               Add Customer
@@ -36,7 +36,7 @@ const AdminHomePage = () => {
 
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleTodayOrders}
             >
               Today's Orders
@@ -45,7 +45,7 @@ const AdminHomePage = () => {
 
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handlePreviousOrders}
             >
               Past Orders
@@ -54,7 +54,7 @@ const AdminHomePage = () => {
 
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleInvoices}
             >
               Invoices
@@ -63,7 +63,7 @@ const AdminHomePage = () => {
 
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleMasterTable}
             >
               Master Table

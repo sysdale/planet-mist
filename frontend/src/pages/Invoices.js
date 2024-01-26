@@ -21,7 +21,7 @@ const Invoices = () => {
         <div className="flex flex-col items-center justify-center">
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleTodayInvoice}
             >
               Today's Invoices
@@ -30,7 +30,7 @@ const Invoices = () => {
 
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handlePastInvoice}
             >
               10-Day Invoices
@@ -39,7 +39,7 @@ const Invoices = () => {
 
           <div className="m-5">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={handleAllInvoice}
             >
               All Invoices

@@ -246,14 +246,14 @@ const BuyerOrder = () => {
       {/* Search functionality */}
       <div className="space-x-2 pt-3">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+          className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
           onClick={() => handleSearch("name")}
         >
           Search by Name
         </button>
 
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+          className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
           onClick={() => handleSearch("sku")}
         >
           Search by SKU
@@ -274,7 +274,7 @@ const BuyerOrder = () => {
           className={`${
             orderDone
               ? "bg-gray-500 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-700"
+              : "bg-[#0058a3] hover:bg-blue-700"
           } text-white font-bold py-2 px-2 rounded`}
           onClick={handleNewOrder}
           //disabled={orderDone ? true : false}

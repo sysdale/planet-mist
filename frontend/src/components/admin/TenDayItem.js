@@ -248,7 +248,14 @@ const TenDayItem = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       {isLoading ? (
         <p>Loading... Please Wait...</p>
       ) : (
@@ -346,7 +353,7 @@ const TenDayItem = () => {
           <div className="flex py-5">
             {/* Add a button to toggle the visibility of invoice details */}
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={() => setShowInvoicesPressed(!showInvoicesPressed)}
             >
               {showInvoicesPressed ? "Hide Invoices" : "Show Invoices"}
@@ -478,7 +485,7 @@ const TenDayItem = () => {
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 

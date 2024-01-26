@@ -104,7 +104,14 @@ const PastOrders = () => {
     return processedOrders;
   };
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       {isLoading ? (
         <p>Loading... Please Wait...</p>
       ) : (
@@ -190,7 +197,7 @@ const PastOrders = () => {
             ))}
         </>
       )}
-    </>
+    </div>
   );
 };
 

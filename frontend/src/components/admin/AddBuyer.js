@@ -239,7 +239,7 @@ function AddBuyer() {
         </div>
 
         <div className="pt-3">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Add Buyer
           </button>
           <ToastContainer />

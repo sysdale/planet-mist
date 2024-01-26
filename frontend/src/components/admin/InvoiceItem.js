@@ -151,7 +151,14 @@ const InvoiceItem = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       {isLoading ? (
         <p>Loading... Please Wait...</p>
       ) : (
@@ -259,7 +266,7 @@ const InvoiceItem = () => {
             })}
         </>
       )}
-    </>
+    </div>
   );
 };
 

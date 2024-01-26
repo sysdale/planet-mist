@@ -65,7 +65,7 @@ const AllOrders = () => {
         <div>
           <DateSelector />
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+            className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"
             onClick={handleDateSelect}
           >
             Set Date
@@ -73,7 +73,7 @@ const AllOrders = () => {
 
           <button
             className={`${
-              isFiltered ? "bg-green-500" : "bg-blue-500"
+              isFiltered ? "bg-green-500" : "bg-[#0058a3]"
             }  text-white font-bold p-1 rounded`}
             onClick={handleClearSelect}
           >
@@ -101,7 +101,7 @@ const AllOrders = () => {
                   <td>
                     <button
                       onClick={() => handleOrderClick(buyer.id)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+                      className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"
                     >
                       View All
                     </button>

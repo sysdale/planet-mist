@@ -57,7 +57,7 @@ const AllInvoices = () => {
                   <td>{buyer.attributes.buyerName}</td>
                   <td>
                     <button
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+                      className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"
                       onClick={() => handleInvoiceClick(buyer.id)}
                     >
                       View

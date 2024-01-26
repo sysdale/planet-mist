@@ -183,14 +183,14 @@ const PerfumeTable = () => {
           <div className="flex space-x-2">
             <button
               onClick={() => setshowScentForm((prevState) => !prevState)}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"
             >
               Add new Scent
             </button>
 
             <button
               onClick={handleMTEdit}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+              className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"
             >
               Edit Master Table
             </button>
