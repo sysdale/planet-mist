@@ -75,9 +75,7 @@ const AdminHomePage = () => {
           </div>
         </div>
       ) : (
-        <p className="text-center text-2xl font-extrabold">
-          You are not authenticated
-        </p>
+        <p className="text-center text-2xl font-extrabold">You are not</p>
       )}
     </>
   );
