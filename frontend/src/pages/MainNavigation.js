@@ -114,7 +114,7 @@ function MainNavigation() {
           <div>
             {jwtToken && (
               <button className="font-bold px-10 " onClick={handleLogout}>
-                Logo
+                Logout
               </button>
             )}
           </div>
