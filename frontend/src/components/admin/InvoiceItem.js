@@ -240,7 +240,15 @@ const InvoiceItem = () => {
                     </tbody>
                   </table>
                   <div className="flex flex-col">
-                    <div className="flex flex-col">
+                    <div
+                      className="py-2"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       <div>Total Quantities: {totalQuantities}</div>
                       <div>
                         Total Ethanol Cost: {formatter.format(totalEthanolCost)}
@@ -252,14 +260,14 @@ const InvoiceItem = () => {
                         B.Wrap Cost: {handleCost(totalQuantities, "bubble")}
                       </div>
                       <div>Scents Bill: {formatter.format(totalSubtotals)}</div>
-                      <div className="font-semibold">
+                      <div className="font-semibold pt-2">
                         Final Bill :{" "}
                         {formatter.format(totalSubtotals + totalEthanolCost)}
                       </div>
                     </div>
                   </div>
                   {
-                    "---------------------------------------------------------------------------------------"
+                    "----------------------------------------------------------------------------"
                   }
                 </div>
               );

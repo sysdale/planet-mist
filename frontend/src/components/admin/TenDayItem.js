@@ -69,9 +69,8 @@ const TenDayItem = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [processedData, setProcessedData] = useState([]);
   const [showInvoicesPressed, setShowInvoicesPressed] = useState(false);
-
-  let totalFlyerCost = 0;
-  let totalBubbleWrapCost = 0;
+  const [totalFlyerCost, setTotalFlyerCost] = useState(0);
+  const [totalBubbleWrapCost, setTotalBubbleWrapCost] = useState(0);
 
   const calculateSubtotal = (detail) => {
     const quantity = detail.quantity || 0;
@@ -85,59 +84,7 @@ const TenDayItem = () => {
     return quantity * price;
   };
 
-  // const calculateOverallFlyer = () => {
-  //   const { price } = getPrice("flyer", totalQuantitiesAllInvoices);
-  //   totalFlyerCost += price;
-  //   console.log(totalFlyerCost);
-
-  //   return totalFlyerCost;
-  // };
-
-  // const calculateOverallBWrap = () => {
-  //   const { price: bubbleWrapPrice } = getPrice(
-  //     "bubble",
-  //     totalQuantitiesAllInvoices
-  //   );
-  //   totalBubbleWrapCost += bubbleWrapPrice;
-  //   console.log(totalBubbleWrapCost);
-
-  //   return totalBubbleWrapCost;
-  // };
-
-  // Calculate totals for all invoices
-  //console.log(processedData);
-
   const totalOrderCountInvoices = processedData.length;
-
-  const getPrice = (type, totalQuantities) => {
-    if (!prices[type]) {
-      throw new Error(`Invalid type: ${type}`);
-    }
-    const priceObject = prices[type];
-    if (totalQuantities >= 1 && totalQuantities <= 2) {
-      return { price: priceObject["small"], size: "small" };
-    } else if (totalQuantities >= 3 && totalQuantities <= 4) {
-      return { price: priceObject["medium"], size: "medium" };
-    } else if (totalQuantities > 4) {
-      return { price: priceObject["large"], size: "large" };
-    }
-    return 0; // fallback price if quantity is out of range
-  };
-  const handleCost = (totalQuantities, type) => {
-    const { price, size } = getPrice(type, totalQuantities);
-    if (type === "bubble") {
-      totalFlyerCost += price;
-      console.log(totalFlyerCost);
-    } else if (type === "flyer") {
-      totalBubbleWrapCost += price;
-      console.log(totalBubbleWrapCost);
-    }
-    return (
-      <span>
-        ({size}) - {price}
-      </span>
-    );
-  };
 
   const totalQuantitiesAllInvoices = processedData.reduce(
     (total, processedObject) => {
@@ -178,6 +125,61 @@ const TenDayItem = () => {
   const totalOverallAmountToInvoice =
     totalScentsBillAllInvoices + totalEthanolCostAllInvoices;
 
+  const getPrice = (type, totalQuantities) => {
+    if (!prices[type]) {
+      throw new Error(`Invalid type: ${type}`);
+    }
+    const priceObject = prices[type];
+    if (totalQuantities >= 1 && totalQuantities <= 2) {
+      return { price: priceObject["small"], size: "small" };
+    } else if (totalQuantities >= 3 && totalQuantities <= 4) {
+      return { price: priceObject["medium"], size: "medium" };
+    } else if (totalQuantities > 4) {
+      return { price: priceObject["large"], size: "large" };
+    }
+    return 0; // fallback price if quantity is out of range
+  };
+  const handleCost = (totalQuantities, type) => {
+    const { price, size } = getPrice(type, totalQuantities);
+    return (
+      <span>
+        ({size}) - {price}
+      </span>
+    );
+  };
+
+  const findingCosts = (processedData) => {
+    processedData.forEach((processedObject, orderIndex) => {
+      let overallFlyer = 0;
+      let overallBubble = 0;
+      // Iterate through each order in processedData
+      processedData.forEach((processedObject, orderIndex) => {
+        // Initialize counter for the current order
+        let totalQuantitiesInOrder = 0;
+
+        Object.keys(processedObject).forEach((skuID) => {
+          processedObject[skuID].details.forEach((detail) => {
+            // Increment the counter with the quantity for each item in the current order
+            totalQuantitiesInOrder += detail.quantity || 0;
+          });
+        });
+
+        // Log or use totalQuantitiesInOrder as needed
+        console.log(
+          `Order ${orderIndex + 1} has ${totalQuantitiesInOrder} quantities.`
+        );
+
+        const { price: fprice } = getPrice("flyer", totalQuantitiesInOrder);
+        overallFlyer += fprice;
+        const { price: bprice } = getPrice("bubble", totalQuantitiesInOrder);
+        overallBubble += bprice;
+      });
+
+      setTotalFlyerCost(overallFlyer);
+      setTotalBubbleWrapCost(overallBubble);
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -192,6 +194,7 @@ const TenDayItem = () => {
           fmtEndDate
         );
         setProcessedData(transformed);
+        findingCosts(transformed);
       } catch (e) {
         console.error(e);
       } finally {
@@ -284,7 +287,7 @@ const TenDayItem = () => {
                 </tr>
 
                 <tr>
-                  <td className="border p-3 font-medium">Total Quantities</td>
+                  <td className="border p-3 font-medium ">Total Quantities</td>
                   <td className="border p-3">
                     {formatter.format(totalQuantitiesAllInvoices)}
                   </td>
@@ -329,25 +332,6 @@ const TenDayItem = () => {
                 </tr>
               </tbody>
             </table>
-            <>
-              {/* <div className="text-lg font-bold pb-4">
-              Total Orders in Invoice: {totalOrderCountInvoices}
-            </div>
-            <div className="text-lg font-bold pb-4">
-              Total Quantities: {totalQuantitiesAllInvoices}
-            </div>
-            <div className="text-lg font-bold pb-4">
-              Total Ethanol Cost:{" "}
-              {formatter.format(totalEthanolCostAllInvoices)}
-            </div>
-            <div className="text-lg font-bold pb-4">
-              Total Scents Bill: {formatter.format(totalScentsBillAllInvoices)}
-            </div>
-            <div className="text-xl font-bold pb-4">
-              Overall Amount to be Invoiced:{" "}
-              {formatter.format(totalOverallAmountToInvoice)}
-            </div> */}
-            </>
           </>
 
           <div className="flex py-5">
@@ -452,7 +436,15 @@ const TenDayItem = () => {
                         </tbody>
                       </table>
                       <div className="flex flex-col">
-                        <div className="flex flex-col">
+                        <div
+                          className="py-2"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
                           <div>Total Quantities: {totalQuantities}</div>
                           <div>
                             Total Ethanol Cost:{" "}
@@ -467,7 +459,7 @@ const TenDayItem = () => {
                           <div>
                             Scents Bill: {formatter.format(totalSubtotals)}
                           </div>
-                          <div className="font-semibold">
+                          <div className="font-semibold pt-2">
                             Final Bill :{" "}
                             {formatter.format(
                               totalSubtotals + totalEthanolCost
