@@ -61,32 +61,32 @@ const AllOrders = () => {
       }}
     >
       <div className="text-xl font-bold pb-4">See All Orders</div>
-      <div className="flex">
-        <div>
-          <DateSelector />
-          <button
-            className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"
-            onClick={handleDateSelect}
-          >
-            Set Date
-          </button>
+      <div className="py-2">
+        <DateSelector />
+      </div>
+      <div className="flex space-x-10">
+        <button
+          className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"
+          onClick={handleDateSelect}
+        >
+          Set Date
+        </button>
 
-          <button
-            className={`${
-              isFiltered ? "bg-green-500" : "bg-[#0058a3]"
-            }  text-white font-bold p-1 rounded`}
-            onClick={handleClearSelect}
-          >
-            Clear Filter
-          </button>
-        </div>
+        <button
+          className={`${
+            isFiltered ? "bg-green-500" : "bg-[#0058a3]"
+          }  text-white font-bold p-1 rounded`}
+          onClick={handleClearSelect}
+        >
+          Clear Filter
+        </button>
       </div>
 
       {isLoading ? (
         <p>Please wait ... Fetching Buyers List</p>
       ) : (
         <>
-          <table className="table-auto text-center border-separate py-3">
+          <table className="table-auto text-center border-separate pt-6">
             <thead>
               <tr>
                 <th>ID</th>
@@ -96,9 +96,9 @@ const AllOrders = () => {
             <tbody>
               {allBuyers.map((buyer) => (
                 <tr key={buyer.id}>
-                  <td>{buyer.id}</td>
-                  <td>{buyer.attributes.buyerName}</td>
-                  <td>
+                  <td className="p-2">{buyer.id}</td>
+                  <td className="p-2">{buyer.attributes.buyerName}</td>
+                  <td className="p-2">
                     <button
                       onClick={() => handleOrderClick(buyer.id)}
                       className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"

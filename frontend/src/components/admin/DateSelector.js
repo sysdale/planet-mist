@@ -8,14 +8,13 @@ const DateSelector = () => {
 
   return (
     <>
-      <div className="font-medium">Select Date</div>
       <DatePicker
         showIcon
         selected={selectedDate}
         maxDate={new Date()}
         onChange={(date) => handleDate(date)}
         showTimeSelect={false}
-        dateFormat="dd-MM-yyyy"
+        dateFormat="MMMM d, yyyy h:mm aa"
       />
     </>
   );

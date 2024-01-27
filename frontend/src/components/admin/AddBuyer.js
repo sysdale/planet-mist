@@ -141,7 +141,7 @@ function AddBuyer() {
       <form onSubmit={handleSubmit}>
         <div className="flex-col">
           <div className="font-semibold">Buyer Name</div>
-          <div>
+          <div className="pb-2">
             <input
               name="buyerName"
               type="text"
@@ -159,7 +159,7 @@ function AddBuyer() {
           </div>
 
           <div className="font-semibold">Email</div>
-          <div>
+          <div className="pb-2">
             <input
               name="email"
               type="text"
@@ -177,7 +177,7 @@ function AddBuyer() {
           </div>
 
           <div className="font-semibold">Password</div>
-          <div>
+          <div className="pb-2">
             <input
               name="password"
               type="password"

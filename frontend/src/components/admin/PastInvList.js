@@ -58,9 +58,9 @@ const PastInvList = () => {
             <tbody>
               {allBuyers.map((buyer) => (
                 <tr key={buyer.id}>
-                  <td>{buyer.id}</td>
-                  <td>{buyer.attributes.buyerName}</td>
-                  <td>
+                  <td className="p-2">{buyer.id}</td>
+                  <td className="p-2">{buyer.attributes.buyerName}</td>
+                  <td className="p-2">
                     <button
                       className="bg-[#0058a3] hover:bg-blue-700 text-white font-bold p-1 rounded"
                       onClick={() =>
