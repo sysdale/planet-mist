@@ -55,7 +55,7 @@ const ScentsTable = ({ data }) => {
             return (
               <tr key={sku}>
                 <td>{sku}</td>
-                <td className={`${sku % 2 === 1 ? "bg-blue-100" : true}`}>
+                <td className="font-medium">
                   {scent.attributes.SKU_fk.data.attributes.name}
                 </td>
                 <td>
