@@ -101,7 +101,7 @@ const Login = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="flex-col">
-          <label className="font-semibold">Username eeee</label>
+          <label className="font-semibold">Username</label>
           <div>
             <input
               name="username"
