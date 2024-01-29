@@ -48,7 +48,7 @@ const Login = () => {
     };
 
     axios
-      .post(`http://localhost:1337/api/auth/local`, payload)
+      .post(process.env.REACT_API_API_LOGIN, payload)
       .then((response) => {
         localStorage.setItem("authToken", response.data.jwt);
 

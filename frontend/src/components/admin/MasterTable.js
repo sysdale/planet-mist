@@ -150,7 +150,7 @@ const PerfumeTable = () => {
 
     try {
       axios
-        .post("http://localhost:1337/api/custom2", masterPayload)
+        .post(process.env.REACT_APP_API_POSTMASTER, masterPayload)
         .then((response) => {
           console.log(response);
           showToastMessage();

@@ -117,7 +117,7 @@ function AddBuyer() {
 
     try {
       axios
-        .post("http://localhost:1337/api/auth/local/register", usersPayload)
+        .post(process.env.REACT_API_API_REGISTER, usersPayload)
         .then((response) => {
           console.log("User profile", response.data.user);
           console.log("User token", response.data.jwt);
